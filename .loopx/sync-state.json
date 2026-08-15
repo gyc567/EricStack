@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "2026-08-15T12:00:00+08:00",
+  "sources": {
+    "deepseek-harness": {
+      "url": "https://github.com/deepseek-ai/deepseek-harness.git",
+      "commit": "47f943859bef60e4160492346772ded9b24f765a",
+      "skills_imported": [
+        "erics-process-archive-notes",
+        "erics-process-code-review",
+        "erics-process-doc-standards",
+        "erics-process-doc-site-sync",
+        "erics-process-find-simplifications",
+        "erics-process-merging-stacked-prs",
+        "erics-process-pre-push-checks",
+        "erics-process-prose-standard",
+        "erics-process-record-browser-gif",
+        "erics-process-translate-docs",
+        "erics-process-trim-cot-leakage"
+      ],
+      "last_sync": "2026-08-15T12:00:00+08:00"
+    },
+    "gstack": {
+      "url": "https://github.com/garrytan/gstack.git",
+      "commit": "008dd65b1fc3df8af618408f5aea37a24dcea411",
+      "skills_imported": [
+        "erics-ability-autoplan",
+        "erics-ability-benchmark",
+        "erics-ability-benchmark-models",
+        "erics-ability-context-restore",
+        "erics-ability-context-save",
+        "erics-ability-cso",
+        "erics-ability-design-consultation",
+        "erics-ability-devex-review",
+        "erics-ability-health",
+        "erics-ability-investigate",
+        "erics-ability-office-hours",
+        "erics-ability-plan-ceo-review",
+        "erics-ability-plan-eng-review",
+        "erics-ability-retro",
+        "erics-ability-spec"
+      ],
+      "last_sync": "2026-08-15T12:00:00+08:00"
+    }
+  }
+}

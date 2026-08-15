@@ -1,0 +1,21 @@
+# OS
+.DS_Store
+*.swp
+
+# Rust build artifacts
+target/
+
+# LoopX runtime state (ephemeral per-session, not committed)
+.omc/
+.loopx/.omc/
+.loopx/skills/.omc/
+.loopx/skills/erics-ability/.omc/
+.loopx/skills/erics-process/.omc/
+.loopx/registry.json.lock
+
+# LoopX goal state
+.codex/
+
+# Temporary files
+*.tmp
+*.log
