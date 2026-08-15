@@ -187,6 +187,7 @@ When both apply, prefer `erics-process-*` for writing/review tasks.
 | `README.md` | EN + CN inline | This file / 本文件 |
 | `README_CN.md` | 中文 | Standalone Chinese version / 独立中文版 |
 | `docs/TUTORIAL.md` | 中文 | Complete usage tutorial / 完整使用教程 |
+| `docs/LLM_WIKI_TUTORIAL.md` | 中文 | LLM Wiki knowledge base guide / LLM Wiki 知识库使用教程 |
 | `INTEGRATION.md` | 中文 | Full integration plan / 完整整合方案 |
 | `.loopx/llm-wiki-integration.md` | 中文 | LLM Wiki integration guide / LLM Wiki 整合指南 |
 

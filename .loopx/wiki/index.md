@@ -7,7 +7,7 @@ created: 2026-08-15
 
 > Last updated: 2026-08-15
 
-## Skills (26 total)
+## Skills (27 total)
 
 ### Process Discipline (11)
 | Skill | Description |
@@ -24,7 +24,7 @@ created: 2026-08-15
 | [[erics-process-merging-stacked-prs]] | GitHub PR stack 落地 |
 | [[erics-process-record-browser-gif]] | UI 演示 GIF 录制 |
 
-### Engineering Abilities (15)
+### Engineering Abilities (16)
 | Skill | Description |
 |---|---|
 | [[erics-ability-plan-eng-review]] | 工程计划审查 |
