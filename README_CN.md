@@ -1,8 +1,8 @@
 # EricStack
 
-**AI-native engineering loop system — 27 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
+**AI-native engineering loop system — 33 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
-**AI 原生工程循环系统 — 27 个技能，覆盖计划、审查、简化、文档和知识积累。**
+**AI 原生工程循环系统 — 33 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
 > EricStack transforms a project into a compounding engineering intelligence. Every decision, review, and discussion becomes a persistent wiki page. Every process is a closed loop.
 >
@@ -12,7 +12,7 @@
 
 ## What Is EricStack? | 什么是 EricStack？
 
-EricStack is a LoopX-powered skill system for engineering teams. It provides **27 skills** organized in two tiers:
+EricStack is a LoopX-powered skill system for engineering teams. It provides **33 skills** organized in two tiers:
 
 EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **27 个技能**，分为两个层级：
 
@@ -36,7 +36,10 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
 2. 检测我的 Agent 平台（Claude Code / Codex / PI / OpenCode / OpenClaw / Hermes Agent / OMP / JCODE）
 3. 将 ~/EricStack/.loopx/skills/ 下的所有 skills 复制到平台的 skills 目录
 4. 将我的项目上下文切换到 ~/EricStack
-5. 运行 /estack 确认安装成功
+5. 如果 Node.js 可用（运行：node --version && npm --version）：
+   - 运行：npm install -g @nanonets/graft && graft init --agents claude
+   -（如果 Graft 安装失败，跳过即可 — EricStack 不依赖 Graft）
+6. 运行 /estack 确认安装成功
 ```
 
 支持平台 / Supported platforms：
@@ -77,7 +80,7 @@ cd EricStack
 
 ```
 /estack                # 主入口 — 显示 banner 并路由到正确技能
-/erics-loop-router     # 查看全部 27 个技能和路由规则
+/erics-loop-router     # 查看全部 33 个技能和路由规则
 ```
 
 或直接调用任何技能：/ Or invoke any skill directly:
@@ -100,7 +103,7 @@ cd EricStack
 | `/erics-process-prose-standard` | Prose completeness + editorial discipline | prose 完整性 + 编辑纪律 |
 | `/erics-process-trim-cot-leakage` | Remove chain-of-thought leakage from docs | 去除文档中的思维链泄漏 |
 
-**查看全部 27 个技能 / See all 27 skills：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
+**查看全部 33 个技能 / See all 33 skills：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
 
 ---
 
@@ -112,7 +115,7 @@ EricStack/
 │   ├── skills/
 │   │   ├── erics-loop-router/      # Skill router / 技能路由器
 │   │   ├── erics-process-* (×11)  # Discipline skills / 纪律技能
-│   │   └── erics-ability-* (×16)  # Action skills / 能力技能
+│   │   └── erics-ability-* (×22)  # Action skills / 能力技能
 │   ├── wiki/                       # LLM Wiki knowledge base / LLM Wiki 知识库
 │   │   ├── concepts/              # Concept pages / 概念页面
 │   │   ├── entities/              # Decision records / 决策记录
@@ -193,6 +196,7 @@ EricStack 整合借鉴了以下项目：
 | 项目 | 链接 | 借鉴内容 |
 |---|---|---|
 | **PR Agent** | [The-PR-Agent/PR-Agent](https://github.com/The-PR-Agent/PR-Agent) | 增量审查、PR Compression、自我反思、可配置工具 |
+| **Graft** | [NanoNets/Graft](https://github.com/NanoNets/Graft) | 代码知识图谱、调用链追踪、高 token 效率的代码理解 |
 | **GStack** | [garrytan/gstack](https://github.com/garrytan/gstack) | 上游 ability skill 来源 |
 | **LoopX** | [LoopX-AI/loopx](https://github.com/LoopX-AI/loopx) | Skill 系统架构和 slash command 协议 |
 

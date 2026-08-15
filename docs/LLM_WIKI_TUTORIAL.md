@@ -304,7 +304,41 @@ tags: [review, architecture]
 
 ---
 
-## 10. 常见问题
+## 10. llm_wiki 与 Graft 的协同
+
+EricStack 有两个互补的知识工具：
+
+| | llm_wiki | Graft |
+|---|---|---|
+| **本质** | 自然语言知识沉淀 | 代码结构图谱 |
+| **内容** | 决策、讨论、经验（Why） | 符号、调用关系、文件摘要（What/How） |
+| **格式** | 纯文本 markdown | tree-sitter 解析 + LLM 摘要 |
+| **用途** | 查询历史决策、设计理念 | 理解代码结构、追踪调用链 |
+| **安装** | 无依赖 | 需要 Node.js |
+
+### 10.1 使用场景
+
+**场景 1：新项目 onboarding**
+```
+llm_wiki：读设计决策文档，了解项目背景
+Graft：运行 graft map，快速了解代码结构
+```
+
+**场景 2：大型 PR review**
+```
+Graft：graft callers 检查函数改动的影响范围
+llm_wiki：查相关设计决策，确认改动是否合理
+```
+
+**场景 3：调试 bug**
+```
+Graft：graft trace_calls 追踪调用链
+llm_wiki：查之前是否有过类似问题的记录
+```
+
+---
+
+## 11. 常见问题
 
 ### Q: llm_wiki 找不到知识库？
 

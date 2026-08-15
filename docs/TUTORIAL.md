@@ -285,6 +285,26 @@ AI 让边际成本趋近于零，所以做完整的事情是目标。不要只�
 | `erics-ability-upgrade` | 检查更新 |
 | `erics-ability-design-consultation` | 设计系统构建 |
 | `erics-ability-devex-review` | 开发者体验审查 |
+| `erics-ability-graft` | 代码结构图谱、调用链追踪（需要 Node.js） |
+
+### 4.10 Graft 代码理解工具
+
+Graft 是 EricStack 的可选依赖，用于快速理解代码结构。
+
+**安装：**
+```bash
+npm install -g @nanonets/graft
+graft init --agents claude
+```
+
+**与 EricStack 协同使用：**
+
+| 场景 | 协同方式 |
+|---|---|
+| Review 大型 PR | `graft map` 了解项目结构 + code review |
+| 调试 bug | `graft callers <func>` 找所有调用者，理解影响范围 |
+| 理解新代码 | `graft skeleton <file>` 生成文件摘要 |
+| 架构评审 | `graft viz` 查看依赖图谱 |
 
 ---
 

@@ -1,8 +1,8 @@
 # EricStack
 
-**AI-native engineering loop system — 27 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
+**AI-native engineering loop system — 33 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
-**AI 原生工程循环系统 — 27 个技能，覆盖计划、审查、简化、文档和知识积累。**
+**AI 原生工程循环系统 — 28 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
 > EricStack transforms a project into a compounding engineering intelligence. Every decision, review, and discussion becomes a persistent wiki page. Every process is a closed loop.
 >
@@ -12,7 +12,7 @@
 
 ## What Is EricStack? | 什么是 EricStack？
 
-EricStack is a LoopX-powered skill system for engineering teams. It provides **27 skills** organized in two tiers:
+EricStack is a LoopX-powered skill system for engineering teams. It provides **33 skills** organized in two tiers:
 
 EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **27 个技能**，分为两个层级：
 
@@ -36,7 +36,10 @@ Install EricStack for me:
 2. Detect my agent platform (Claude Code / Codex / PI / OpenCode / OpenClaw / Hermes Agent / OMP / JCODE)
 3. Copy all skills from ~/EricStack/.loopx/skills/ to the platform's skills directory
 4. Set my project context to ~/EricStack
-5. Run /estack to confirm the installation works
+5. If Node.js is available (run: node --version && npm --version):
+   - Run: npm install -g @nanonets/graft && graft init --agents claude
+   - (If Graft install fails, skip it — EricStack works without Graft)
+6. Run /estack to confirm the installation works
 ```
 
 Supported platforms / 支持平台：
@@ -81,8 +84,8 @@ Download [llm_wiki](https://github.com/nashsu/llm_wiki/releases), then:
 ```
 /estack                # Main entry — shows banner and routes to the right skill
                       # 主入口 — 显示 banner 并路由到正确技能
-/erics-loop-router     # View all 27 skills and routing rules
-                      # 查看全部 27 个技能和路由规则
+/erics-loop-router     # View all 33 skills and routing rules
+                      # 查看全部 33 个技能和路由规则
 ```
 
 Or invoke any skill directly: / 或直接调用任何技能：
@@ -105,7 +108,7 @@ Or invoke any skill directly: / 或直接调用任何技能：
 | `/ics-process-prose-standard` | Prose completeness + editorial discipline | prose 完整性 + 编辑纪律 |
 | `/erics-process-trim-cot-leakage` | Remove chain-of-thought leakage from docs | 去除文档中的思维链泄漏 |
 
-**See all 27 skills / 查看全部 27 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
+**See all 28 skills / 查看全部 33 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
 
 ---
 
@@ -117,7 +120,7 @@ EricStack/
 │   ├── skills/
 │   │   ├── erics-loop-router/      # Skill router / 技能路由器
 │   │   ├── erics-process-* (×11)  # Discipline skills / 纪律技能
-│   │   └── erics-ability-* (×16)  # Action skills / 能力技能
+│   │   └── erics-ability-* (×22)  # Action skills / 能力技能
 │   ├── wiki/                       # LLM Wiki knowledge base / LLM Wiki 知识库
 │   │   ├── concepts/              # Concept pages / 概念页面
 │   │   ├── entities/              # Decision records / 决策记录
@@ -200,6 +203,7 @@ EricStack is inspired by and integrates ideas from these projects:
 | Project | URL | Inspiration |
 |---|---|---|
 | **PR Agent** | [The-PR-Agent/PR-Agent](https://github.com/The-PR-Agent/PR-Agent) | Incremental review, PR compression, self-review, configurable tools |
+| **Graft** | [NanoNets/Graft](https://github.com/NanoNets/Graft) | Codebase knowledge graph, call-chain tracing, token-efficient code understanding |
 | **GStack** | [garrytan/gstack](https://github.com/garrytan/gstack) | Upstream ability skill source |
 | **LoopX** | [LoopX-AI/loopx](https://github.com/LoopX-AI/loopx) | Skill system architecture and slash command protocol |
 

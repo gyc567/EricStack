@@ -1,7 +1,21 @@
 # EricStack Skills Index
 > Auto-generated. Do not edit manually.
 
-Total: 27 skills
+Total: 33 skills
+
+## erics-ability-estack
+*Kind:* `ability`  *Dir:* `skills/erics-ability/erics-ability-estack/SKILL.md`
+*Description:* EricStack main entry point — displays interactive banner and routes to the correct skill. Start here for anything in EricStack.
+*Triggers:*
+  - `estack`
+  - `ericstack`
+  - `activate ericstack`
+  - `activate loopx`
+  - `loopx`
+  - `主入口`
+  - `工程助手`
+  - `帮我看看这个项目`
+  - `/estack`
 
 ## autoplan
 *Kind:* `ability`  *Dir:* `skills/erics-ability/autoplan/SKILL.md`
@@ -69,6 +83,20 @@ Total: 27 skills
   - `vulnerability scan`
   - `cso`
 
+## erics-ability-graft
+*Kind:* `ability`  *Dir:* `skills/erics-ability/erics-ability-graft/SKILL.md`
+*Description:* Use when you need to understand code structure, trace call chains, or navigate a large codebase — wraps Graft for fast codebase orientation.
+*Triggers:*
+  - `graft`
+  - `code map`
+  - `trace calls`
+  - `find callers`
+  - `understand codebase`
+  - `代码结构`
+  - `调用链`
+  - `代码理解`
+  - `call graph`
+
 ## erics-ability-investigate
 *Kind:* `ability`  *Dir:* `skills/erics-ability/erics-ability-investigate/SKILL.md`
 *Description:* Four-phase debugging: investigate, analyze, hypothesize, implement. No fixes without root cause.
@@ -95,6 +123,50 @@ Total: 27 skills
   - `architecture review`
   - `lock in the plan`
   - `engineering review`
+
+## erics-ability-pr-ask
+*Kind:* `ability`  *Dir:* `skills/erics-ability/erics-ability-pr-ask/SKILL.md`
+*Description:* Use when you have a question about a PR — answers free-text questions about PR changes, behavior, or impact.
+*Triggers:*
+  - `pr ask`
+  - `ask about this pr`
+  - `question about pr`
+  - `PR 问题`
+  - `pr question`
+  - `what does this pr do`
+
+## erics-ability-pr-changelog
+*Kind:* `ability`  *Dir:* `skills/erics-ability/erics-ability-pr-changelog/SKILL.md`
+*Description:* Use when preparing a release — generates or updates CHANGELOG.md entries based on PR changes and conventional commits.
+*Triggers:*
+  - `update changelog`
+  - `changelog`
+  - `release notes`
+  - `更新日志`
+  - `generate changelog`
+  - `PR 发版`
+
+## erics-ability-pr-describe
+*Kind:* `ability`  *Dir:* `skills/erics-ability/erics-ability-pr-describe/SKILL.md`
+*Description:* Use after completing a PR to generate a complete, accurate PR description — title, type, summary, walkthrough, labels, and breaking changes.
+*Triggers:*
+  - `pr describe`
+  - `describe this pr`
+  - `生成 PR 描述`
+  - `PR 描述`
+  - `generate pr description`
+  - `summarize this pr`
+
+## erics-ability-pr-improve
+*Kind:* `ability`  *Dir:* `skills/erics-ability/erics-ability-pr-improve/SKILL.md`
+*Description:* Use when you want actionable code improvement suggestions for a PR — analyzes the diff and produces prioritized, self-reviewed recommendations.
+*Triggers:*
+  - `pr improve`
+  - `improve this pr`
+  - `代码改进建议`
+  - `PR 改进`
+  - `suggest improvements`
+  - `code suggestions`
 
 ## erics-ability-upgrade
 *Kind:* `ability`  *Dir:* `skills/erics-ability/erics-ability-upgrade/SKILL.md`
