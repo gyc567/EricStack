@@ -8,7 +8,7 @@ triggers:
   - improve the docs
 ---
 
-# Applying the DeepSeek Harness Documentation Standard
+## Applying the EricStack Documentation Standard
 
 The documentation rules live in . This workflow covers placement, corpus audits, budgets, and validation across Markdown, JSDoc, and code comments. It is guidance, not a script; use [erics-process-prose-standard](../erics-process-prose-standard/SKILL.md) for required coverage and editorial judgment, and never treat length alone as a defect.
 

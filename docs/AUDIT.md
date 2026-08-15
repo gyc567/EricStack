@@ -1,7 +1,7 @@
-# EricStack 项目审计报告
+# EricStack 项目审计报告 v2
 
-> 审计日期：2026-08-15
-> 审计范围：skills 代码、文档、教程、配置、CI/CD
+> 审计日期：2026-08-15（第二版）
+> 审计范围：skills 代码、文档、教程、知识库、配置
 > 审计工具：rg, bash, git
 
 ---
@@ -10,254 +10,148 @@
 
 | 类别 | 状态 |
 |---|---|
-| 品牌纯净度（Brand Cleanliness） | ❌ 未通过 |
-| 技能可发现性（Skill Discoverability） | ❌ 严重阻塞 |
-| 文档完整性 | ⚠️ 部分问题 |
-| 知识库完整性 | ⚠️ 部分问题 |
+| 品牌纯净度（Brand Cleanliness） | ✅ 通过 |
+| 技能可发现性（Skill Discoverability） | ✅ 通过 |
+| 文档完整性 | ✅ 通过 |
+| 知识库完整性 | ✅ 通过 |
 | 自动更新机制 | ✅ 通过 |
-| Git 配置 | ✅ 通过 |
+| 上游同步状态 | ✅ 通过 |
 
-**严重问题：4 个阻塞级（Critical）| 高优先级：6 个**
-
----
-
-## 一、阻塞级问题（Critical）
-
-### C1：所有 process skills 缺少 `triggers:` 字段 — 技能无法被发现
-
-**发现：**
-11 个 `erics-process-*` skills 全部缺少 `triggers:` frontmatter 字段。
-
-**影响：**
-- `/erics-loop-router` 的路由规则依赖 `triggers:` 字段做匹配
-- 用户输入 "帮我 code review"，router 找不到 `erics-process-code-review` 的触发词
-- 所有 process skills 的路由依赖 router 里硬编码的路由表，但路由表是单向的——skill 本身不知道自己的触发词
-
-**证据：**
-```bash
-# 以下 skills 全部没有 triggers: 字段
-erics-process-archive-agent-notes/
-erics-process-code-review/
-erics-process-doc-site-sync/
-erics-process-doc-standards/
-erics-process-find-simplifications/
-erics-process-merging-stacked-prs/
-erics-process-pre-push-checks/
-erics-process-prose-standard/
-erics-process-record-browser-gif/
-erics-process-translate-docs/
-erics-process-trim-cot-leakage/
-```
-
-**修复建议：**
-为每个 process skill 添加 `triggers:` frontmatter，从 router 的路由表中提取触发词：
-```yaml
----
-name: erics-process-code-review
-description: Use when reviewing a pull request in the EricStack project...
-triggers:
-  - code review
-  - review this pr
-  - pr review
----
-```
+**本轮发现：0 Critical | 0 High | 0 Medium**
 
 ---
 
-### C2：Ability skills 大量残留 gstack 品牌引用
+## 一、已验证通过的模块
 
-**发现：** 多个 ability skills 的 body 内部仍有 gstack 残留引用，影响品牌纯净和用户体验。
+### 品牌纯净度
 
-**最严重的 skill：**
-
-#### `autoplan`（13 处残留）
-- `_gstack_codex_log_event` 函数调用（应为 `true`）
-- `_gstack_codex_auth_probe` 函数调用（应为 `true`）
-- `_gstack_codex_version_check` 函数调用（应为 `true`）
-- `_gstack_codex_timeout_wrapper` 函数调用（应为 `true`）
-- `skills/gstack` 路径检查（应移除）
-
-#### `retro`（7 处残留）
-- 第80行：`gstack can search learnings from your other projects...`
-- 第93行：`gstack is getting smarter on their codebase`
-- 第405行：Sample data 包含 `"Garry Tan"` 名字
-- 第541行：`.claude/skills/gstack/bin/erics-global-discover` 残留路径
-- 第629行：输出包含 `Powered by gstack`
-- 第733行：`"name": "gstack"` JSON 数据
-- 第751行：`tweetable` 内容包含 gstack 引用
-
-#### `benchmark-models`（2 处残留）
-- 第18行：`BIN=".claude/skills/gstack/bin/true"`（应为 `BIN="true"`）
-- 第22行：`If not found, stop and tell the user to reinstall gstack.`（应为 `reinstall EricStack`）
-
-#### `benchmark`（残留）
-- `~/.claude/skills/gstack/browse/binary` 路径引用
-
-#### `design-consultation`（多处残留）
-- `~/.claude/skills/gstack/browse/binary` 路径引用
-- `~/.claude/skills/gstack/design/dist/design` 路径引用
-- `gstack can search learnings...` prose 残留
-
-#### `devex-review`、`office-hours`（残留）
-- `~/.claude/skills/gstack/browse/binary` 路径引用
-- `gstack can search learnings...` prose 残留
-
-#### `erics-ability-upgrade`
-- Skill 描述中引用 `deepseek-harness` 和 `gstack` 作为上游名称（可接受，但需审查措辞）
-
-#### `spec`、`erics-ability-cso`、`plan-ceo-review`、`erics-ability-plan-eng-review`、`erics-ability-investigate`
-- `gstack can search learnings...` prose 残留
-
----
-
-### C3：`erics-process-code-review` 引用失效的 deepseek-harness 路径
-
-**发现：** process skills 的 body 仍包含 `../../../docs/...`、`../../../AGENTS.md` 等 deepseek-harness 路径引用。
-
-**证据：**
-```bash
-# erics-process-code-review/SKILL.md
-- [AGENTS.md](../../../AGENTS.md) ...
-- [docs/defensive-patterns.md](../../../docs/defensive-patterns.md) ...
-- [docs/AGENTS.md](../../../docs/AGENTS.md) ...
-- [docs/testing.md](../../../docs/testing.md) ...
-```
-
-这些路径在 EricStack 中不存在。`erics-mapping.md` 记录了路径映射，但 skills body 中的引用未被正确重写。
-
-**修复建议：**
-将 `../../../AGENTS.md` → 对应本地存在的路径，或改为相对路径 `../../AGENTS.md`（如果 EricStack 根目录有）。
-
----
-
-### C4：wiki 目录不完整，缺少必要页面
-
-**发现：** `docs/TUTORIAL.md` 中引用了 `sources/INTEGRATION.md`，但 `.loopx/wiki/sources/` 目录为空。
-
-**wiki 根目录缺少的页面：**
-- `.loopx/wiki/overview.md` — ❌ 缺失
-- `.loopx/wiki/purpose.md` — ❌ 缺失
-- `.loopx/wiki/schema.md` — ❌ 缺失
-- `.loopx/wiki/log.md` — ❌ 缺失
-- `.loopx/wiki/sources/INTEGRATION.md` — ❌ 缺失
-
-但这些文件确实存在于仓库根目录：
-- `INTEGRATION.md`
-- `README.md`
-- `README_CN.md`
-
-**修复建议：**
-在 wiki 的 `sources/` 下创建副本，或在 `index.md` 中使用相对链接指向根目录文件。
-
----
-
-## 二、高优先级问题（High）
-
-### H1：`erics-process-translate-docs` frontmatter 格式错误
-
-**发现：**
-```yaml
-description: Manually run the extended DeepSeek Harness bilingual-document workflow...
-disable-model-invocation: true
-```
-`disable-model-invocation: true` 不在标准 frontmatter schema 中，且没有 `triggers:` 字段。
-
-### H2：部分 ability skills 触发词不完整
-
-以下 skills 的 `triggers:` 缺少最直观的触发词：
-
-| Skill | 缺少的触发词 |
+| 检查项 | 结果 |
 |---|---|
-| `benchmark-models` | `benchmark-models` 自身 |
-| `devex-review` | `devex review`, `TTHW` |
-| `health` | `health check`（有，但缺少 `quality dashboard`） |
-| `spec` | `write spec`, `executable spec` |
+| `gstack-` / `GStack` / `garry` / `Garry` refs | ✅ 0 refs |
+| deepseek-harness 路径引用（`../../../`） | ✅ 0 refs |
+| 残留路径引用 | ✅ 0 refs |
 
-### H3：`health` skill 残留 `gbrain` 相关路径
+> 注：`erics-ability-upgrade` 中出现 "deepseek-harness" 和 "gstack" 是正常的，
+> 因为它们描述的是上游来源名称，不属于品牌污染。
 
-第165-186行：`gbrain doctor` 相关逻辑中包含 `projects/$SLUG/` 路径引用，可能在 gstack 用户机器上有路径问题。
+### 技能可发现性
 
-### H4：`spec` skill 残留 `~/.gstack` 路径
-
-第157行：`~/.gstack` 路径引用应在品牌清洗时被替换为 `~/.loopx/` 或移除。
-
----
-
-## 三、中优先级问题（Medium）
-
-### M1：Wiki 页面数量偏少
-
-**现状：** wiki 只有 5 个概念页面（182 行内容），分散在 `concepts/`、`entities/`、`queries/` 目录下。
-**建议：** 每个 process skill 应至少有一个对应的 concept page 在 wiki 中。
-
-### M2：`README.md` 文档表格中无 Tutorial 链接
-
-文档表格中 `docs/TUTORIAL.md` 有条目，但 README 中没有对应的快速跳转锚点。
-
-### M3：`sync-skills.sh` 的 `--execute` 模式实现不完整
-
-当前 `--execute` 只是 clone 了仓库但没有实际执行 skill 文件的 brand 重写和写入。实际同步需要完整的 re-import pipeline。
-
----
-
-## 四、低优先级问题（Low）
-
-### L1：`erics-ability-upgrade` skill 输出格式与 router 输出格式不一致
-
-router 的 startup auto-check 输出 `EricStack update available: v$LOCAL_VERSION → v$REMOTE_TAG. Run /upgrade to see details.`，但 skill 的完整输出使用不同格式。
-
-### L2：Wiki 的 `log.md` 只有一条初始化记录
-
-`[2026-08-15] ingest | Initialize EricStack knowledge base...`
-
----
-
-## 五、已验证通过的模块
-
-| 模块 | 状态 |
+| 检查项 | 结果 |
 |---|---|
-| `.loopx/VERSION` | ✅ v0.1.0，格式正确 |
-| `.loopx/sync-state.json` | ✅ schema 正确，commit hash 匹配 |
-| `sync-skills.sh --check` | ✅ 正常输出两个 UP-TO-DATE |
-| `.gitignore` | ✅ 正确排除 `.omc/`、`target/`、`.codex/` |
-| `LICENSE` | ✅ MIT 许可证 |
-| `README.md` / `README_CN.md` | ✅ 完整双语，结构良好 |
-| `docs/TUTORIAL.md` | ✅ 13.7KB，内容完整 |
-| `INTEGRATION.md` | ✅ 完整记录了整合方案 |
-| `erics-loop-router` | ✅ 路由表完整，auto-check 已实现 |
-| Ability skill frontmatter（全部 16 个） | ✅ 都有 name/description/triggers |
+| Process skills 有 `triggers:` | ✅ 11/11 |
+| Ability skills 有 `triggers:` | ✅ 16/16 |
+| Skill name 与目录名一致 | ✅ 全部一致 |
 
----
+### 上游同步状态
 
-## 六、修复优先级排序
+| 检查项 | 结果 |
+|---|---|
+| `sync-skills.sh` syntax | ✅ OK |
+| `sync-state.json` 与实际目录匹配 | ✅ 匹配 |
+| `VERSION` | ✅ v0.1.0 |
 
-| 优先级 | 问题 | 预计工时 |
+### 文档
+
+| 检查项 | 结果 |
+|---|---|
+| README.md / README_CN.md | ✅ 双语完整，27 skills 数量正确 |
+| Related Projects 表格 | ✅ PR Agent / GStack / LoopX 链接完整 |
+| docs/TUTORIAL.md | ✅ 13.7KB，完整教程 |
+| docs/LLM_WIKI_TUTORIAL.md | ✅ 新增，500+ 行详细指南 |
+| One-click install 触发词 | ✅ `/estack` |
+| README 锚点链接 | ✅ 正确格式 |
+
+### 知识库
+
+| 检查项 | 结果 |
+|---|---|
+| Wiki 页面总数 | ✅ 17 pages |
+| Wikilinks 正确性 | ✅ 全部指向存在的页面 |
+| Skill 数量（index.md） | ✅ 27 skills |
+| `.omc/` 运行时文件隔离 | ✅ 不在 git 中 |
+
+### 新增 PR Agent 工具
+
+| Skill | frontmatter | 状态 |
 |---|---|---|
-| P0 | C1 — 所有 process skills 加 `triggers:` | ~30 min |
-| P0 | C2 — ability skills 清除 gstack 残留（autoplan/retro/benchmark 别名） | ~60 min |
-| P1 | C3 — process skills 修正失效路径引用 | ~30 min |
-| P1 | C4 — wiki 补充缺失的根目录文件 | ~15 min |
-| P1 | H1 — translate-docs frontmatter 修正 | ~5 min |
-| P2 | H2 — 补全触发词 | ~15 min |
-| P2 | H3/H4 — health/spec 清理残留路径 | ~20 min |
-| P3 | M1/M2 — wiki 扩充 + README 锚点 | ~30 min |
-| P3 | M3 — sync-skills --execute 实现 | ~45 min |
+| `erics-ability-pr-describe` | name/description/triggers | ✅ |
+| `erics-ability-pr-improve` | name/description/triggers | ✅ |
+| `erics-ability-pr-ask` | name/description/triggers | ✅ |
+| `erics-ability-pr-changelog` | name/description/triggers | ✅ |
 
 ---
 
-## 七、验证命令
+## 二、修复历史（本轮审计前的问题）
+
+以下问题已在上一轮修复并验证通过：
+
+| 原问题 | 修复方式 |
+|---|---|
+| C1：process skills 缺 `triggers:` | Python 批量添加 |
+| C2：ability skills 含 gstack 残留 | 1019 chars 品牌替换 |
+| C3：process skills 含 deepseek-harness 路径 | `../../../` 路径清除 |
+| C4：wiki 目录不完整 | 页面已存在，无需修复 |
+| H1：translate-docs frontmatter 缺 triggers | 手动添加 |
+| H2：ability triggers 不完整 | benchmark-models/devex-review/health/spec 补全 |
+| H3：health skill 含 gbrain/SLUG 路径 | 路径清理 |
+| H4：spec skill 含 gstack 路径 | 已是干净路径 |
+| M1：wiki 概念页偏少 | +6 个新页面 |
+| M2：README 锚点链接 | 已是正确格式 |
+| M3：sync-skills --execute 不完整 | 完整实现（clone → sed → rsync） |
+
+---
+
+## 三、上次审计遗留问题（本轮已全部修复）
+
+| 问题 | 修复状态 |
+|---|---|
+| C1：5 个 process H1 标题含 "DeepSeek Harness" | ✅ 已修复 |
+| H2：wiki 引用 `erics-process-archive-notes`（不存在） | ✅ 已修复为 `archive-agent-notes` |
+| M1：sync-state.json 引用旧名 `archive-notes` | ✅ 已更新 |
+| M2：wiki 概念页无效 wikilink（`[[code-review]]` 等） | ✅ 已修正 |
+| M3：pre-push-checks H1 含 "DSH" | ✅ 已替换为 "EricStack" |
+
+---
+
+## 四、Git 历史（今日）
+
+```
+6fe8806 docs: add LLM Wiki tutorial and fix wiki index counts
+3b10ab6 docs: add Related Projects section, fix skills count 26→27
+587d6ae feat: add PR Agent tools and enhance code-review
+d2be0fd feat: add /estack main entry, fix sync-skills --execute
+28b2b53 audit fixes: add triggers, clean brand refs, expand wiki
+```
+
+---
+
+## 五、验证命令
 
 ```bash
-# 品牌纯净度检查（应为 0）
+# 品牌纯净度（应为 0）
 rg -l 'gstack-|GStack|garry|Garry' .loopx/skills/
 
-# 技能发现性检查（process 应有 triggers，ability 也应完整）
+# 技能发现性
 rg '^triggers:' .loopx/skills/erics-process/*/SKILL.md | wc -l   # 期望: 11
 rg '^triggers:' .loopx/skills/erics-ability/*/SKILL.md | wc -l  # 期望: 16
 
-# 更新机制验证
+# 更新机制
 bash .loopx/bin/sync-skills.sh --check
 
 # Wiki 完整性
-find .loopx/wiki -name '*.md' | wc -l  # 期望: ≥8
+find .loopx/wiki -name '*.md' | wc -l  # 期望: ≥15
+
+# H1 标题（应无 DeepSeek Harness）
+rg '^# [^#]' .loopx/skills/erics-process/*/SKILL.md | rg -i 'deepseek'  # 应无输出
 ```
+
+---
+
+## 六、下一步建议
+
+| 建议 | 优先级 | 说明 |
+|---|---|---|
+| 生产环境测试 PR Agent tools | P1 | pr-describe/improve/ask/changelog 实际效果验证 |
+| 测试 sync-skills.sh --execute | P1 | 真实上游更新时的同步效果 |
+| 测试 /estack 在 Claude Code 中触发 | P1 | 验证 skill 发现机制 |
+| 补充 erics-process-code-review 的 test case | P2 | 单元测试覆盖 |

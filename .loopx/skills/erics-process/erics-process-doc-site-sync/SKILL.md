@@ -8,7 +8,7 @@ triggers:
   - sync documentation
 ---
 
-# Synchronizing the DeepSeek Harness Documentation Site
+## Synchronizing the EricStack Documentation Site
 
 Keep repository Markdown as the only editable content source. Treat the website as a tested projection:  selects public pages,  rewrites them into the disposable `website/.generated/` tree, and VitePress builds that tree.
 

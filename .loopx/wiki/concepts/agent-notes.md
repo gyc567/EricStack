@@ -40,5 +40,5 @@ Status: proposed | implemented | archived
 
 ## See Also
 
-- [[erics-process-archive-notes]]
+- [[erics-process-archive-agent-notes]]
 - [[erics-process-find-simplifications]]

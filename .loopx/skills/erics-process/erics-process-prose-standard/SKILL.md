@@ -8,7 +8,7 @@ triggers:
   - prose review
 ---
 
-# DeepSeek Harness Prose Standard
+## EricStack Prose Standard
 
 Write enough to preserve the contract, then remove reasoning transcripts, repetition, and decoration. A contract is an obligation, invariant, precondition, postcondition, or compatibility promise that a caller, callee, implementer, producer, or consumer relies on. This skill owns editorial judgment and required prose coverage; use [erics-process-doc-standards](../erics-process-doc-standards/SKILL.md) for placement, budgets, bilingual pairs, and documentation gates, and [erics-process-trim-cot-leakage](../erics-process-trim-cot-leakage/SKILL.md) for hunting and fixing reasoning-transcript leakage. It is guidance, not a script.
 

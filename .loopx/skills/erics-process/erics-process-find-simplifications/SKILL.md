@@ -8,7 +8,7 @@ triggers:
   - cleanup
 ---
 
-# Finding DeepSeek Harness Simplifications
+## Finding EricStack Simplifications
 
 This skill helps turn a broad "find things to simplify" request into evidence-backed Agent Notes that remove or collapse existing harness surface area. It is guidance, not a checklist: follow the code, keep judgment active, and prefer a few well-proven candidates over a pile of thin guesses.
 

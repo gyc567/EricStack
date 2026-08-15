@@ -18,6 +18,6 @@ Invoke via `/erics-process-doc-standards` when working on related tasks.
 
 ## Related
 
-- [[code-review]] — shared review infrastructure
-- [[prose-standard]] — prose quality is a pre-requisite for all outputs
-- [[../index|Back to wiki index]]
+- [[erics-process-code-review]] — shared review infrastructure
+- [[erics-process-prose-standard]] — prose quality is a pre-requisite for all outputs
+- [[index|Back to wiki index]]

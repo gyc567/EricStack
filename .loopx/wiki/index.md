@@ -19,7 +19,7 @@ created: 2026-08-15
 | [[erics-process-doc-standards]] | 文档写作标准 |
 | [[erics-process-doc-site-sync]] | VitePress 文档站同步 |
 | [[erics-process-translate-docs]] | 中英双语配对文档 |
-| [[erics-process-archive-notes]] | Agent Note 生命周期管理 |
+| [[erics-process-archive-agent-notes]] | Agent Note 生命周期管理 |
 | [[erics-process-pre-push-checks]] | 推前最小化检查 |
 | [[erics-process-merging-stacked-prs]] | GitHub PR stack 落地 |
 | [[erics-process-record-browser-gif]] | UI 演示 GIF 录制 |
