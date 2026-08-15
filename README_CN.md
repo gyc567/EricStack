@@ -1,8 +1,8 @@
 # EricStack
 
-**AI-native engineering loop system — 33 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
+**AI-native engineering loop system — 36 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
-**AI 原生工程循环系统 — 33 个技能，覆盖计划、审查、简化、文档和知识积累。**
+**AI 原生工程循环系统 — 36 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
 > EricStack transforms a project into a compounding engineering intelligence. Every decision, review, and discussion becomes a persistent wiki page. Every process is a closed loop.
 >
@@ -12,14 +12,14 @@
 
 ## What Is EricStack? | 什么是 EricStack？
 
-EricStack is a LoopX-powered skill system for engineering teams. It provides **33 skills** organized in two tiers:
+EricStack is a LoopX-powered skill system for engineering teams. It provides **36 skills** organized in two tiers:
 
-EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **27 个技能**，分为两个层级：
+EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **36 个技能**，分为两个层级：
 
 | Tier / 层级 | Count / 数量 | Purpose / 用途 |
 |---|---|---|
-| `erics-process-*` (Discipline / 纪律) | 11 | Enforce standards — code review, prose quality, docs, simplification / 执行标准 — 代码审查、prose 质量、文档、简化 |
-| `erics-ability-*` (Action / 能力) | 16 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
+| `erics-process-*` (Discipline / 纪律) | 12 | Enforce standards — code review, prose quality, docs, simplification / 执行标准 — 代码审查、prose 质量、文档、简化 |
+| `erics-ability-*` (Action / 能力) | 23 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
 
 Skills run inside Claude Code (or any LoopX-compatible host). No separate server, no daemon, no API keys required for the skill system itself.
 技能运行在 Claude Code（或任何兼容 LoopX 的 host）中。技能系统本身无需独立服务器、无需守护进程、无需额外 API key。
@@ -80,7 +80,7 @@ cd EricStack
 
 ```
 /estack                # 主入口 — 显示 banner 并路由到正确技能
-/erics-loop-router     # 查看全部 33 个技能和路由规则
+/erics-loop-router     # 查看全部 36 个技能和路由规则
 ```
 
 或直接调用任何技能：/ Or invoke any skill directly:
