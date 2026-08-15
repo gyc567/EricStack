@@ -1,18 +1,23 @@
 ---
 name: erics-process-doc-standards
 description: 'Use when writing, moving, reviewing, or auditing documentation in the EricStack project — choosing hierarchy and detail, separating tutorials from references, checking tutorial progression, trimming doc slop, responding to a verify-doc-budgets failure, or requests like "improve the docs", "audit the docs", "where should this be documented", or "this doc is too long".'
+triggers:
+  - doc standards
+  - write docs
+  - documentation
+  - improve the docs
 ---
 
 # Applying the DeepSeek Harness Documentation Standard
 
-The documentation rules live in [docs/AGENTS.md](../../../docs/AGENTS.md). This workflow covers placement, corpus audits, budgets, and validation across Markdown, JSDoc, and code comments. It is guidance, not a script; use [erics-process-prose-standard](../erics-process-prose-standard/SKILL.md) for required coverage and editorial judgment, and never treat length alone as a defect.
+The documentation rules live in . This workflow covers placement, corpus audits, budgets, and validation across Markdown, JSDoc, and code comments. It is guidance, not a script; use [erics-process-prose-standard](../erics-process-prose-standard/SKILL.md) for required coverage and editorial judgment, and never treat length alone as a defect.
 
 ## Sources of truth (read, don't re-summarize)
 
-- [docs/AGENTS.md](../../../docs/AGENTS.md) — hierarchy, tutorial/reference forms, taxonomy, budgets, and slop checklist.
-- [.agents/notes/README.md](../../notes/README.md) — when a decision earns an Agent Note, how to file it, and what goes inside one (the header block, per-lifecycle skeleton, and Alternatives-considered mandate, gated by `verify-agent-note-format`); [docs/postmortem/README.md](../../../docs/postmortem/README.md) — when an incident earns a postmortem.
-- [docs/i18n/README.md](../../../docs/i18n/README.md) — the bilingual pairing rules; editing either side of a pair obligates the counterpart in the same change.
-- Root [AGENTS.md](../../../AGENTS.md) — the standing orders whose budget discipline this skill protects.
+-  — hierarchy, tutorial/reference forms, taxonomy, budgets, and slop checklist.
+- [.agents/notes/README.md](../../notes/README.md) — when a decision earns an Agent Note, how to file it, and what goes inside one (the header block, per-lifecycle skeleton, and Alternatives-considered mandate, gated by `verify-agent-note-format`);  — when an incident earns a postmortem.
+-  — the bilingual pairing rules; editing either side of a pair obligates the counterpart in the same change.
+- Root  — the standing orders whose budget discipline this skill protects.
 - [Archived Agent Notes](../../notes/archived/AGENTS.md) — frozen historical snapshots excluded from editorial maintenance and evolving documentation gates.
 
 ## Review structure before prose
@@ -49,8 +54,8 @@ Keep every load-bearing rule, preferably as one to three lines plus a link to it
 
 ## When verify-doc-budgets goes red
 
-Apply the ordered relocate-condense-raise policy in [docs/AGENTS.md](../../../docs/AGENTS.md); this skill only supplies the workflow probes above.
+Apply the ordered relocate-condense-raise policy in ; this skill only supplies the workflow probes above.
 
 ## Validation and PR hygiene
 
-Run at least `pnpm run doc-sync`, `pnpm run lint`, and `git diff --check`; JSDoc changes may regenerate catalogs. If a paired doc changed, follow the [lightweight routine path](../../../docs/AGENTS.md#writing-rules) and run `pnpm run verify-translation-pairing --write <pair>`. The PR body should give word deltas, explain any deliberately long exception, and list checks.
+Run at least `pnpm run doc-sync`, `pnpm run lint`, and `git diff --check`; JSDoc changes may regenerate catalogs. If a paired doc changed, follow the  and run `pnpm run verify-translation-pairing --write <pair>`. The PR body should give word deltas, explain any deliberately long exception, and list checks.

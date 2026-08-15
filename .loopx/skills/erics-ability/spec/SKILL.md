@@ -242,7 +242,7 @@ contributor's "match template to content" rules.
 #### Phase 5 dispatch logic (plan-mode-aware default)
 Read `GSTACK_PLAN_MODE` from the environment (emitted by `## Preamble (run first)
 ```bash
-_UPD=$(bin/erics-update-check 2>/dev/null || .claude/skills/gstack/bin/erics-update-check 2>/dev/null || true)
+_UPD=$(bin/erics-update-check 2>/dev/null || true 2>/dev/null || true)
 [ -n "$_UPD" ] && echo "$_UPD" || true
 mkdir -p sessions
 touch sessions/"$PPID"

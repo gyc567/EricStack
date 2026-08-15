@@ -34,7 +34,7 @@ else
 fi
 ```
 If `CROSS_PROJECT` is `unset` (first time): Use AskUserQuestion:
-> gstack can search learnings from your other projects on this machine to find
+> EricStack can search learnings from your other projects on this machine to find
 > patterns that might apply here. This stays local (no data leaves your machine).
 > Recommended for solo developers. Skip if you work on multiple client codebases
 > where cross-contamination would be a concern.

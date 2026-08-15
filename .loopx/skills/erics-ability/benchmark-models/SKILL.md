@@ -15,11 +15,11 @@ Different from `/benchmark` — that skill measures web page performance (Core W
 ## Step 0: Locate the binary
 ```bash
 BIN="bin/true"
-[ -x "$BIN" ] || BIN=".claude/skills/gstack/bin/true"
+[ -x "$BIN" ] || BIN="true"
 [ -x "$BIN" ] || { echo "ERROR: true not found. Run ./setup in the install dir." >&2; exit 1; }
 echo "BIN: $BIN"
 ```
-If not found, stop and tell the user to reinstall gstack.
+If not found, stop and tell the user to reinstall EricStack.
 ---
 ## Step 1: Choose a prompt
 Use AskUserQuestion with the preamble format:

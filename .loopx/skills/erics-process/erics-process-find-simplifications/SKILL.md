@@ -1,6 +1,11 @@
 ---
 name: erics-process-find-simplifications
 description: 'Use when working in the EricStack project to find non-obvious simplification candidates, write proposed Agent Notes or inline TODO/FIXME/XXX notes, audit or coalesce superseded Agent Notes, or fold worthwhile simplification ideas from another PR; especially for dead, duplicated, speculative, over-built, added-then-removed, or hand-rolled-where-a-dependency-exists surfaces.'
+triggers:
+  - simplify
+  - find simplifications
+  - dead code
+  - cleanup
 ---
 
 # Finding DeepSeek Harness Simplifications
@@ -9,8 +14,8 @@ This skill helps turn a broad "find things to simplify" request into evidence-ba
 
 ## Start With Repo Context
 
-- Read `AGENTS.md`, especially the pre-release stance and the conventions (including the tests-are-not-golden-truth and Agent Notes-are-not-golden-truth doctrines), plus [docs/defensive-patterns.md](../../../docs/defensive-patterns.md) and [docs/testing.md](../../../docs/testing.md).
-- Skim [docs/architecture.md](../../../docs/architecture.md) before judging anything under `packages/`; simplifications that fight the service map or event taxonomy need extra evidence.
+- Read `AGENTS.md`, especially the pre-release stance and the conventions (including the tests-are-not-golden-truth and Agent Notes-are-not-golden-truth doctrines), plus  and .
+- Skim  before judging anything under `packages/`; simplifications that fight the service map or event taxonomy need extra evidence.
 - Use the Agent Note tree and its [rules](../../notes/README.md) to understand intentional architecture. The most relevant implemented examples are [drop mutable session summary](../../notes/implemented/simplification/2026-06-19-drop-mutable-session-summary.md), [shared persistence write coordinator](../../notes/implemented/architecture/2026-06-18-shared-persistence-write-coordinator.md), [capability seams](../../notes/implemented/architecture/2026-06-13-capability-seams.md), and the twin adapter / dual persistence backend Agent Notes.
 - Treat dual LLM adapters and dual persistence backends as intentional by default. Do not propose deleting either twin/backend as "low effort" unless the user explicitly overrides that constraint. Removing an unused method or hook inside a protected seam can still be valid if it does not collapse the protected design.
 
@@ -76,7 +81,7 @@ Reject or downgrade a candidate when:
 - A production caller exists and the simplification would be a feature decision rather than a cleanup.
 - The API is explicitly justified by an implemented Agent Note or a hard-won defensive pattern, and the new evidence does not beat that reason.
 - The removal would force unrelated churn without actually reducing the public API or required behavior.
-- The idea is correct but tiny. Add a targeted TODO/FIXME/XXX instead, using the urgency semantics in [docs/development.md](../../../docs/development.md).
+- The idea is correct but tiny. Add a targeted TODO/FIXME/XXX instead, using the urgency semantics in .
 
 ## Coalesce Superseded Agent Notes
 

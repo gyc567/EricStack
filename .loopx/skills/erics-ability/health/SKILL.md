@@ -41,10 +41,10 @@ command -v knip >/dev/null 2>&1 && echo "DEADCODE: knip"
 [ -f package.json ] && grep -q '"knip"' package.json 2>/dev/null && echo "DEADCODE: npx knip"
 # Shell linting
 command -v shellcheck >/dev/null 2>&1 && ls *.sh scripts/*.sh bin/*.sh 2>/dev/null | head -1 | xargs -I{} echo "SHELL: shellcheck"
-# GBrain presence (D6) — only report as a dimension if gbrain is actually
+# Health presence (D6) — only report as a dimension if gbrain is actually
 # set up; otherwise skip so machines without gbrain aren't penalized.
 if command -v gbrain >/dev/null 2>&1 && [ -f "$HOME/.gbrain/config.json" ]; then
-  echo "GBRAIN: gbrain doctor --json (wrapped in timeout 5s)"
+  echo "GBRAIN: health check --json (wrapped in timeout 5s)"
 fi
 ```
 Use Glob to search for shell scripts:
@@ -97,7 +97,7 @@ Score each category on a 0-10 scale using this rubric:
 | Tests | 28% | All pass (exit 0) | >95% pass | >80% pass | <=80% pass |
 | Dead code | 13% | Clean (exit 0) | <5 unused exports | <20 unused | >=20 unused |
 | Shell lint | 9% | Clean (exit 0) | <5 issues | >=5 issues | N/A (skip) |
-| GBrain (D6) | 10% | doctor=ok, queue<10, pushed <24h | doctor=warnings OR queue<100 OR pushed <72h | doctor broken OR queue>=100 OR pushed >=72h | N/A (gbrain not installed) |
+| Health (D6) | 10% | doctor=ok, queue<10, pushed <24h | doctor=warnings OR queue<100 OR pushed <72h | doctor broken OR queue>=100 OR pushed >=72h | N/A (gbrain not installed) |
 **Parsing tool output for counts:**
 - **tsc:** Count lines matching `error TS` in output.
 - **biome/eslint/ruff:** Count lines matching error/warning patterns. Parse the summary line if available.
@@ -108,12 +108,12 @@ Score each category on a 0-10 scale using this rubric:
 ```
 composite = (typecheck_score * 0.22) + (lint_score * 0.18) + (test_score * 0.28) + (deadcode_score * 0.13) + (shell_score * 0.09) + (gbrain_score * 0.10)
 ```
-If a category is skipped (tool not available — includes GBrain when gbrain
+If a category is skipped (tool not available — includes Health when gbrain
 is not installed), redistribute its weight proportionally among the
 remaining categories.
-**GBrain sub-score computation (D6):**
+**Health sub-score computation (D6):**
 ```
-doctor_component: 10 if `gbrain doctor --json | jq -r .status` == "ok";
+doctor_component: 10 if `health check --json | jq -r .status` == "ok";
                    7 if "warnings"; 0 otherwise (or command times out after 5s).
 queue_component:   10 if .brain-queue.jsonl has <10 lines;
                     7 if 10-100; 0 if >=100 (suggests secret-scan rejections
@@ -124,7 +124,7 @@ gbrain_score     = 0.5 * doctor_component + 0.3 * queue_component + 0.2 * push_c
                    (redistribute 0.3 + 0.2 into doctor when sync_mode is off:
                    gbrain_score = doctor_component in that case)
 ```
-The `gbrain doctor --json` call MUST be wrapped in `timeout 5s` so a hung
+The `health check --json` call MUST be wrapped in `timeout 5s` so a hung
 or misconfigured gbrain doesn't stall the entire /health dashboard.
 ---
 ## Step 4: Present Dashboard
@@ -142,7 +142,7 @@ Lint          biome check .      8/10   WARNING    2s         3 warnings
 Tests         bun test          10/10   CLEAN      12s        47/47 passed
 Dead code     knip               7/10   WARNING    5s         4 unused exports
 Shell lint    shellcheck        10/10   CLEAN      1s         0 issues
-GBrain        gbrain doctor     10/10   CLEAN      <1s        doctor=ok, queue=3, pushed 2h ago
+Health        health check     10/10   CLEAN      <1s        doctor=ok, queue=3, pushed 2h ago
 COMPOSITE SCORE: 9.1 / 10
 Duration: 23s total
 ```
@@ -189,7 +189,7 @@ tail -10 .loopx/health/health-history.jsonl 2>/dev/null || echo "NO_HISTORY"
 ```
 HEALTH TREND (last 5 runs)
 ==========================
-Date          Branch         Score   TC   Lint  Test  Dead  Shell  GBrain
+Date          Branch         Score   TC   Lint  Test  Dead  Shell  Health
 ----------    -----------    -----   --   ----  ----  ----  -----  ------
 2026-03-28    main           9.4     10   9     10    8     10     10
 2026-03-29    feat/auth      8.8     10   7     10    7     10     10

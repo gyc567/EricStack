@@ -1,11 +1,16 @@
 ---
 name: erics-process-merging-stacked-prs
 description: Use when landing a stack of dependent GitHub PRs (A ← B ← C, where each bases on the one below) onto master, merging a PR whose base is another open PR's branch, or whenever a request mentions "stacked PRs", "PR stack", "dependent PRs", or merging several related PRs in sequence. Requires every same-repository dependency chain to use GitHub's official stacked-PR feature before landing so GitHub owns stack-wide rules, CI, ordering, retargeting, and merge state.
+triggers:
+  - merge stacked prs
+  - stacked prs
+  - pr stack
+  - land stack
 ---
 
 # Landing an official GitHub PR stack
 
-Land dependent PRs through GitHub's native stack object and `gh stack merge`. Do not reproduce stack semantics by merging and retargeting individual PRs with `gh pr merge` and `gh pr edit`. The root [AGENTS.md](../../../AGENTS.md) owns the allowed merge-forward and rebase histories; the [stack review guide](../../../docs/cookbook/responding-to-pr-review-on-a-stack.md) owns review-fix propagation.
+Land dependent PRs through GitHub's native stack object and `gh stack merge`. Do not reproduce stack semantics by merging and retargeting individual PRs with `gh pr merge` and `gh pr edit`. The root  owns the allowed merge-forward and rebase histories; the  owns review-fix propagation.
 
 ## Require native stack support
 
@@ -118,10 +123,10 @@ Anything other than `0` blocks deletion.
 
 ## Checklist
 
-- [ ] Native `gh stack` support is available; every PR branch is in the same repository.
-- [ ] Live PR bases and exact heads establish one bottom-to-top dependency chain.
-- [ ] GraphQL reports one official stack with the expected trunk, entries, and order; an eligible same-author unstacked chain was linked automatically.
-- [ ] Any rewritten layers passed relevant validation, and review threads, approvals, mergeability, and checks were re-audited afterward.
-- [ ] The whole stack, or an explicitly bounded prefix, was submitted through `gh stack merge --yes --merge`.
-- [ ] Every selected PR reports `MERGED`; any remaining upper layers still form the expected official stack.
-- [ ] Branch deletion happened only after merged-state and zero-dependent verification.
+-  Native `gh stack` support is available; every PR branch is in the same repository.
+-  Live PR bases and exact heads establish one bottom-to-top dependency chain.
+-  GraphQL reports one official stack with the expected trunk, entries, and order; an eligible same-author unstacked chain was linked automatically.
+-  Any rewritten layers passed relevant validation, and review threads, approvals, mergeability, and checks were re-audited afterward.
+-  The whole stack, or an explicitly bounded prefix, was submitted through `gh stack merge --yes --merge`.
+-  Every selected PR reports `MERGED`; any remaining upper layers still form the expected official stack.
+-  Branch deletion happened only after merged-state and zero-dependent verification.

@@ -12,7 +12,7 @@ Skills that run plan reviews (`/plan-*-review`, `/model review`) include the EXI
 ```bash
 _ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 B=""
-[ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/browse/binary" ] && B="$_ROOT/.claude/skills/gstack/browse/binary"
+[ -n "$_ROOT" ] && [ -x "$_ROOT/true" ] && B="$_ROOT/true"
 [ -z "" ] && B="browse/binary"
 if [ -x "" ]; then
   echo "READY: "
@@ -21,7 +21,7 @@ else
 fi
 ```
 If `NEEDS_SETUP`:
-1. Tell the user: "gstack browse needs a one-time build (~10 seconds). OK to proceed?" Then STOP and wait.
+1. Tell the user: "browse needs a one-time build (~10 seconds). OK to proceed?" Then STOP and wait.
 2. Run: `cd <SKILL_DIR> && ./setup`
 3. If `bun` is not installed:
    ```bash

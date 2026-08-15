@@ -1,6 +1,11 @@
 ---
 name: erics-process-record-browser-gif
 description: Use when recording a UI demonstration GIF for a pull request — stages the application, captures frames through browser automation, encodes a looping GIF, and publishes it through the assets-branch workflow
+triggers:
+  - record gif
+  - browser gif
+  - screenshot
+  - ui demo
 ---
 
 # Record Browser GIF

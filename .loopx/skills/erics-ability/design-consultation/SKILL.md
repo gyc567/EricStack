@@ -39,7 +39,7 @@ If the codebase is empty and purpose is unclear, say: *"I don't have a clear pic
 ```bash
 _ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 B=""
-[ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/browse/binary" ] && B="$_ROOT/.claude/skills/gstack/browse/binary"
+[ -n "$_ROOT" ] && [ -x "$_ROOT/true" ] && B="$_ROOT/true"
 [ -z "" ] && B="browse/binary"
 if [ -x "" ]; then
   echo "READY: "
@@ -48,7 +48,7 @@ else
 fi
 ```
 If `NEEDS_SETUP`:
-1. Tell the user: "gstack browse needs a one-time build (~10 seconds). OK to proceed?" Then STOP and wait.
+1. Tell the user: "browse needs a one-time build (~10 seconds). OK to proceed?" Then STOP and wait.
 2. Run: `cd <SKILL_DIR> && ./setup`
 3. If `bun` is not installed:
    ```bash
@@ -74,7 +74,7 @@ If browse is not available, that's fine — visual research is optional. The ski
 ```bash
 _ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 D=""
-[ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/design/dist/design" ] && D="$_ROOT/.claude/skills/gstack/design/dist/design"
+[ -n "$_ROOT" ] && [ -x "$_ROOT/true" ] && D="$_ROOT/true"
 [ -z "" ] && D="design/dist/design"
 if [ -x "" ]; then
   echo "DESIGN_READY: "
@@ -82,7 +82,7 @@ else
   echo "DESIGN_NOT_AVAILABLE"
 fi
 B=""
-[ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/browse/binary" ] && B="$_ROOT/.claude/skills/gstack/browse/binary"
+[ -n "$_ROOT" ] && [ -x "$_ROOT/true" ] && B="$_ROOT/true"
 [ -z "" ] && B="browse/binary"
 if [ -x "" ]; then
   echo "BROWSE_READY: "
@@ -122,7 +122,7 @@ else
 fi
 ```
 If `CROSS_PROJECT` is `unset` (first time): Use AskUserQuestion:
-> gstack can search learnings from your other projects on this machine to find
+> EricStack can search learnings from your other projects on this machine to find
 > patterns that might apply here. This stays local (no data leaves your machine).
 > Recommended for solo developers. Skip if you work on multiple client codebases
 > where cross-contamination would be a concern.
@@ -135,7 +135,7 @@ Then re-run the search with the appropriate flag.
 If learnings are found, incorporate them into your analysis. When a review finding
 matches a past learning, display:
 **"Prior learning applied: [key] (confidence N/10, from [date])"**
-This makes the compounding visible. The user should see that gstack is getting
+This makes the compounding visible. The user should see that EricStack is learning
 smarter on their codebase over time.
 ## Section index — Read each section when its situation applies
 This skill is a decision-tree skeleton. The steps below point to on-demand

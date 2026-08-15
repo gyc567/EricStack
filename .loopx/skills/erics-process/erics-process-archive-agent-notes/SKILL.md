@@ -2,6 +2,11 @@
 ---
 name: erics-process-archive-agent-notes
 description: Use when adding, auditing, pruning, archiving, restoring, or reviewing Agent Notes in EricStack; checks every new note for superseded active records, classifies implemented notes by future decision value, deletes rejected notes that no longer prevent a tempting fallacy, and applies the frozen archived/{kind} triplet and manifest rules.
+triggers:
+  - archive notes
+  - prune notes
+  - archive-agent-notes
+  - agent note lifecycle
 ---
 
 # Archive DeepSeek Harness Agent Notes

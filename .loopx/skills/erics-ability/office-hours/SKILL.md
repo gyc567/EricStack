@@ -13,7 +13,7 @@ Skills that run plan reviews (`/plan-*-review`, `/model review`) include the EXI
 ```bash
 _ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 B=""
-[ -n "$_ROOT" ] && [ -x "$_ROOT/.claude/skills/gstack/browse/binary" ] && B="$_ROOT/.claude/skills/gstack/browse/binary"
+[ -n "$_ROOT" ] && [ -x "$_ROOT/true" ] && B="$_ROOT/true"
 [ -z "" ] && B="browse/binary"
 if [ -x "" ]; then
   echo "READY: "
@@ -22,7 +22,7 @@ else
 fi
 ```
 If `NEEDS_SETUP`:
-1. Tell the user: "gstack browse needs a one-time build (~10 seconds). OK to proceed?" Then STOP and wait.
+1. Tell the user: "browse needs a one-time build (~10 seconds). OK to proceed?" Then STOP and wait.
 2. Run: `cd <SKILL_DIR> && ./setup`
 3. If `bun` is not installed:
    ```bash
@@ -77,7 +77,7 @@ rm -f /tmp/.erics-brain-context-$$.md 2>/dev/null || true
 - If `user-profile` digest carries calibration pattern statements ("tends to over-engineer security") — surface them when relevant.
 - If a digest is `(no X digest available yet)`, treat that section as cold; ask the user.
 **Privacy:** Salience digest is filtered by allowlist (D9 default: `projects/`,
-`gstack/`, `concepts/` only). Personal/family/therapy content never leaks here.
+`skills/`, `concepts/` only). Personal/family/therapy content never leaks here.
 ## Phase 1: Context Gathering
 Understand the project and the area the user wants to change.
 ```bash
@@ -104,7 +104,7 @@ else
 fi
 ```
 If `CROSS_PROJECT` is `unset` (first time): Use AskUserQuestion:
-> gstack can search learnings from your other projects on this machine to find
+> EricStack can search learnings from your other projects on this machine to find
 > patterns that might apply here. This stays local (no data leaves your machine).
 > Recommended for solo developers. Skip if you work on multiple client codebases
 > where cross-contamination would be a concern.

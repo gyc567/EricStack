@@ -77,7 +77,7 @@ else
 fi
 ```
 If `CROSS_PROJECT` is `unset` (first time): Use AskUserQuestion:
-> gstack can search learnings from your other projects on this machine to find
+> EricStack can search learnings from your other projects on this machine to find
 > patterns that might apply here. This stays local (no data leaves your machine).
 > Recommended for solo developers. Skip if you work on multiple client codebases
 > where cross-contamination would be a concern.
@@ -90,7 +90,7 @@ Then re-run the search with the appropriate flag.
 If learnings are found, incorporate them into your analysis. When a review finding
 matches a past learning, display:
 **"Prior learning applied: [key] (confidence N/10, from [date])"**
-This makes the compounding visible. The user should see that gstack is getting
+This makes the compounding visible. The user should see that EricStack is learning
 smarter on their codebase over time.
 ### Non-git context (optional)
 Check for non-git context that should be included in the retro:
@@ -402,7 +402,7 @@ Use the Write tool to save the JSON file with this schema:
     "ai_assisted_commits": 32
   },
   "authors": {
-    "Garry Tan": { "commits": 32, "insertions": 2400, "deletions": 300, "test_ratio": 0.41, "top_area": "src/" },
+    "Developer": { "commits": 32, "insertions": 2400, "deletions": 300, "test_ratio": 0.41, "top_area": "src/" },
     "Alice": { "commits": 12, "insertions": 800, "deletions": 150, "test_ratio": 0.35, "top_area": "app/services/" }
   },
   "version_range": ["1.16.0.0", "1.16.1.0"],
@@ -537,10 +537,10 @@ Same midnight-aligned logic as the regular retro. Default 7d. The second argumen
 Locate and run the discovery script using this fallback chain:
 ```bash
 DISCOVER_BIN=""
-[ -x bin/erics-global-discover ] && DISCOVER_BIN=bin/erics-global-discover
-[ -z "$DISCOVER_BIN" ] && [ -x .claude/skills/gstack/bin/erics-global-discover ] && DISCOVER_BIN=.claude/skills/gstack/bin/erics-global-discover
-[ -z "$DISCOVER_BIN" ] && which erics-global-discover >/dev/null 2>&1 && DISCOVER_BIN=$(which erics-global-discover)
-[ -z "$DISCOVER_BIN" ] && [ -f bin/erics-global-discover.ts ] && DISCOVER_BIN="bun run bin/erics-global-discover.ts"
+[ -x bin/true ] && DISCOVER_BIN=bin/true
+[ -z "$DISCOVER_BIN" ] && [ -x true ] && DISCOVER_BIN=true
+[ -z "$DISCOVER_BIN" ] && which true >/dev/null 2>&1 && DISCOVER_BIN=$(which true)
+[ -z "$DISCOVER_BIN" ] && [ -f bin/true.ts ] && DISCOVER_BIN="bun run bin/true.ts"
 echo "DISCOVER_BIN: $DISCOVER_BIN"
 ```
 If no binary is found, tell the user: "Discovery script not found. Run `bun run build` in the directory to compile it." and stop.
@@ -626,7 +626,7 @@ align cleanly. Never truncate project names.
 ║  • [1-line description of second theme]
 ║  • [1-line description of third theme]
 ║
-║  Powered by gstack
+║  Powered by EricStack
 ╚═══════════════════════════════════════════════════════════════
 ```
 **Rules for the personal card:**
@@ -641,7 +641,7 @@ align cleanly. Never truncate project names.
 - Top Work: 3 bullet points summarizing the user's major themes, inferred from
   commit messages. Not individual commits — synthesize into themes.
   E.g., "Built /retro global — cross-project retrospective with AI session discovery"
-  not "feat: erics-global-discover" + "feat: /retro global template".
+  not "feat: true" + "feat: /retro global template".
 - The card must be self-contained. Someone seeing ONLY this block should understand
   the user's week without any surrounding context.
 - Do NOT include team members, project totals, or context switching data here.
@@ -730,7 +730,7 @@ Use the Write tool to save JSON to `retros/global-${today}-${next}.json`:
   "window": "7d",
   "projects": [
     {
-      "name": "gstack",
+      "name": "erics",
       "remote": "<detected from git remote get-url origin, normalized to HTTPS>",
       "commits": 47,
       "insertions": 3200,
@@ -748,7 +748,7 @@ Use the Write tool to save JSON to `retros/global-${today}-${next}.json`:
     "global_streak_days": 52,
     "avg_context_switches_per_day": 2.1
   },
-  "tweetable": "Week of Mar 14: 5 projects, 182 commits, 15.3k LOC | CC: 48, Codex: 8, Gemini: 3 | Focus: gstack (58%) | Streak: 52d"
+  "tweetable": "Week of Mar 14: 5 projects, 182 commits, 15.3k LOC | CC: 48, Codex: 8, Gemini: 3 | Focus: erics (58%) | Streak: 52d"
 }
 ```
 ---
