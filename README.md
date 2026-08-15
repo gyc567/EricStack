@@ -1,8 +1,8 @@
 # EricStack
 
-**AI-native engineering loop system — 26 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
+**AI-native engineering loop system — 27 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
-**AI 原生工程循环系统 — 26 个技能，覆盖计划、审查、简化、文档和知识积累。**
+**AI 原生工程循环系统 — 27 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
 > EricStack transforms a project into a compounding engineering intelligence. Every decision, review, and discussion becomes a persistent wiki page. Every process is a closed loop.
 >
@@ -12,14 +12,14 @@
 
 ## What Is EricStack? | 什么是 EricStack？
 
-EricStack is a LoopX-powered skill system for engineering teams. It provides **26 skills** organized in two tiers:
+EricStack is a LoopX-powered skill system for engineering teams. It provides **27 skills** organized in two tiers:
 
-EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **26 个技能**，分为两个层级：
+EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **27 个技能**，分为两个层级：
 
 | Tier / 层级 | Count / 数量 | Purpose / 用途 |
 |---|---|---|
 | `erics-process-*` (Discipline / 纪律) | 11 | Enforce standards — code review, prose quality, docs, simplification / 执行标准 — 代码审查、prose 质量、文档、简化 |
-| `erics-ability-*` (Action / 能力) | 15 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
+| `erics-ability-*` (Action / 能力) | 16 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
 
 Skills run inside Claude Code (or any LoopX-compatible host). No separate server, no daemon, no API keys required for the skill system itself.
 技能运行在 Claude Code（或任何兼容 LoopX 的 host）中。技能系统本身无需独立服务器、无需守护进程、无需额外 API key。
@@ -81,8 +81,8 @@ Download [llm_wiki](https://github.com/nashsu/llm_wiki/releases), then:
 ```
 /estack                # Main entry — shows banner and routes to the right skill
                       # 主入口 — 显示 banner 并路由到正确技能
-/erics-loop-router     # View all 26 skills and routing rules
-                      # 查看全部 26 个技能和路由规则
+/erics-loop-router     # View all 27 skills and routing rules
+                      # 查看全部 27 个技能和路由规则
 ```
 
 Or invoke any skill directly: / 或直接调用任何技能：
@@ -105,7 +105,7 @@ Or invoke any skill directly: / 或直接调用任何技能：
 | `/ics-process-prose-standard` | Prose completeness + editorial discipline | prose 完整性 + 编辑纪律 |
 | `/erics-process-trim-cot-leakage` | Remove chain-of-thought leakage from docs | 去除文档中的思维链泄漏 |
 
-**See all 26 skills / 查看全部 26 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
+**See all 27 skills / 查看全部 27 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
 
 ---
 
@@ -117,7 +117,7 @@ EricStack/
 │   ├── skills/
 │   │   ├── erics-loop-router/      # Skill router / 技能路由器
 │   │   ├── erics-process-* (×11)  # Discipline skills / 纪律技能
-│   │   └── erics-ability-* (×15)  # Action skills / 能力技能
+│   │   └── erics-ability-* (×16)  # Action skills / 能力技能
 │   ├── wiki/                       # LLM Wiki knowledge base / LLM Wiki 知识库
 │   │   ├── concepts/              # Concept pages / 概念页面
 │   │   ├── entities/              # Decision records / 决策记录
@@ -189,6 +189,18 @@ When both apply, prefer `erics-process-*` for writing/review tasks.
 | `docs/TUTORIAL.md` | 中文 | Complete usage tutorial / 完整使用教程 |
 | `INTEGRATION.md` | 中文 | Full integration plan / 完整整合方案 |
 | `.loopx/llm-wiki-integration.md` | 中文 | LLM Wiki integration guide / LLM Wiki 整合指南 |
+
+---
+
+## Related Projects | 相关项目
+
+EricStack is inspired by and integrates ideas from these projects:
+
+| Project | URL | Inspiration |
+|---|---|---|
+| **PR Agent** | [The-PR-Agent/PR-Agent](https://github.com/The-PR-Agent/PR-Agent) | Incremental review, PR compression, self-review, configurable tools |
+| **GStack** | [garrytan/gstack](https://github.com/garrytan/gstack) | Upstream ability skill source |
+| **LoopX** | [LoopX-AI/loopx](https://github.com/LoopX-AI/loopx) | Skill system architecture and slash command protocol |
 
 ---
 
