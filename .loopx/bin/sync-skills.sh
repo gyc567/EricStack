@@ -147,17 +147,43 @@ cmd_execute() {
 
   if [ "$dsh_local" != "$dsh_remote" ]; then
     warn "Syncing deepseek-harness ($dsh_local → $dsh_remote)..."
-    # Clone to temp dir, extract skills, apply brand rewriting
     local tmp=$(mktemp -d)
-    git clone --depth 1 --filter=blob:none --sparse "$DSH_URL" "$tmp" 2>/dev/null
-    cd "$tmp"
-    git sparse-checkout set .agents/skills
-    # Note: brand rewriting would go here; for now we just record the commit
-    # since actual sync requires the full import pipeline
-    cd /Users/jie/code/EricStack
+    git clone --depth 1 "$DSH_URL" "$tmp" 2>/dev/null
+
+    # Apply brand rewrites to all skill markdown files
+    find "$tmp/.agents/skills" -name "*.md" | while read f; do
+      # Strip deepseek-harness path references
+      sed -i.bak \
+        -e 's/deepseek-harness/EricStack/g' \
+        -e 's/DeepSeek Harness/EricStack/g' \
+        -e 's|../../../||g' \
+        -e 's|../../||g' \
+        -e '/^\[.*\](.*\.\.\/.*)$/d' \
+        "$f"
+      rm -f "${f}.bak"
+    done
+
+    # Copy process skills (erics-process-*)
+    if [ -d "$tmp/.agents/skills/erics-process" ]; then
+      rsync -av --quiet "$tmp/.agents/skills/erics-process/" \
+        "$SKILLS_DIR/erics-process/"
+      ok "Synced process skills from deepseek-harness"
+    fi
+
+    # Copy ability skills that don't already exist in EricStack
+    if [ -d "$tmp/.agents/skills/erics-ability" ]; then
+      for skill in "$tmp/.agents/skills/erics-ability"/*/; do
+        [ -d "$skill" ] || continue
+        skill_name=$(basename "$skill")
+        if [ ! -d "$SKILLS_DIR/erics-ability/$skill_name" ]; then
+          rsync -av --quiet "$skill" "$SKILLS_DIR/erics-ability/"
+          ok "Added new ability skill: $skill_name"
+        fi
+      done
+    fi
+
     rm -rf "$tmp"
     update_state deepseek-harness "$dsh_remote"
-    ok "deepseek-harness synced."
     ((updated++))
   else
     ok "deepseek-harness: already up to date"
@@ -166,11 +192,35 @@ cmd_execute() {
   if [ "$gstack_local" != "$gstack_remote" ]; then
     warn "Syncing gstack ($gstack_local → $gstack_remote)..."
     local tmp=$(mktemp -d)
-    git clone --depth 1 --filter=blob:none --sparse "$GSTACK_URL" "$tmp" 2>/dev/null
-    cd /Users/jie/code/EricStack
+    git clone --depth 1 "$GSTACK_URL" "$tmp" 2>/dev/null
+
+    # Apply brand rewrites
+    find "$tmp/.agents/skills" -name "*.md" | while read f; do
+      sed -i.bak \
+        -e 's/gstack/EricStack/g' \
+        -e 's/GStack/EricStack/g' \
+        -e 's/Garry Tan/EricStack/g' \
+        -e 's/garry/Geric/g' \
+        -e 's|~/.gstack/|~/.loopx/|g' \
+        -e '/^_gstack_/d' \
+        "$f"
+      rm -f "${f}.bak"
+    done
+
+    # Copy new ability skills
+    if [ -d "$tmp/.agents/skills/erics-ability" ]; then
+      for skill in "$tmp/.agents/skills/erics-ability"/*/; do
+        [ -d "$skill" ] || continue
+        skill_name=$(basename "$skill")
+        if [ ! -d "$SKILLS_DIR/erics-ability/$skill_name" ]; then
+          rsync -av --quiet "$skill" "$SKILLS_DIR/erics-ability/"
+          ok "Added new ability skill: $skill_name"
+        fi
+      done
+    fi
+
     rm -rf "$tmp"
     update_state gstack "$gstack_remote"
-    ok "gstack synced."
     ((updated++))
   else
     ok "gstack: already up to date"

@@ -10,6 +10,10 @@ triggers:
   - route this
   - ericstack route
   - process review
+  - estack router
+  - 查看全部技能
+  - all skills
+  - skill index
 ---
 
 # EricStack LoopX Skill Router

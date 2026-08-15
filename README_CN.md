@@ -36,7 +36,7 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
 2. 检测我的 Agent 平台（Claude Code / Codex / PI / OpenCode / OpenClaw / Hermes Agent / OMP / JCODE）
 3. 将 ~/EricStack/.loopx/skills/ 下的所有 skills 复制到平台的 skills 目录
 4. 将我的项目上下文切换到 ~/EricStack
-5. 运行 /erics-loop-router 确认安装成功
+5. 运行 /estack 确认安装成功
 ```
 
 支持平台 / Supported platforms：
@@ -76,7 +76,8 @@ cd EricStack
 ### 3. Use Skills in Claude Code | 在 Claude Code 中使用技能
 
 ```
-/erics-loop-router     # 询问："which skill for this?" — 路由到正确技能
+/estack                # 主入口 — 显示 banner 并路由到正确技能
+/erics-loop-router     # 查看全部 26 个技能和路由规则
 ```
 
 或直接调用任何技能：/ Or invoke any skill directly:

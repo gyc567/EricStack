@@ -36,7 +36,7 @@ Install EricStack for me:
 2. Detect my agent platform (Claude Code / Codex / PI / OpenCode / OpenClaw / Hermes Agent / OMP / JCODE)
 3. Copy all skills from ~/EricStack/.loopx/skills/ to the platform's skills directory
 4. Set my project context to ~/EricStack
-5. Run /erics-loop-router to confirm the installation works
+5. Run /estack to confirm the installation works
 ```
 
 Supported platforms / 支持平台：
@@ -79,8 +79,10 @@ Download [llm_wiki](https://github.com/nashsu/llm_wiki/releases), then:
 ### 3. Use Skills in Claude Code | 在 Claude Code 中使用技能
 
 ```
-/erics-loop-router     # Ask: "which skill for this?" — routes to the right skill
-                      # 询问："which skill for this?" — 路由到正确技能
+/estack                # Main entry — shows banner and routes to the right skill
+                      # 主入口 — 显示 banner 并路由到正确技能
+/erics-loop-router     # View all 26 skills and routing rules
+                      # 查看全部 26 个技能和路由规则
 ```
 
 Or invoke any skill directly: / 或直接调用任何技能：
