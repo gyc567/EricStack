@@ -198,7 +198,7 @@ EricStack 整合借鉴了以下项目：
 | **PR Agent** | [The-PR-Agent/PR-Agent](https://github.com/The-PR-Agent/PR-Agent) | 增量审查、PR Compression、自我反思、可配置工具 |
 | **Graft** | [NanoNets/Graft](https://github.com/NanoNets/Graft) | 代码知识图谱、调用链追踪、高 token 效率的代码理解 |
 | **GStack** | [garrytan/gstack](https://github.com/garrytan/gstack) | 上游 ability skill 来源 |
-| **LoopX** | [LoopX-AI/loopx](https://github.com/LoopX-AI/loopx) | Skill 系统架构和 slash command 协议 |
+| **LoopX** | [LoopX-AI/loopx](https://github.com/huangruiteng/loopx) | Skill 系统架构和 slash command 协议 |
 
 ---
 

@@ -205,7 +205,7 @@ EricStack is inspired by and integrates ideas from these projects:
 | **PR Agent** | [The-PR-Agent/PR-Agent](https://github.com/The-PR-Agent/PR-Agent) | Incremental review, PR compression, self-review, configurable tools |
 | **Graft** | [NanoNets/Graft](https://github.com/NanoNets/Graft) | Codebase knowledge graph, call-chain tracing, token-efficient code understanding |
 | **GStack** | [garrytan/gstack](https://github.com/garrytan/gstack) | Upstream ability skill source |
-| **LoopX** | [LoopX-AI/loopx](https://github.com/LoopX-AI/loopx) | Skill system architecture and slash command protocol |
+| **LoopX** | [LoopX-AI/loopx](https://github.com/huangruiteng/loopx) | Skill system architecture and slash command protocol |
 
 ---
 
