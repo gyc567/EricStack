@@ -26,13 +26,33 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
 
 ---
 
-## Core Features | 核心特性
+## One-Click Install | 一键安装
 
-- **26 production-ready skills** / **26 个生产就绪技能** — process discipline + engineering abilities / 流程纪律 + 工程能力
-- **Compounding knowledge base** / **持续积累的知识库** — powered by [llm_wiki](https://github.com/nashsu/llm_wiki), every decision persists / 由 llm_wiki 驱动，每个决策都持久化
-- **Auto-update detection** / **自动更新检测** — checks EricStack version and upstream skill sources on every routing decision / 每次路由决策时检查 EricStack 版本和上游技能源
-- **Zero-dependency skills** / **零依赖技能** — all skills run with Read, Write, Bash, Grep — no special CLIs required / 所有技能仅使用 Read、Write、Bash、Grep，无需特殊 CLI
-- **Brand-clean** / **品牌纯净** — all `gstack-` / `dsh-` / `deepseek-harness` references removed, rebranded to EricStack / 已移除所有 gstack-/dsh-/deepseek-harness 引用，统一为 EricStack
+Paste the following into any AI agent (Claude Code / Codex / PI / OpenCode / OpenClaw / Hermes Agent / OMP / JCODE):
+
+```markdown
+Install EricStack for me:
+1. Run: git clone https://github.com/gyc567/EricStack.git ~/EricStack
+2. Detect my agent platform (Claude Code / Codex / PI / OpenCode / OpenClaw / Hermes Agent / OMP / JCODE)
+3. Copy all skills from ~/EricStack/.loopx/skills/ to the platform's skills directory
+4. Set my project context to ~/EricStack
+5. Run /erics-loop-router to confirm the installation works
+```
+
+Supported platforms / 支持平台：
+
+| Platform | Skills directory |
+|---|---|
+| Claude Code | `~/.claude/skills/` |
+| Codex (codex-app) | `~/.claude/skills/` |
+| PI | `~/.claude/skills/` |
+| OpenCode | `~/.claude/skills/` |
+| OpenClaw | `~/.claude/skills/` |
+| Hermes Agent | `~/.claude/skills/` |
+| OMP | `~/.claude/skills/` |
+| JCODE | `~/.claude/skills/` |
+
+All platforms share the same `~/.claude/skills/` directory — skills installed once work across all hosts.
 
 ---
 
@@ -80,7 +100,7 @@ Or invoke any skill directly: / 或直接调用任何技能：
 | `/erics-ability-context-restore` | Resume from saved context | 从保存的上下文恢复 |
 | `/erics-ability-upgrade` | Check for updates | 检查更新 |
 | `/erics-process-find-simplifications` | Find dead code, over-built surfaces, simplification candidates | 发现死代码、过度建设、简化候选项 |
-| `/erics-process-prose-standard` | Prose completeness + editorial discipline | prose 完整性 + 编辑纪律 |
+| `/ics-process-prose-standard` | Prose completeness + editorial discipline | prose 完整性 + 编辑纪律 |
 | `/erics-process-trim-cot-leakage` | Remove chain-of-thought leakage from docs | 去除文档中的思维链泄漏 |
 
 **See all 26 skills / 查看全部 26 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
@@ -162,7 +182,7 @@ When both apply, prefer `erics-process-*` for writing/review tasks.
 
 | File / 文件 | Language / 语言 | Description / 说明 |
 |---|---|---|
-| `README.md` | EN + CN | This file / 本文件 |
+| `README.md` | EN + CN inline | This file / 本文件 |
 | `README_CN.md` | 中文 | Standalone Chinese version / 独立中文版 |
 | `docs/TUTORIAL.md` | 中文 | Complete usage tutorial / 完整使用教程 |
 | `INTEGRATION.md` | 中文 | Full integration plan / 完整整合方案 |
