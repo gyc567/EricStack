@@ -16,6 +16,22 @@ triggers:
 
 Inspect the user's request, determine whether it maps to a **process discipline skill** (`erics-process-*`) or an **engineering ability skill** (`erics-ability-*`), and recommend the correct skill with a one-line rationale.
 
+## Startup Auto-Check
+
+On every routing decision, silently check for updates (no output if current):
+
+```bash
+LOCAL_VERSION=$(cat .loopx/VERSION 2>/dev/null || echo "")
+REMOTE_TAG=$(git ls-remote --tags https://github.com/gyc567/EricStack.git \
+  2>/dev/null | awk -F/ '{print $NF}' | grep '^v' | sort -V | tail -1 | sed 's/v//')
+if [ -n "$LOCAL_VERSION" ] && [ -n "$REMOTE_TAG" ] && [ "$LOCAL_VERSION" != "$REMOTE_TAG" ]; then
+  echo "EricStack update available: v$LOCAL_VERSION → v$REMOTE_TAG. Run /upgrade to see details."
+fi
+```
+
+Show the update notice as a one-line hint only when a new version is available.
+Skip this check if any tool call has already failed (session may be offline).
+
 ## Decision Logic
 
 ### Rule 1: Process Discipline优先于 Ability（当两者都存在时）

@@ -1,71 +1,90 @@
 ---
 name: erics-ability-upgrade
-description: Check for EricStack skill updates from upstream deepseek-harness and gstack.
+description: Check for EricStack updates and upstream skill sync status.
 triggers:
   - upgrade
   - sync skills
   - check for updates
-  - skill update
-  - update available
+  - erics update
+  - new version
 ---
 
-# /erics-ability-upgrade — Check & Sync EricStack Skills
+# /erics-ability-upgrade — EricStack Upgrade Check
 
-Check whether the local EricStack skills are up to date with upstream
-`deepseek-harness` and `gstack` repositories. Run the sync script and
-report the status.
+Check two things:
+1. **EricStack version** — is the installed version current vs GitHub latest?
+2. **Upstream skill sync** — have upstream repos (deepseek-harness, gstack) updated since last sync?
 
 ## When
 
 - User types `/upgrade` or `/sync-skills`
-- LoopX goal starts and you want to verify skill freshness
-- After a `loopx refresh-state` to confirm no upstream drift
+- Any LoopX goal start (via erics-loop-router auto-check)
 
-## What it does
+## How
 
-1. Reads `.loopx/sync-state.json` for last-synced commit per source
-2. Fetches current HEAD commit from both upstream repos (no clone needed)
-3. Compares local vs remote and reports status
-4. If updates available, explains what changed and how to sync
+### Phase 1: EricStack Version Check
 
-## Output format
-
-```
-EricStack Skill Status
-══════════════════════
-Source              Status          Local  → Remote
-──────              ──────          ─────  ────────
-deepseek-harness    UP-TO-DATE      47f9438 → 47f9438
-gstack              UPDATE AVAILABLE 008dd65 → abc1234
-
-Last checked: 2026-08-15T12:00:00Z
-
-To sync: bash .loopx/bin/sync-skills.sh --execute
+```bash
+LOCAL_VERSION=$(cat .loopx/VERSION)
+REMOTE_TAG=$(git ls-remote --tags https://github.com/gyc567/EricStack.git \
+  | awk -F/ '{print $NF}' | grep '^v' | sort -V | tail -1 | sed 's/v//')
 ```
 
-## Implementation
+Compare `LOCAL_VERSION` vs `REMOTE_TAG`.
 
-Run the sync script:
+- If equal → EricStack is current.
+- If `REMOTE_TAG` > `LOCAL_VERSION` → NEW VERSION AVAILABLE.
+
+### Phase 2: Upstream Skill Sync Check
 
 ```bash
 bash .loopx/bin/sync-skills.sh --check
 ```
 
-Parse the output. If "UPDATE AVAILABLE" appears for either source,
-show the summary and the sync command. If all are "UP-TO-DATE",
-say so and stop.
+Parse the output for "UPDATE AVAILABLE" vs "UP-TO-DATE" per source.
 
-## Important
+## Output Format
 
-- **Do NOT auto-execute sync.** The `--execute` path is destructive
-  (overwrites local skill files with upstream content). Always ask
-  the user to confirm before running `--execute`.
-- When updates are available, summarize what the user gains (new skills,
-  bug fixes, improved prompts) if possible — give them a reason to sync.
-- After any successful sync, update the skills index:
-  `bash .loopx/bin/sync-skills.sh --execute && bash .loopx/bin/reindex.sh`
+```
+EricStack Upgrade Check
+═══════════════════════════════════════
+
+📦 EricStack version
+   Installed:  v0.1.0
+   Latest:     v0.1.0  ✓  (up to date)
+
+🔄 Upstream skills
+   deepseek-harness  ✓  UP-TO-DATE  (47f9438 → 47f9438)
+   gstack            ✓  UP-TO-DATE  (008dd65b → 008dd65b)
+```
+
+If updates available:
+
+```
+📦 EricStack version
+   Installed:  v0.1.0
+   Latest:     v0.2.0  ← NEW
+   Run: git pull origin main
+
+🔄 Upstream skills
+   deepseek-harness  ⚠  UPDATE AVAILABLE  (47f9438 → abc1234)
+   gstack            ✓  UP-TO-DATE  (008dd65b → 008dd65b)
+
+   To sync upstream skills:
+   bash .loopx/bin/sync-skills.sh --execute
+```
+
+## Error Handling
+
+If GitHub is unreachable:
+- Report BLOCKED with "Network error — could not reach GitHub."
+- Do not crash on malformed tag output.
+- Treat empty remote tag as "could not determine."
 
 ## Completion
 
-Report DONE with current status, or DONE_WITH_CONCERNS if the check
-failed (network error, GitHub unreachable).
+- All current → DONE
+- EricStack update available → DONE with recommendation to `git pull`
+- Upstream update available → DONE with recommendation to run sync
+- Both → DONE with both recommendations
+- Network error → BLOCKED
