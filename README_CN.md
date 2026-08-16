@@ -33,13 +33,13 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
 ```markdown
 帮我安装 EricStack：
 1. 运行：git clone https://github.com/gyc567/EricStack.git ~/EricStack
-2. 检测我的 Agent 平台（Claude Code / Codex / PI / OpenCode / OpenClaw / Hermes Agent / OMP / JCODE）
-3. 将 ~/EricStack/.loopx/skills/ 下的所有 skills 复制到平台的 skills 目录
-4. 将我的项目上下文切换到 ~/EricStack
-5. 如果 Node.js 可用（运行：node --version && npm --version）：
+2. 运行：bash ~/EricStack/.loopx/bin/install-ericsstack.sh
+   （这会将全部 38 个 skills 以扁平目录结构复制到 ~/.claude/skills/）
+3. 将我的项目上下文切换到 ~/EricStack
+4. 如果 Node.js 可用（运行：node --version && npm --version）：
    - 运行：npm install -g @nanonets/graft && graft init --agents claude
    -（如果 Graft 安装失败，跳过即可 — EricStack 不依赖 Graft）
-6. 运行 /estack 确认安装成功
+5. 运行 /estack 确认安装成功
 ```
 
 支持平台 / Supported platforms：
