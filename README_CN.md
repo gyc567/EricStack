@@ -202,6 +202,26 @@ EricStack 整合借鉴了以下项目：
 
 ---
 
+## 关于作者
+
+**ERIC** — AI技术专家，专注于人工智能和自动化工具的研究与应用
+
+### 🔗 联系方式与平台
+
+| 平台 | 链接 |
+|---|---|
+| 📧 邮箱 | gyc567@gmail.com |
+| 🐦 Twitter | [@EricBlock2100](https://twitter.com/EricBlock2100) |
+| 💬 微信 | 360369487 |
+| 📱 Telegram | https://t.me/fatoshi_block |
+| 📢 Telegram 频道 | https://t.me/cryptochanneleric |
+| 👥 加密情报 TG 群 | https://t.me/btcgogopen |
+| 🎥 YouTube 频道 | https://www.youtube.com/@0XBitFinance |
+| 🌐 个人技术博客 | https://www.topdigg.com/ |
+| 📖 公众号 | 比特财商（微信公众号）|
+
+---
+
 ## License | 许可证
 
 MIT License — see [`LICENSE`](LICENSE)

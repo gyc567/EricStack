@@ -85,7 +85,7 @@ Download [llm_wiki](https://github.com/nashsu/llm_wiki/releases), then:
 /estack                # Main entry — shows banner and routes to the right skill
                       # 主入口 — 显示 banner 并路由到正确技能
 /erics-loop-router     # View all 36 skills and routing rules
-                      # 查看全部 33 个技能和路由规则
+                      # 查看全部 36 个技能和路由规则
 ```
 
 Or invoke any skill directly: / 或直接调用任何技能：
@@ -206,6 +206,26 @@ EricStack is inspired by and integrates ideas from these projects:
 | **Graft** | [NanoNets/Graft](https://github.com/NanoNets/Graft) | Codebase knowledge graph, call-chain tracing, token-efficient code understanding |
 | **GStack** | [garrytan/gstack](https://github.com/garrytan/gstack) | Upstream ability skill source |
 | **LoopX** | [huangruiteng/loopx](https://github.com/huangruiteng/loopx) | Skill system architecture and slash command protocol |
+
+---
+
+## About the Author | 关于作者
+
+**ERIC** — AI技术专家，专注于人工智能和自动化工具的研究与应用
+
+### 🔗 Contact & Platforms | 联系方式与平台
+
+| Platform | Link |
+|---|---|
+| 📧 Email | gyc567@gmail.com |
+| 🐦 Twitter | [@EricBlock2100](https://twitter.com/EricBlock2100) |
+| 💬 WeChat | 360369487 |
+| 📱 Telegram | https://t.me/fatoshi_block |
+| 📢 Telegram Channel | https://t.me/cryptochanneleric |
+| 👥 Crypto TG Group | https://t.me/btcgogopen |
+| 🎥 YouTube | https://www.youtube.com/@0XBitFinance |
+| 🌐 Personal Blog | https://www.topdigg.com/ |
+| 📖 WeChat Official Account | 比特财商（微信公众号）|
 
 ---
 

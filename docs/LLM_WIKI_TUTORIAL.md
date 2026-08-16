@@ -373,3 +373,23 @@ llm_wiki：查之前是否有过类似问题的记录
 - [完整使用教程](./TUTORIAL.md)
 - [技能索引](../.loopx/erics-skills-index.md)
 - [Karpathy's LLM Wiki 原始设计](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
+
+---
+
+## 关于作者
+
+**ERIC** — AI技术专家，专注于人工智能和自动化工具的研究与应用
+
+### 🔗 联系方式与平台
+
+| 平台 | 链接 |
+|---|---|
+| 📧 邮箱 | gyc567@gmail.com |
+| 🐦 Twitter | [@EricBlock2100](https://twitter.com/EricBlock2100) |
+| 💬 微信 | 360369487 |
+| 📱 Telegram | https://t.me/fatoshi_block |
+| 📢 Telegram 频道 | https://t.me/cryptochanneleric |
+| 👥 加密情报 TG 群 | https://t.me/btcgogopen |
+| 🎥 YouTube 频道 | https://www.youtube.com/@0XBitFinance |
+| 🌐 个人技术博客 | https://www.topdigg.com/ |
+| 📖 公众号 | 比特财商（微信公众号）|
