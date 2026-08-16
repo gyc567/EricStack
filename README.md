@@ -62,7 +62,7 @@ All platforms share the same `~/.claude/skills/` directory — skills installed 
 
 ## Uninstall | 卸载
 
-To completely remove EricStack from your system:
+Paste the following to uninstall EricStack:
 
 ```markdown
 Uninstall EricStack for me:
