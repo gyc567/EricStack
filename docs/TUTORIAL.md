@@ -8,6 +8,7 @@
 ## 目录
 
 1. [概念入门](#1-概念入门)
+   - [1.4 LoopX 与 EricStack 的关系](#14-loopx-与-ericsstack-的关系)
 2. [路由系统：如何找到正确的技能](#2-路由系统如何找到正确的技能)
 3. [纪律技能详解](#3-纪律技能详解)
 4. [能力技能详解](#4-能力技能详解)
@@ -53,6 +54,40 @@ AI 让边际成本趋近于零，所以做完整的事情是目标。不要只�
 
 每个技能都是一个闭环：有输入、有过程、有输出、有验证。没有闭环的流程是无效的。
 
+### 1.4 LoopX 与 EricStack 的关系
+
+EricStack 是跑在 **LoopX** 平台上的工程技能集合。两者定位不同：
+
+| 维度 | `/loopx` | `/estack` |
+|---|---|---|
+| **层级** | LoopX 框架层 | EricStack 应用层 |
+| **用途** | 目标管理 + 生命周期 | 技能路由 + banner 展示 |
+| **持久化** | goal / todo / quota 跨 session | 仅当前 session 技能路由 |
+| **触发方式** | 长期目标、项目级任务 | 快速任务、不知道用哪个 skill |
+| **是否需要 goal** | 是 | 否 |
+
+**典型使用场景：**
+
+```
+# 场景 1：不知道该用什么技能
+/estack
+→ 描述需求："帮我 review 这个 PR"
+→ 路由到 erics-process-code-review
+
+# 场景 2：启动目标驱动的会话
+/loopx auto-research 审计下所有代码
+→ LoopX 创建 goal，建立 todo，持久化状态
+→ agent 内部调用具体 skill 执行任务
+→ /loopx refresh-state 更新进度
+
+# 场景 3：日常工程任务（不需要 LoopX goal）
+/erics-ability-investigate           # debug
+/erics-process-code-review           # review
+/erics-process-acceptance-pipeline run features/**/*.feature  # APS 管道
+```
+
+**简单说：** `/loopx` 管"做什么项目的什么目标"，`/estack` 管"这个任务用哪个 skill"。
+
 ---
 
 ## 2. 路由系统：如何找到正确的技能
@@ -87,6 +122,10 @@ AI 让边际成本趋近于零，所以做完整的事情是目标。不要只�
 | 做回顾 | `erics-ability-retro` | 周迭代 + shipping streaks |
 | 保存进度 | `erics-ability-context-save` | git 状态 + 决策 + 剩余工作 |
 | 恢复进度 | `erics-ability-context-restore` | 跨 workspace 恢复 |
+| 完整 APS 验收管道 | `erics-process-acceptance-pipeline` | 解析→DRY检查→生成→运行→变异测试 |
+| Gherkin 验收测试 | `erics-ability-bdd` | 编写 .feature + 解析为 JSON IR |
+| 源码变异测试 | `erics-process-mutation` | 验证测试真正有效（存活率 <5%） |
+| 测试运行适配 | `erics-ability-test-runner` | 框架适配器（JUnit5/Pytest/Behave 等） |
 
 ### 2.3 路由例外规则
 
