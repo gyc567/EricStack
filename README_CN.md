@@ -32,15 +32,17 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
 
 ```markdown
 帮我安装 EricStack：
-1. 运行：git clone https://github.com/gyc567/EricStack.git ~/EricStack
-2. 运行：bash ~/EricStack/.loopx/bin/install-ericsstack.sh
+1. 安装 LoopX（必需）：
+   curl -fsSL https://huangruiteng.github.io/loopx/install.sh | bash
+2. 运行：git clone https://github.com/gyc567/EricStack.git ~/EricStack
+3. 运行：bash ~/EricStack/.loopx/bin/install-ericsstack.sh
    （这会将全部 40 个 skills 以扁平目录结构复制到 ~/.claude/skills/）
-3. 将我的项目上下文切换到 ~/EricStack
-4. 如果 Node.js 可用（运行：node --version && npm --version）：
+4. 将我的项目上下文切换到 ~/EricStack
+5. 如果 Node.js 可用（运行：node --version && npm --version）：
    - 运行：npm install -g @nanonets/graft && graft init --agents claude
    -（如果 Graft 安装失败，跳过即可 — EricStack 不依赖 Graft）
-5. 运行 /estack 确认安装成功
-6. 运行 /estack-upgrade 升级到最新版本（每次更新后）
+6. 运行 /estack 确认安装成功
+7. 运行 /estack-upgrade 升级到最新版本（每次更新后）
 ```
 
 支持平台 / Supported platforms：
