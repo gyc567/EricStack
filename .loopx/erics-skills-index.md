@@ -2,7 +2,7 @@
 
 > Auto-generated. Do not edit manually.
 
-Total: 36 skills
+Total: 38 skills
 
 ## autoplan
 *Kind:* `ability`
@@ -185,6 +185,17 @@ Total: 36 skills
   - `PR 改进`
   - `suggest improvements`
 
+## erics-ability-test-runner
+*Kind:* `ability`
+*Dir:* `skills/erics-ability/erics-ability-test-runner/SKILL.md`
+*Description:* Use when you need to execute APS-generated acceptance tests against a real test framework — adapts the framework-agnostic JSON IR to JUnit 5, Pytest, Behave, Go testing, Jest, or RSpec, with per-scenario world isolation, sandboxed step handlers, and structured run reports.
+*Triggers:*
+  - `test runner`
+  - `run acceptance tests`
+  - `run gherkin`
+  - `验收测试运行`
+  - `aps runner`
+
 ## erics-ability-upgrade
 *Kind:* `ability`
 *Dir:* `skills/erics-ability/erics-ability-upgrade/SKILL.md`
@@ -206,6 +217,17 @@ Total: 36 skills
   - `route this`
   - `ericstack route`
   - `process review`
+
+## erics-process-acceptance-pipeline
+*Kind:* `process`
+*Dir:* `skills/erics-process/erics-process-acceptance-pipeline/SKILL.md`
+*Description:* Orchestrates the Acceptance Pipeline Specification (APS) — a deterministic 7-stage pipeline that turns Gherkin features into mutation-tested, verified acceptance tests. Coordinates stage 0 spec lint through stage 6 failure diagnosis, enforces DRY and mutation quality gates, and caches intermediate artifacts for fast incremental runs.
+*Triggers:*
+  - `acceptance pipeline`
+  - `APS`
+  - `run pipeline`
+  - `pipeline run`
+  - `验收流水线`
 
 ## erics-process-archive-agent-notes
 *Kind:* `process`

@@ -1,8 +1,8 @@
 # EricStack
 
-**AI-native engineering loop system — 36 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
+**AI-native engineering loop system — 38 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
-**AI 原生工程循环系统 — 36 个技能，覆盖计划、审查、简化、文档和知识积累。**
+**AI 原生工程循环系统 — 38 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
 > EricStack transforms a project into a compounding engineering intelligence. Every decision, review, and discussion becomes a persistent wiki page. Every process is a closed loop.
 >
@@ -12,14 +12,14 @@
 
 ## What Is EricStack? | 什么是 EricStack？
 
-EricStack is a LoopX-powered skill system for engineering teams. It provides **36 skills** organized in two tiers:
+EricStack is a LoopX-powered skill system for engineering teams. It provides **38 skills** organized in two tiers:
 
-EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **36 个技能**，分为两个层级：
+EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **38 个技能**，分为两个层级：
 
 | Tier / 层级 | Count / 数量 | Purpose / 用途 |
 |---|---|---|
-| `erics-process-*` (Discipline / 纪律) | 12 | Enforce standards — code review, prose quality, docs, simplification / 执行标准 — 代码审查、prose 质量、文档、简化 |
-| `erics-ability-*` (Action / 能力) | 23 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
+| `erics-process-*` (Discipline / 纪律) | 13 | Enforce standards — code review, prose quality, docs, simplification / 执行标准 — 代码审查、prose 质量、文档、简化 |
+| `erics-ability-*` (Action / 能力) | 24 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
 
 Skills run inside Claude Code (or any LoopX-compatible host). No separate server, no daemon, no API keys required for the skill system itself.
 技能运行在 Claude Code（或任何兼容 LoopX 的 host）中。技能系统本身无需独立服务器、无需守护进程、无需额外 API key。
@@ -105,7 +105,8 @@ Or invoke any skill directly: / 或直接调用任何技能：
 | `/erics-ability-context-restore` | Resume from saved context | 从保存的上下文恢复 |
 | `/erics-ability-upgrade` | Check for updates | 检查更新 |
 | `/erics-process-find-simplifications` | Find dead code, over-built surfaces, simplification candidates | 发现死代码、过度建设、简化候选项 |
-| `/ics-process-prose-standard` | Prose completeness + editorial discipline | prose 完整性 + 编辑纪律 |
+| `/erics-process-acceptance-pipeline` | Run full APS pipeline: parse → DRY check → generate → run → mutate | 完整 APS 验收管道：解析→DRY检查→生成→运行→变异测试 |
+| `/erics-process-mutation` | Source code mutation testing: prove tests are real | 源码变异测试：验证测试有效性 |
 | `/erics-process-trim-cot-leakage` | Remove chain-of-thought leakage from docs | 去除文档中的思维链泄漏 |
 
 **See all 36 skills / 查看全部 36 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
@@ -119,8 +120,8 @@ EricStack/
 ├── .loopx/
 │   ├── skills/
 │   │   ├── erics-loop-router/      # Skill router / 技能路由器
-│   │   ├── erics-process-* (×12)  # Discipline skills / 纪律技能
-│   │   └── erics-ability-* (×23)  # Action skills / 能力技能
+│   │   ├── erics-process-* (×13)  # Discipline skills / 纪律技能
+│   │   └── erics-ability-* (×24)  # Action skills / 能力技能
 │   ├── wiki/                       # LLM Wiki knowledge base / LLM Wiki 知识库
 │   │   ├── concepts/              # Concept pages / 概念页面
 │   │   ├── entities/              # Decision records / 决策记录
@@ -191,6 +192,7 @@ When both apply, prefer `erics-process-*` for writing/review tasks.
 | `README_CN.md` | 中文 | Standalone Chinese version / 独立中文版 |
 | `docs/TUTORIAL.md` | 中文 | Complete usage tutorial / 完整使用教程 |
 | `docs/LLM_WIKI_TUTORIAL.md` | 中文 | LLM Wiki knowledge base guide / LLM Wiki 知识库使用教程 |
+| `docs/APS_INTEGRATION.md` | 中文 | APS integration plan / APS 整合方案 |
 | `INTEGRATION.md` | 中文 | Full integration plan / 完整整合方案 |
 | `.loopx/llm-wiki-integration.md` | 中文 | LLM Wiki integration guide / LLM Wiki 整合指南 |
 
