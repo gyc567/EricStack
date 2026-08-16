@@ -34,12 +34,13 @@ Paste the following into any AI agent (Claude Code / Codex / PI / OpenCode / Ope
 Install EricStack for me:
 1. Run: git clone https://github.com/gyc567/EricStack.git ~/EricStack
 2. Run: bash ~/EricStack/.loopx/bin/install-ericsstack.sh
-   (This copies all 38 skills as flat directories to ~/.claude/skills/)
+   (This copies all 40 skills as flat directories to ~/.claude/skills/)
 3. Set my project context to ~/EricStack
 4. If Node.js is available (run: node --version && npm --version):
    - Run: npm install -g @nanonets/graft && graft init --agents claude
    - (If Graft install fails, skip it — EricStack works without Graft)
 5. Run /estack to confirm the installation works
+6. Run /estack-upgrade to upgrade to latest (after any update)
 ```
 
 Supported platforms / 支持平台：
