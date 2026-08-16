@@ -60,6 +60,20 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
 
 ---
 
+## 卸载 | Uninstall
+
+完全移除 EricStack：
+
+```markdown
+帮我卸载 EricStack：
+1. 运行：bash ~/EricStack/.loopx/bin/uninstall-ericsstack.sh
+2.（可选）运行：rm -rf ~/EricStack
+```
+
+这会从 `~/.claude/skills/` 删除全部 40 个 skills，并解除 LoopX 运行时的链接。
+
+---
+
 ## Quick Start | 快速上手
 
 ### 1. Clone | 克隆

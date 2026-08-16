@@ -60,6 +60,20 @@ All platforms share the same `~/.claude/skills/` directory — skills installed 
 
 ---
 
+## Uninstall | 卸载
+
+To completely remove EricStack from your system:
+
+```markdown
+Uninstall EricStack for me:
+1. Run: bash ~/EricStack/.loopx/bin/uninstall-ericsstack.sh
+2. (Optional) Run: rm -rf ~/EricStack
+```
+
+This removes all 40 skills from `~/.claude/skills/` and unlinks the LoopX runtime.
+
+---
+
 ## Quick Start | 快速上手
 
 ### 1. Clone | 克隆
