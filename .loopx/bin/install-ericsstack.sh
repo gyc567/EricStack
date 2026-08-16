@@ -103,6 +103,43 @@ Run `/erics-loop-router` to see all 38 skills.
 ESTACK
 echo "  [OK] estack (slash command entry)"
 
+# /estack-upgrade top-level slash command
+mkdir -p "$SKILLS_DEST/estack-upgrade"
+cat > "$SKILLS_DEST/estack-upgrade/SKILL.md" << 'UPGRADE'
+---
+name: estack-upgrade
+description: Upgrade all EricStack skills, scripts, and docs to the latest version from GitHub.
+triggers:
+  - estack-upgrade
+  - /estack-upgrade
+  - upgrade ericstack
+  - update ericstack
+  - 升级 ericstack
+---
+
+# /estack-upgrade — Upgrade EricStack
+
+## One-Command Upgrade
+
+```bash
+cd ~/EricStack && git pull origin main && bash .loopx/bin/install-ericsstack.sh
+```
+
+## What Gets Upgraded
+
+- All 39 skills (linked from latest `.loopx/skills/`)
+- `install-ericsstack.sh` script
+- APS infrastructure (`.loopx/acceptance-pipeline/`)
+- Wiki knowledge base (`.loopx/wiki/`)
+- All docs (`README.md`, `docs/*.md`)
+
+## Before Upgrading
+
+- Commit or stash local changes to `.loopx/` or `docs/`
+- Upstream changes will overwrite local `.loopx/`
+UPGRADE
+echo "  [OK] estack-upgrade (slash command entry)"
+
 # 4. LoopX registration
 echo ""
 echo "[3/3] LoopX registration..."
@@ -113,7 +150,7 @@ else
 fi
 
 echo ""
-count=$(ls -d "$SKILLS_DEST"/erics-* "$SKILLS_DEST"/estack 2>/dev/null | wc -l | tr -d ' ')
+count=$(ls -d "$SKILLS_DEST"/erics-* "$SKILLS_DEST"/estack "$SKILLS_DEST"/estack-upgrade 2>/dev/null | wc -l | tr -d ' ')
 echo "Installed $count skills"
 echo ""
 echo "Run /estack to verify!"
