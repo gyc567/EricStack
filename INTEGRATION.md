@@ -351,6 +351,20 @@ gh api repos/garrytan/gstack/contents --jq '.[].name' | grep -v '^\.'
 
 ---
 
+## 相关文档
+
+| 文档 | 说明 |
+|---|---|
+| `README.md` | 主文档（EN + CN） |
+| `docs/TUTORIAL.md` | 完整使用教程 |
+| `docs/APS_INTEGRATION.md` | APS 整合方案（Acceptance Pipeline Specification） |
+| `docs/LLM_WIKI_TUTORIAL.md` | LLM Wiki 知识库使用教程 |
+| `.loopx/llm-wiki-integration.md` | LLM Wiki 整合指南 |
+| `.loopx/erics-skills-index.md` | 技能索引 |
+| `.loopx/wiki/concepts/acceptance-pipeline.md` | APS 概念 wiki 页 |
+
+---
+
 ## 关于作者
 
 **ERIC** — AI技术专家，专注于人工智能和自动化工具的研究与应用

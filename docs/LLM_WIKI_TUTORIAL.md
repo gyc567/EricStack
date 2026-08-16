@@ -38,7 +38,7 @@ LLM Wiki：
 
 ## 2. 为什么需要知识库
 
-EricStack 有 36 个 skills，每个 skill 都是一个工程流程的最佳实践。如果没有知识库：
+EricStack 有 38 个 skills，每个 skill 都是一个工程流程的最佳实践。如果没有知识库：
 
 - 每次 session 结束后决策消失
 - 团队成员无法复用之前的工程判断
@@ -371,6 +371,7 @@ llm_wiki：查之前是否有过类似问题的记录
 
 - [LLM Wiki 整合说明](../.loopx/llm-wiki-integration.md)
 - [完整使用教程](./TUTORIAL.md)
+- [APS 整合方案](../docs/APS_INTEGRATION.md)
 - [技能索引](../.loopx/erics-skills-index.md)
 - [Karpathy's LLM Wiki 原始设计](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)
 

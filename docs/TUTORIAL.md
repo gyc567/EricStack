@@ -22,7 +22,7 @@
 
 ### 1.1 EricStack 是什么
 
-EricStack 是一个基于 **LoopX** 的工程循环系统。它提供 36 个技能（skills），覆盖工程生命周期的每个环节：
+EricStack 是一个基于 **LoopX** 的工程循环系统。它提供 38 个技能（skills），覆盖工程生命周期的每个环节：
 
 ```
 想法 → 计划 → 审查 → 代码 → 发版 → 回顾 → 知识沉淀
@@ -34,8 +34,8 @@ EricStack 是一个基于 **LoopX** 的工程循环系统。它提供 36 个技�
 
 | 层级 | 命名模式 | 数量 | 本质 |
 |---|---|---|---|
-| **纪律（Process）** | `erics-process-*` | 12 | 无论你想不想做，都应该做 |
-| **能力（Ability）** | `erics-ability-*` | 23 | 你选择做的时候，有工具支撑 |
+| **纪律（Process）** | `erics-process-*` | 13 | 无论你想不想做，都应该做 |
+| **能力（Ability）** | `erics-ability-*` | 24 | 你选择做的时候，有工具支撑 |
 
 **纪律技能**确保工程质量，**能力技能**帮你执行具体工作。
 
@@ -482,6 +482,7 @@ cat .loopx/VERSION
 | 文档 | 说明 |
 |---|---|
 | `INTEGRATION.md` | 双库整合方案完整说明 |
+| `docs/APS_INTEGRATION.md` | APS 整合方案（Acceptance Pipeline Specification） |
 | `.loopx/llm-wiki-integration.md` | LLM Wiki 整合说明 |
 | `.loopx/erics-mapping.md` | 路径锚点映射 |
 
