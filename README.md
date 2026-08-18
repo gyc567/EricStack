@@ -1,8 +1,8 @@
 # EricStack
 
-**AI-native engineering loop system — 38 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
+**AI-native engineering loop system — 40 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
-**AI 原生工程循环系统 — 38 个技能，覆盖计划、审查、简化、文档和知识积累。**
+**AI 原生工程循环系统 — 40 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
 > EricStack transforms a project into a compounding engineering intelligence. Every decision, review, and discussion becomes a persistent wiki page. Every process is a closed loop.
 >

@@ -1,17 +1,24 @@
 #!/bin/bash
 set -e
 
-# Resolve EricStack location
-if [ -d "/Users/jie/code/EricStack/.loopx" ]; then
-  ERICSTACK_DIR="/Users/jie/code/EricStack"
-elif [ -d "$HOME/EricStack/.loopx" ]; then
-  ERICSTACK_DIR="$HOME/EricStack"
-elif [ -d "$HOME/code/EricStack/.loopx" ]; then
-  ERICSTACK_DIR="$HOME/code/EricStack"
-else
-  echo "Error: EricStack not found."
-  echo "Run: git clone https://github.com/gyc567/EricStack.git ~/EricStack"
-  exit 1
+# Resolve EricStack location using script-relative path
+# This is more reliable than hardcoded user paths
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ERICSTACK_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+# Validate we found the right directory
+if [ ! -d "$ERICSTACK_DIR/.loopx" ]; then
+  # Fallback: try common locations
+  if [ -d "$HOME/EricStack/.loopx" ]; then
+    ERICSTACK_DIR="$HOME/EricStack"
+  elif [ -d "$HOME/code/EricStack/.loopx" ]; then
+    ERICSTACK_DIR="$HOME/code/EricStack"
+  else
+    echo "Error: EricStack .loopx directory not found."
+    echo "Expected at: $ERICSTACK_DIR/.loopx"
+    echo "Run: git clone https://github.com/gyc567/EricStack.git ~/EricStack"
+    exit 1
+  fi
 fi
 
 SKILLS_DEST="${SKILLS_DEST:-$HOME/.claude/skills}"
