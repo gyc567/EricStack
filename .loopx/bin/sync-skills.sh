@@ -147,25 +147,29 @@ cmd_execute() {
 
   if [ "$dsh_local" != "$dsh_remote" ]; then
     warn "Syncing deepseek-harness ($dsh_local → $dsh_remote)..."
-    local tmp=$(mktemp -d)
+    local tmp
+    tmp=$(mktemp -d "/tmp/ericstack-dsh-$$-$RANDOM-XXXX")
     git clone --depth 1 "$DSH_URL" "$tmp" 2>/dev/null
 
     # Apply brand rewrites to all skill markdown files
-    find "$tmp/.agents/skills" -name "*.md" | while read f; do
+    # Use sed with proper cross-platform -i handling (BSD sed requires '' for no backup)
+    find "$tmp/.agents/skills" -name "*.md" | while IFS= read -r f; do
       # Strip deepseek-harness path references
-      sed -i.bak \
+      # Only modify markdown content, not code blocks or URLs
+      sed -i '' \
+        -e '/```/,/```/b' \
         -e 's/deepseek-harness/EricStack/g' \
         -e 's/DeepSeek Harness/EricStack/g' \
-        -e 's|../../../||g' \
-        -e 's|../../||g' \
-        -e '/^\[.*\](.*\.\.\/.*)$/d' \
+        -e 's/Deepseek-harness/EricStack/g' \
+        -e 's|\.\./\.\./||g' \
+        -e 's|\.\./||g' \
+        -e '/^\[.*\](\.*\/.*)$/d' \
         "$f"
-      rm -f "${f}.bak"
     done
 
     # Copy process skills (erics-process-*)
     if [ -d "$tmp/.agents/skills/erics-process" ]; then
-      rsync -av --quiet "$tmp/.agents/skills/erics-process/" \
+      rsync -av --delete --quiet "$tmp/.agents/skills/erics-process/" \
         "$SKILLS_DIR/erics-process/"
       ok "Synced process skills from deepseek-harness"
     fi
@@ -184,27 +188,30 @@ cmd_execute() {
 
     rm -rf "$tmp"
     update_state deepseek-harness "$dsh_remote"
-    ((updated++))
+    # Use arithmetic that works with set -e (avoids ((0++)) returning exit 1)
+    updated=$((updated + 1))
   else
     ok "deepseek-harness: already up to date"
   fi
 
   if [ "$gstack_local" != "$gstack_remote" ]; then
     warn "Syncing gstack ($gstack_local → $gstack_remote)..."
-    local tmp=$(mktemp -d)
+    local tmp
+    tmp=$(mktemp -d "/tmp/ericstack-gstack-$$-$RANDOM-XXXX")
     git clone --depth 1 "$GSTACK_URL" "$tmp" 2>/dev/null
 
-    # Apply brand rewrites
-    find "$tmp/.agents/skills" -name "*.md" | while read f; do
-      sed -i.bak \
-        -e 's/gstack/EricStack/g' \
+    # Apply brand rewrites (only in markdown text, not code blocks)
+    find "$tmp/.agents/skills" -name "*.md" | while IFS= read -r f; do
+      sed -i '' \
+        -e '/```/,/```/b' \
+        -e 's/\bgstack\b/EricStack/g' \
+        -e 's/\bGStack\b/EricStack/g' \
         -e 's/GStack/EricStack/g' \
         -e 's/Garry Tan/EricStack/g' \
-        -e 's/garry/Geric/g' \
+        -e 's/garry\b/Geric/g' \
         -e 's|~/.gstack/|~/.loopx/|g' \
         -e '/^_gstack_/d' \
         "$f"
-      rm -f "${f}.bak"
     done
 
     # Copy new ability skills
@@ -213,7 +220,7 @@ cmd_execute() {
         [ -d "$skill" ] || continue
         skill_name=$(basename "$skill")
         if [ ! -d "$SKILLS_DIR/erics-ability/$skill_name" ]; then
-          rsync -av --quiet "$skill" "$SKILLS_DIR/erics-ability/"
+          rsync -av --delete --quiet "$skill" "$SKILLS_DIR/erics-ability/"
           ok "Added new ability skill: $skill_name"
         fi
       done
@@ -221,7 +228,7 @@ cmd_execute() {
 
     rm -rf "$tmp"
     update_state gstack "$gstack_remote"
-    ((updated++))
+    updated=$((updated + 1))
   else
     ok "gstack: already up to date"
   fi
