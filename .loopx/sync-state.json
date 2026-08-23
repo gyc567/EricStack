@@ -1,6 +1,6 @@
 {
-  "schema_version": "1.0",
-  "updated_at": "2026-08-15T12:00:00+08:00",
+  "schema_version": "2.0",
+  "updated_at": "2026-08-23T00:00:00+08:00",
   "sources": {
     "deepseek-harness": {
       "url": "https://github.com/deepseek-ai/deepseek-harness.git",
@@ -18,7 +18,8 @@
         "erics-process-translate-docs",
         "erics-process-trim-cot-leakage"
       ],
-      "last_sync": "2026-08-15T12:00:00+08:00"
+      "last_sync": "2026-08-15T12:00:00+08:00",
+      "notes": "11 upstream-derived skills. Run sync-skills.sh --check to detect upstream changes."
     },
     "gstack": {
       "url": "https://github.com/garrytan/gstack.git",
@@ -40,7 +41,62 @@
         "erics-ability-retro",
         "erics-ability-spec"
       ],
-      "last_sync": "2026-08-15T12:00:00+08:00"
+      "last_sync": "2026-08-15T12:00:00+08:00",
+      "notes": "15 upstream-derived skills. Note: gstack repo has 49 skills total; only A-grade (body clean, no gstack daemon deps) are imported."
+    },
+    "local": {
+      "url": null,
+      "commit": null,
+      "skills_imported": [
+        "erics-process-acceptance-pipeline",
+        "erics-process-mutation",
+        "erics-ability-bdd",
+        "erics-ability-test-runner",
+        "erics-ability-estack",
+        "erics-ability-graft",
+        "erics-ability-upgrade",
+        "erics-ability-pr-ask",
+        "erics-ability-pr-changelog",
+        "erics-ability-pr-describe",
+        "erics-ability-pr-improve",
+        "erics-ability-grill-me",
+        "erics-ability-grill-with-docs",
+        "erics-ability-wayfinder",
+        "erics-loop-router"
+      ],
+      "last_modified": "2026-08-23T00:00:00+08:00",
+      "notes": "15 locally-authored skills (added 3 from mattpocock/skills grilling family: grill-me, grill-with-docs, wayfinder). PROTECTED — sync-skills.sh must NEVER overwrite these. See protected_skills field."
     }
+  },
+  "protected_skills": [
+    "erics-process-acceptance-pipeline",
+    "erics-process-mutation",
+    "erics-ability-bdd",
+    "erics-ability-test-runner",
+    "erics-ability-estack",
+    "erics-ability-graft",
+    "erics-ability-upgrade",
+    "erics-ability-pr-ask",
+    "erics-ability-pr-changelog",
+    "erics-ability-pr-describe",
+    "erics-ability-pr-improve",
+    "erics-ability-grill-me",
+    "erics-ability-grill-with-docs",
+    "erics-ability-wayfinder",
+    "erics-loop-router"
+  ],
+  "totals": {
+    "deepseek-harness_imported": 11,
+    "gstack_imported": 15,
+    "local": 15,
+    "total_skills": 41,
+    "verify_with": "find .loopx/skills -name SKILL.md | wc -l"
+  },
+  "sync_policy": {
+    "check_interval_days": 7,
+    "auto_apply": false,
+    "require_user_confirm": true,
+    "protect_local_skills": true,
+    "checksum_verify": true
   }
 }

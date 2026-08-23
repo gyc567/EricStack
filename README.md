@@ -1,6 +1,6 @@
 # EricStack
 
-**AI-native engineering loop system — 40 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
+**AI-native engineering loop system — 41 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
 **AI 原生工程循环系统 — 40 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
@@ -10,9 +10,80 @@
 
 ---
 
+## Project Positioning | 项目定位
+
+EricStack is **a skill metadata project + engineering toolkit**, not a standalone application. The repository itself contains:
+
+| Component | Count | Purpose |
+|---|---|---|
+| SKILL.md files | 41 | Reusable AI skills (process discipline + engineering ability) |
+| .loopx/bin/ scripts | 4 | install / uninstall / sync / aps installer |
+| .loopx/acceptance-pipeline/ | 1 | APS framework config (7-stage pipeline spec) |
+| `src/main.rs` | 1 | Rust placeholder — see [`src/README.md`](src/README.md) |
+| `docs/` | 4 | Tutorial, audit, integration plans, wiki reference |
+
+EricStack 是一个**技能元项目 + 工具集**，不是独立应用。本仓库本身包含：
+
+| 组件 | 数量 | 用途 |
+|---|---|---|
+| SKILL.md 文件 | 38 | 可复用 AI 技能（流程纪律 + 工程能力） |
+| .loopx/bin/ 脚本 | 4 | install / uninstall / sync / aps 安装 |
+| .loopx/acceptance-pipeline/ | 1 | APS 框架配置（7 阶段管道规范） |
+| `src/main.rs` | 1 | Rust 占位符 — 参见 [`src/README.md`](src/README.md) |
+| `docs/` | 4 | 教程、审计、整合方案、wiki 参考 |
+
+**Important:** EricStack does **not** ship a runnable application. The `src/` directory is an intentional placeholder. All skills are designed to operate on **your** codebase after installation.
+
+**重要：** EricStack **不**附送可运行的应用。`src/` 目录是**有意保留的占位符**。所有 skill 设计为在安装后对**你自己的代码库**进行操作。
+
+### Where Do Skills Get Their Power? | Skills 的力量从何而来？
+
+Skills are prompt templates + workflow rules, not code generators. They work by:
+
+1. **Reading** your project structure (files, git, conventions).
+2. **Invoking** the host's tools (`Read`, `Bash`, `Grep`, `Edit`).
+3. **Writing** artifacts (wiki pages, plan files, PRs) to your repo.
+
+Skill 是 prompt 模板 + 工作流规则 — **不是代码生成器**。它们的工作方式：
+
+1. **读取** 你的项目结构（文件、git、约定）。
+2. **调用** host 工具（`Read`、`Bash`、`Grep`、`Edit`）。
+3. **写入** 工件到你的仓库（wiki 页面、plan 文件、PR）。
+
+A skill **cannot** create, test, or mutate code that doesn't exist. For example:
+
+- `erics-ability-bdd` generates `.feature` files for *your* login form, not a demo.
+- `erics-process-mutation` runs mutation tests against *your* test suite.
+- `erics-process-acceptance-pipeline` requires *your* features and *your* step handlers.
+
+Skill **不能**为不存在的代码创建、测试或变异。例如：
+
+- `erics-ability-bdd` 为**你的**登录表单生成 `.feature` 文件，不是 demo。
+- `erics-process-mutation` 对**你的**测试套件运行变异测试。
+- `erics-process-acceptance-pipeline` 需要**你的** features 和**你的** step handlers。
+
+### What You Need to Bring | 你需要提供什么
+
+| Need | Example |
+|---|---|
+| A real codebase | Any Rust / Python / Go / TypeScript project |
+| A test framework | pytest, Jest, cargo test, go test, etc. |
+| Optional: BDD step handlers | Required for APS-generated tests to actually run |
+
+| 需要 | 示例 |
+|---|---|
+| 真实代码库 | 任意 Rust / Python / Go / TypeScript 项目 |
+| 测试框架 | pytest、Jest、cargo test、go test 等 |
+| 可选：BDD step handlers | APS 生成的测试要真正运行所必需 |
+
+If you're evaluating EricStack before integrating, see the [Quick Start tutorial](docs/TUTORIAL.md) for a 5-minute walkthrough with a sample project.
+
+如果你想在集成前评估 EricStack，请阅读 [Quick Start 教程](docs/TUTORIAL.md) 获取 5 分钟的样例项目演练。
+
+---
 ## What Is EricStack? | 什么是 EricStack？
 
-EricStack is a LoopX-powered skill system for engineering teams. It provides **38 skills** organized in two tiers:
+EricStack is a LoopX-powered skill system for engineering teams. It provides **41 skills** organized in two tiers:
 
 EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **38 个技能**，分为两个层级：
 
@@ -101,8 +172,8 @@ Download [llm_wiki](https://github.com/nashsu/llm_wiki/releases), then:
 ```
 /estack                # Main entry — shows banner and routes to the right skill
                       # 主入口 — 显示 banner 并路由到正确技能
-/erics-loop-router     # View all 36 skills and routing rules
-                      # 查看全部 36 个技能和路由规则
+/erics-loop-router     # View all 41 skills and routing rules
+                      # 查看全部 41 个技能和路由规则
 ```
 
 Or invoke any skill directly: / 或直接调用任何技能：
@@ -125,8 +196,11 @@ Or invoke any skill directly: / 或直接调用任何技能：
 | `/erics-process-acceptance-pipeline` | Run full APS pipeline: parse → DRY check → generate → run → mutate | 完整 APS 验收管道：解析→DRY检查→生成→运行→变异测试 |
 | `/erics-process-mutation` | Source code mutation testing: prove tests are real | 源码变异测试：验证测试有效性 |
 | `/erics-process-trim-cot-leakage` | Remove chain-of-thought leakage from docs | 去除文档中的思维链泄漏 |
+| `/erics-ability-grill-me` | Stateless interview: loose idea → committable decisions | 无状态访谈：模糊想法 → 可承诺决策 |
+| `/erics-ability-grill-with-docs` | Stateful grilling: reads code, writes `CONTEXT.md` + ADRs | 状态化质询：读代码库、写入 CONTEXT.md 与 ADR |
+| `/erics-ability-wayfinder` | Multi-session map: grilling inside decision tickets | 多会话编排：在决策工单里运行质询 |
 
-**See all 36 skills / 查看全部 36 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
+**See all 41 skills / 查看全部 41 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
 
 ---
 
@@ -138,7 +212,7 @@ EricStack/
 │   ├── skills/
 │   │   ├── erics-loop-router/      # Skill router / 技能路由器
 │   │   ├── erics-process-* (×13)  # Discipline skills / 纪律技能
-│   │   └── erics-ability-* (×24)  # Action skills / 能力技能
+│   │   └── erics-ability-* (×27)  # Action skills / 能力技能
 │   ├── wiki/                       # LLM Wiki knowledge base / LLM Wiki 知识库
 │   │   ├── concepts/              # Concept pages / 概念页面
 │   │   ├── entities/              # Decision records / 决策记录
@@ -210,6 +284,7 @@ When both apply, prefer `erics-process-*` for writing/review tasks.
 | `docs/TUTORIAL.md` | 中文 | Complete usage tutorial / 完整使用教程 |
 | `docs/LLM_WIKI_TUTORIAL.md` | 中文 | LLM Wiki knowledge base guide / LLM Wiki 知识库使用教程 |
 | `docs/APS_INTEGRATION.md` | 中文 | APS integration plan / APS 整合方案 |
+| `docs/GRILLING_SUITE.md` | EN + CN inline | Grilling family tutorial (grill-me / grill-with-docs / wayfinder) / 质询三件套教程 |
 | `INTEGRATION.md` | 中文 | Full integration plan / 完整整合方案 |
 | `.loopx/llm-wiki-integration.md` | 中文 | LLM Wiki integration guide / LLM Wiki 整合指南 |
 

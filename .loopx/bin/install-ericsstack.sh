@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# EricStack Installer — installs 38 SKILL.md files + 2 entry points.
+# EricStack Installer — installs $ACTUAL_SKILL_MD SKILL.md files + $ACTUAL_ENTRYPOINTS entry points (counts auto-computed below).
 # Idempotent: re-running is safe. Honors --dry-run / --check / --force modes.
 #
 # Usage:
@@ -48,8 +48,43 @@ if ! command -v realpath &>/dev/null; then
   echo "Error: realpath is required but not installed." >&2
   exit 1
 fi
-CANON_DEST=$(realpath --canonicalize-missing "$SKILLS_DEST")
-CANON_HOME=$(realpath --canonicalize-missing "$HOME")
+
+# Portable canonicalization shim.
+#
+# `realpath --canonicalize-missing` is a GNU coreutils extension. macOS BSD
+# `realpath` rejects the flag ("illegal option") and errors on missing paths
+# without it. Rather than require `brew install coreutils`, replicate the
+# semantics in pure shell:
+#   - Existing path  → `realpath` (works on both BSD and GNU).
+#   - Missing path   → walk up parents until one exists, resolve that, then
+#                      append the missing tail verbatim.
+canonicalize_path() {
+  local p="${1-}"
+  [ -z "$p" ] && return 0
+  if [ -e "$p" ]; then
+    realpath "$p"
+    return 0
+  fi
+  local missing="" probe="$p"
+  while [ ! -e "$probe" ]; do
+    local base="${probe##*/}"
+    probe="${probe%"$base"}"
+    probe="${probe%/}"
+    missing="/${base}${missing}"
+    if [ "$probe" = "/" ] || [ -z "$probe" ]; then
+      [ -z "$probe" ] && probe="."
+      break
+    fi
+  done
+  if [ -e "$probe" ]; then
+    printf '%s%s\n' "$(realpath "$probe")" "$missing"
+  else
+    printf '%s\n' "$p"
+  fi
+}
+
+CANON_DEST=$(canonicalize_path "$SKILLS_DEST")
+CANON_HOME=$(canonicalize_path "$HOME")
 
 case "$CANON_DEST" in
   ""|/|"$CANON_HOME")
@@ -248,7 +283,10 @@ triggers:
 
 ```
 ╔══════════════════════════════════════════════════════╗
-║  EricStack  v0.1.0  |  40 skills  |  AI-Native Loop  ║
+ESTACK
+    printf '║  EricStack  v0.1.0  |  %d skills  |  AI-Native Loop  ║\n' "$ACTUAL_SKILL_MD" \
+      >> "$SKILLS_DEST/estack/SKILL.md"
+    cat >> "$SKILLS_DEST/estack/SKILL.md" << 'ESTACK'
 ╚══════════════════════════════════════════════════════╝
 ```
 
@@ -259,8 +297,9 @@ Tell me what you want to do:
 - "run APS pipeline" → `/erics-process-acceptance-pipeline`
 - "upgrade" → `/estack-upgrade`
 
-Run `/erics-loop-router` to see all 40 skills.
 ESTACK
+    printf 'Run `/erics-loop-router` to see all %d skills.\n' "$ACTUAL_SKILL_MD" \
+      >> "$SKILLS_DEST/estack/SKILL.md"
     echo "  [OK] estack (entry point)"
 
     # /estack-upgrade
