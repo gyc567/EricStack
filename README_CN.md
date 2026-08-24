@@ -2,7 +2,7 @@
 
 **AI-native engineering loop system — 41 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
-**AI 原生工程循环系统 — 38 个技能，覆盖计划、审查、简化、文档和知识积累。**
+**AI 原生工程循环系统 — 41 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
 > EricStack transforms a project into a compounding engineering intelligence. Every decision, review, and discussion becomes a persistent wiki page. Every process is a closed loop.
 >
@@ -51,7 +51,7 @@ Skill **不能**为不存在的代码创建、测试或变异。例如：
 ---
 ## What Is EricStack? | 什么是 EricStack？
 
-EricStack is a LoopX-powered skill system for engineering teams. It provides **38 skills** organized in two tiers:
+EricStack is a LoopX-powered skill system for engineering teams. It provides **41 skills** organized in two tiers:
 
 EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **41 个技能**，分为两个层级：
 
@@ -75,7 +75,7 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
    curl -fsSL https://huangruiteng.github.io/loopx/install.sh | bash
 2. 运行：git clone https://github.com/gyc567/EricStack.git ~/EricStack
 3. 运行：bash ~/EricStack/.loopx/bin/install-ericsstack.sh
-   （这会将全部 40 个 skills 以扁平目录结构复制到 ~/.claude/skills/）
+   （这会将全部 41 个 skills 以扁平目录结构复制到 ~/.claude/skills/）
 4. 将我的项目上下文切换到 ~/EricStack
 5. 如果 Node.js 可用（运行：node --version && npm --version）：
    - 运行：npm install -g @nanonets/graft && graft init --agents claude
@@ -111,7 +111,7 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
 2.（可选）运行：rm -rf ~/EricStack
 ```
 
-这会从 `~/.claude/skills/` 删除全部 40 个 skills，并解除 LoopX 运行时的链接。
+这会从 `~/.claude/skills/` 删除全部 41 个 skills，并解除 LoopX 运行时的链接。
 
 ---
 

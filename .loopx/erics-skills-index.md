@@ -2,7 +2,7 @@
 
 > Auto-generated. Do not edit manually.
 
-Total: 40 skills (38 erics-* + 2 estack entry points)
+Total: 41 skills (38 erics-* + 2 estack entry points + 1 router)
 
 ## Skills by Category
 

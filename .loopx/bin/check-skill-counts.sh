@@ -134,8 +134,14 @@ if $FIX_MODE; then
     [ -f "$f" ] || continue
     rel="${f#$ROOT_DIR/}"
     changed=false
-    if rg -q '\b(36|38|40|41)\s*(skills|个 skills)\b' "$f" 2>/dev/null; then
-      sed -i.bak -E "s/\b(36|38|40|41)(skills|个 skills)/${ACTUAL_TOTAL}\2/g" "$f"
+    if rg -q '\b(36|38|40|41)\s*(skills|个\s*skills|个\s*技能)\b' "$f" 2>/dev/null; then
+      # Capture groups: \1 = non-digit prefix (or empty at line start),
+      # \2 = old number, \3 = whitespace, \4 = "skills"/"个 skills"/"个 技能".
+      # Replace only the number, preserve everything else.
+      # macOS BSD sed has neither \b nor \s, so we use (^|[^0-9]) and [ \t]*
+      # instead. Bug fix 2026-08-25: previous version required adjacency and
+      # matched zero files in practice.
+      sed -i.bak -E "s/(^|[^0-9])(36|38|40|41)([ \t]*)(skills|个[ \t]*skills|个[ \t]*技能)/\1${ACTUAL_TOTAL}\3\4/g" "$f"
       rm -f "${f}.bak"
       changed=true
     fi
