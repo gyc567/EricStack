@@ -4,7 +4,7 @@
   "sources": {
     "deepseek-harness": {
       "url": "https://github.com/deepseek-ai/deepseek-harness.git",
-      "commit": "47f943859bef60e4160492346772ded9b24f765a",
+      "commit": "b150a551b8d465e31e418e1b2eaf5e79bbb7d28e",
       "skills_imported": [
         "erics-process-archive-agent-notes",
         "erics-process-code-review",
@@ -18,12 +18,13 @@
         "erics-process-translate-docs",
         "erics-process-trim-cot-leakage"
       ],
-      "last_sync": "2026-08-15T12:00:00+08:00",
-      "notes": "11 upstream-derived skills. Run sync-skills.sh --check to detect upstream changes."
+      "last_sync": "2026-08-25T10:39:39Z",
+      "notes": "11 upstream-derived skills. Run sync-skills.sh --check to detect upstream changes.",
+      "tree_sha256": "fe69e465ce4f93ca8f22c0d609729da1e5ea9e914b9c0b5d77f9d61001457378"
     },
     "gstack": {
       "url": "https://github.com/garrytan/gstack.git",
-      "commit": "008dd65b1fc3df8af618408f5aea37a24dcea411",
+      "commit": "ad8400543cd9ce8d07641362db48d44a95417e33",
       "skills_imported": [
         "erics-ability-autoplan",
         "erics-ability-benchmark",
@@ -41,8 +42,9 @@
         "erics-ability-retro",
         "erics-ability-spec"
       ],
-      "last_sync": "2026-08-15T12:00:00+08:00",
-      "notes": "15 upstream-derived skills. Note: gstack repo has 49 skills total; only A-grade (body clean, no gstack daemon deps) are imported."
+      "last_sync": "2026-08-25T10:39:39Z",
+      "notes": "15 upstream-derived skills. Note: gstack repo has 49 skills total; only A-grade (body clean, no gstack daemon deps) are imported.",
+      "tree_sha256": ""
     },
     "local": {
       "url": null,
