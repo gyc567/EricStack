@@ -1,13 +1,6 @@
 ---
 name: erics-ability-brain-setup
-description: |
-  Asset-only skill required as a runtime sibling of `erics-ability-brain-page`.
-  Carries the BRAIN.md init template and optional pre-commit / SessionStart
-  hooks from mindmux/brain.md. This is a vendor constraint of the upstream
-  CLI — `brain init` resolves scaffold assets at
-  `<brain-page>/bin/../../brain-setup/assets`, so both skills MUST be
-  installed side-by-side. Body is non-operational; init logic lives in
-  `erics-ability-brain-init`.
+description: Use when installing the brain vendor — asset container that keeps BRAIN.md init template beside brain-page. Required by upstream CLI: `brain init` resolves scaffold assets at `<brain-page>/bin/../../brain-setup/assets`. Non-operational; logic lives in `erics-ability-brain-init`.
 triggers:
   - brain setup assets
   - brain scaffold assets

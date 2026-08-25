@@ -1,11 +1,6 @@
 ---
 name: erics-ability-brain-init
-description: |
-  Initialize a project's brain — scaffolds BRAIN.md, brain/ directory, and wires
-  CLAUDE.md/AGENTS.md into the current project. Brain is the project-level
-  persistent memory (decisions, constraints, context that survives sessions).
-  Use when the user says "init brain", "brain init", "setup project brain",
-  "初始化项目记忆", or "启动 brain" and the project's BRAIN.md does not yet exist.
+description: Use when the user says "init brain", "brain init", "setup project brain", or "初始化项目记忆" and BRAIN.md does not yet exist. Scaffolds BRAIN.md, brain/ directory, and wires CLAUDE.md/AGENTS.md into the current project. Brain is project-level persistent memory (decisions, constraints).
 triggers:
   - brain init
   - init brain

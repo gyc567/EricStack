@@ -1,11 +1,6 @@
 ---
 name: erics-ability-brain-page
-description: |
-  Operating manual for reading and writing a project's brain — every read
-  and write goes through the bundled `brain` CLI. Use when the user wants
-  to capture a decision, constraint, or durable project knowledge, or read
-  existing brain pages. Triggers: "brain page", "read brain page", "create
-  brain page", "update truth", "记一条 brain 决策".
+description: Use when the user wants to capture a decision, constraint, or durable project knowledge, or read existing brain pages. Triggers: "brain page", "read brain page", "create brain page", "update truth", "记一条 brain 决策". Every read and write goes through the bundled `brain` CLI.
 triggers:
   - brain page
   - read brain page

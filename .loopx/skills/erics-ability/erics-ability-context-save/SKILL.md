@@ -1,6 +1,6 @@
 ---
-name: context-save
-description: Save working context — git state, decisions, remaining work.
+name: erics-ability-context-save
+description: Use when the user says "save context", "checkpoint", "save state", or wants to pause work and resume later. Saves git state, decisions, and remaining work.
 triggers:
   - save context
   - checkpoint

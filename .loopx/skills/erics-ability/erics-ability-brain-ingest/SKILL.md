@@ -1,11 +1,6 @@
 ---
 name: erics-ability-brain-ingest
-description: |
-  Digest a conversation, document, PR review, or research result into the
-  project brain — breaks input into atomic knowledge points, places them on
-  existing root pages or new pages, and writes via the `brain` CLI. Use when
-  the user says "brain ingest", "ingest into brain", "digest to brain",
-  "消化到 brain", or "capture this conversation".
+description: Use when the user says "brain ingest", "ingest into brain", "digest to brain", "消化到 brain", or "capture this conversation". Breaks the input into atomic knowledge points, places them on existing root pages or new pages, and writes via the `brain` CLI.
 triggers:
   - brain ingest
   - ingest into brain

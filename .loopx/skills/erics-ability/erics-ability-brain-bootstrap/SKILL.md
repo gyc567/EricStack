@@ -1,11 +1,6 @@
 ---
 name: erics-ability-brain-bootstrap
-description: |
-  Seed a freshly-initialized brain with real project knowledge — drafts root
-  pages from code, docs, and git log (brownfield), or interviews the user
-  (greenfield). Use when the user says "brain bootstrap", "seed project brain",
-  "播种 brain", "bootstrap project memory", or right after `/brain init` on an
-  existing project.
+description: Use when the user says "brain bootstrap", "seed project brain", "播种 brain", "bootstrap project memory", or right after `/brain init` on an existing project. Drafts root pages from code, docs, and git log (brownfield), or interviews the user (greenfield).
 triggers:
   - brain bootstrap
   - seed project brain
