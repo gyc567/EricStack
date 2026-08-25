@@ -43,8 +43,8 @@ STALE_BRANDS_REGEX='\b(gstack|GStack|garry|Garry|deepseek-harness|DeepSeek Harne
 errors=0
 warnings=0
 checked=0
-declare -a error_files
-declare -a warning_files
+declare -a error_files=()
+declare -a warning_files=()
 
 check_skill() {
   local file=$1

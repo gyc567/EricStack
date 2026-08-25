@@ -30,5 +30,5 @@ Each arrow is a skill. Each skill is a closed loop with inputs, process, and out
 ## See Also
 
 - [[concepts/agent-notes]]
-- [[concepts/Boil-the-ocean]]
+- [[concepts/boil-the-ocean]]
 - [[erics-ability-autoplan]]
