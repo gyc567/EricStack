@@ -1,6 +1,6 @@
 ---
 name: erics-loop-router
-description: Use when routing an engineering task to the most specific EricStack process or ability skill.
+description: Routes engineering tasks to the correct erics-process (discipline) or erics-ability (productivity) skill. Inspects task type and routes accordingly. (ericstack)
 allowed-tools:
   - Read
   - Bash
@@ -61,7 +61,7 @@ Skip this check if any tool call has already failed (session may be offline).
 
 ### Rule 4: 当不确定时，给出两个选项
 
-"这个设计合理吗？" → 推荐 `erics-ability-design-consultation`（设计视角）+ `erics-ability-plan-eng-review`（工程视角）
+"这个设计合理吗？" → 推荐 `erics-ability-plan-design-review`（评分视角）+ `erics-ability-plan-eng-review`（工程视角）
 
 ## Routing Table
 
@@ -70,34 +70,36 @@ Skip this check if any tool call has already failed (session may be offline).
 | "review this pr" / "code review" | `erics-process-code-review` | Coverage + prose + invariant discipline |
 | "debug this" / "fix this bug" | `erics-ability-investigate` | Four-phase discipline: investigate/analyze/hypothesize/implement |
 | "arch review" / "eng plan" / "lock in plan" | `erics-ability-plan-eng-review` | Architecture + data flow + edge cases |
-| "design review" / "rate design" | `erics-ability-design-consultation` | Design-system consultation and review |
+| "design review" / "rate design" | `erics-ability-plan-design-review` | Design dimension scoring (0-10) |
 | "ceo review" / "10-star" / "product" | `erics-ability-plan-ceo-review` | CEO-level product framing |
-| "devex review" / "TTHW" / "dx" | `erics-ability-devex-review` | Developer experience audit |
+| "devex review" / "TTHW" / "dx" | `erics-ability-plan-devex-review` | Developer experience audit |
 | "improve docs" / "audit docs" | `erics-process-doc-standards` | Documentation placement + corpus discipline |
 | "trim prose" / "edit text" | `erics-process-prose-standard` | Prose completeness + editorial discipline |
 | "trim cot" / "remove reasoning" | `erics-process-trim-cot-leakage` | Chain-of-thought leakage detection |
 | "security audit" / "owasp" / "vulnerability" | `erics-ability-cso` | OWASP Top 10 + STRIDE threat modeling |
-| "ship it" / "run tests and push" | `erics-process-pre-push-checks` | Select and run evidence before a push |
-| "canary" / "monitor deploy" | `erics-ability-health` | Run the available project health checks |
+| "ship it" / "run tests and push" | `erics-ability-ship` | Test + review + PR + push |
+| "canary" / "monitor deploy" | `erics-ability-canary` | Post-deploy monitoring loop |
 | "retro" / "retrospective" | `erics-ability-retro` | Weekly retro + shipping streaks |
 | "save context" / "checkpoint" | `erics-ability-context-save` | Git state + decisions + remaining work |
 | "restore context" / "resume session" | `erics-ability-context-restore` | Cross-workspace context restoration |
+| "brain init" / "init brain" / "setup project brain" | `erics-ability-brain-init` | Project-level persistent memory scaffold |
+| "read brain page" / "create brain page" / "update truth" | `erics-ability-brain-page` | Read/write brain pages through CLI |
+| "brain bootstrap" / "seed project brain" | `erics-ability-brain-bootstrap` | Brownfield/greenfield brain seeding |
+| "brain ingest" / "digest to brain" / "capture this conversation" | `erics-ability-brain-ingest` | Decompose input into atomic knowledge points |
 | "brainstorm" / "office hours" / "is this worth building" | `erics-ability-office-hours` | YC Office Hours six forcing questions |
-| "grill me" / "sharpen my idea" / "拷问想法" / "压力测试想法" | `erics-ability-grill-me` | Stateless interview, loose idea → committable decisions |
-| "grill with docs" / "codebase-aligned interview" / "代码库对齐质询" | `erics-ability-grill-with-docs` | Stateful grilling, reads code, writes CONTEXT.md + ADRs |
-| "wayfinder" / "too big for one session" / "chart this effort" / "大工作量分拆" | `erics-ability-wayfinder` | Multi-session map, grilling inside decision tickets |
 | "spec this out" / "file an issue" | `erics-ability-spec` | Vague intent → executable spec |
 | "benchmark" / "performance regression" | `erics-ability-benchmark` | Performance regression detection |
 | "model benchmark" / "compare models" | `erics-ability-benchmark-models` | Cross-model skill comparison |
 | "simplify" / "find dead code" | `erics-process-find-simplifications` | Simplification candidate discovery |
-| "archive notes" / "prune decisions" | `erics-process-archive-agent-notes` | Agent Note lifecycle management |
+| "archive notes" / "prune decisions" | `erics-process-archive-notes` | Agent Note lifecycle management |
 | "land stack" / "merge stacked prs" | `erics-process-merging-stacked-prs` | GitHub official PR stack landing |
 | "pre-push checks" | `erics-process-pre-push-checks` | Pre-push minimal evidence selection |
-| "generate docs" / "diataxis" | `erics-process-doc-standards` | Documentation structure and quality rules |
-| "update docs for release" | `erics-process-doc-site-sync` | Sync documentation navigation and pages |
+| "generate docs" / "diataxis" | `erics-ability-document-generate` | Diataxis doc generation from code |
+| "update docs for release" | `erics-ability-document-release` | Docs sync to shipped behavior |
+| "setup deploy" | `erics-ability-setup-deploy` | Deploy config detection |
 | "upgrade" / "sync skills" | `erics-ability-upgrade` | Check & sync upstream skill updates |
 | "health check" | `erics-ability-health` | Code quality dashboard |
-| "learn" / "record learnings" | `erics-ability-context-save` | Preserve decisions and remaining work |
+| "learn" / "record learnings" | `erics-ability-learn` | Cross-session memory management |
 
 ## Output Format
 
