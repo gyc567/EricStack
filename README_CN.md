@@ -16,7 +16,7 @@ EricStack 是一个**技能元项目 + 工具集**，不是独立应用。本仓
 
 | 组件 | 数量 | 用途 |
 |---|---|---|
-| SKILL.md 文件 | 41 | 可复用 AI 技能（流程纪律 + 工程能力） |
+| SKILL.md 文件 | 46 | 可复用 AI 技能（流程纪律 + 工程能力 + vendored brain 记忆） |
 | .loopx/bin/ 脚本 | 4 | install / uninstall / sync / aps 安装 |
 | .loopx/acceptance-pipeline/ | 1 | APS 框架配置（7 阶段管道规范） |
 | `src/main.rs` | 1 | Rust 占位符 — 参见 [`src/README.md`](src/README.md) |
@@ -58,7 +58,7 @@ EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **46 个技
 | Tier / 层级 | Count / 数量 | Purpose / 用途 |
 |---|---|---|
 | `erics-process-*` (Discipline / 纪律) | 13 | Enforce standards — code review, prose quality, docs, simplification / 执行标准 — 代码审查、prose 质量、文档、简化 |
-| `erics-ability-*` (Action / 能力) | 27 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
+| `erics-ability-*` (Action / 能力) | 32 | Execute workflows — planning, debugging, benchmarking, retros, project brain memory / 执行工作流 — 计划、调试、性能基准、回顾、项目记忆 |
 
 Skills run inside Claude Code (or any LoopX-compatible host). No separate server, no daemon, no API keys required for the skill system itself.
 技能运行在 Claude Code（或任何兼容 LoopX 的 host）中。技能系统本身无需独立服务器、无需守护进程、无需额外 API key。
@@ -163,6 +163,10 @@ cd EricStack
 | `/erics-ability-grill-me` | Stateless interview: loose idea → committable decisions | 无状态访谈：模糊想法 → 可承诺决策 |
 | `/erics-ability-grill-with-docs` | Stateful grilling: reads code, writes `CONTEXT.md` + ADRs | 状态化质询：读代码库、写入 CONTEXT.md 与 ADR |
 | `/erics-ability-wayfinder` | Multi-session map: grilling inside decision tickets | 多会话编排：在决策工单里运行质询 |
+| `/erics-ability-brain-init` | Initialize project brain (BRAIN.md + brain/ scaffold) | 初始化项目 brain（BRAIN.md + brain/ 脚手架） |
+| `/erics-ability-brain-page` | Read/write brain pages via the bundled `brain` CLI | 通过内置 `brain` CLI 读写 brain 页面 |
+| `/erics-ability-brain-bootstrap` | Seed brain from code/docs (brownfield) or interview (greenfield) | 用代码/文档播种 brain（成熟项目）或访谈（新项目） |
+| `/erics-ability-brain-ingest` | Digest conversations/decisions into the brain | 把对话/决策消化到 brain |
 
 **查看全部 46 个技能 / See all 46 skills：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
 
@@ -176,7 +180,7 @@ EricStack/
 │   ├── skills/
 │   │   ├── erics-loop-router/      # Skill router / 技能路由器
 │   │   ├── erics-process-* (×13)  # Discipline skills / 纪律技能
-│   │   └── erics-ability-* (×27)  # Action skills / 能力技能
+│   │   └── erics-ability-* (×32)  # Action skills (incl. vendored brain memory) / 能力技能（含 vendored brain 记忆）
 │   ├── wiki/                       # LLM Wiki knowledge base / LLM Wiki 知识库
 │   │   ├── concepts/              # Concept pages / 概念页面
 │   │   ├── entities/              # Decision records / 决策记录
@@ -243,10 +247,12 @@ When both apply, prefer `erics-process-*` for writing/review tasks.
 |---|---|---|
 | `README.md` | EN + CN inline | This file / 本文件 |
 | `README_CN.md` | 中文 | Standalone Chinese version / 独立中文版 |
-| `docs/TUTORIAL.md` | 中文 | Complete usage tutorial / 完整使用教程 |
+| `docs/TUTORIAL.md` | 中文 | Complete usage tutorial / 完整使用教程（含 brain 路由 + 5.4 节） |
 | `docs/LLM_WIKI_TUTORIAL.md` | 中文 | LLM Wiki knowledge base guide / LLM Wiki 知识库使用教程 |
 | `docs/APS_INTEGRATION.md` | 中文 | APS integration plan / APS 整合方案 |
-| `INTEGRATION.md` | 中文 | Full integration plan / 完整整合方案 |
+| `docs/GRILLING_SUITE.md` | EN + CN inline | Grilling family tutorial / 质询三件套教程 |
+| `docs/brain-integration.md` | EN + CN inline | mindmux/brain.md vendor integration / mindmux/brain.md vendored 整合 |
+| `INTEGRATION.md` | 中文 | Full integration plan / 完整整合方案（含 brain vendor 章节） |
 | `.loopx/llm-wiki-integration.md` | 中文 | LLM Wiki integration guide / LLM Wiki 整合指南 |
 
 ---
@@ -260,6 +266,7 @@ EricStack 整合借鉴了以下项目：
 | **PR Agent** | [The-PR-Agent/PR-Agent](https://github.com/The-PR-Agent/PR-Agent) | 增量审查、PR Compression、自我反思、可配置工具 |
 | **Graft** | [NanoNets/Graft](https://github.com/NanoNets/Graft) | 代码知识图谱、调用链追踪、高 token 效率的代码理解 |
 | **GStack** | [garrytan/gstack](https://github.com/garrytan/gstack) | 上游 ability skill 来源 |
+| **mindmux/brain.md** | [mindmux/brain.md](https://github.com/mindmuxai/brain.md) | Open Project Brain Standard — 项目级持久记忆，vendored（Apache-2.0） |
 | **LoopX** | [huangruiteng/loopx](https://github.com/huangruiteng/loopx) | Skill 系统架构和 slash command 协议 |
 
 ---
