@@ -1,0 +1,234 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ============================================================
+  # 1. Skill quality lint
+  # ============================================================
+  skill-lint:
+    name: Skill Frontmatter Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install ripgrep + jq
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ripgrep jq
+
+      - name: Lint skill frontmatter
+        run: bash .loopx/bin/lint-skills.sh
+
+  # ============================================================
+  # 2. Skill count consistency
+  # ============================================================
+  skill-counts:
+    name: Skill Count Consistency
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install ripgrep
+        run: sudo apt-get install -y -qq ripgrep
+
+      - name: Verify skill counts in docs
+        run: bash .loopx/bin/check-skill-counts.sh
+
+  # ============================================================
+  # 3. Brand cleanliness (no upstream brand refs)
+  # ============================================================
+  brand-clean:
+    name: Brand Cleanliness
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install ripgrep
+        run: sudo apt-get install -y -qq ripgrep
+
+      - name: Check no brand refs in skills
+        run: |
+          set -euo pipefail
+          # Allow (a) the upstream status SKILL and (b) commit-pin URLs that
+          # resolve to a specific upstream SHA. Pure host references (no
+          # /blob/<sha>/ path) are still treated as stale brand residue.
+          hits=$(rg -l -i 'gstack|garry|deepseek-harness|DeepSeek Harness' .loopx/skills/ 2>/dev/null \
+            | rg -v '(/erics-ability-upgrade/SKILL.md$|deepseek-ai/deepseek-harness/blob/[A-Za-z0-9]+/)' || true)
+          if [ -n "$hits" ]; then
+            echo "ERROR: stale brand reference found in skills/:"
+            echo "$hits"
+            exit 1
+          fi
+          echo "OK: no stale brand references in skills/ (upstream source names are allowed in upgrade status)"
+
+      - name: Check no deepseek path refs
+        run: |
+          set -euo pipefail
+          if rg -n '\.\./\.\./\.\.' .loopx/skills/ 2>/dev/null; then
+            echo "ERROR: deepseek-style path reference (../../) found"
+            exit 1
+          fi
+          echo "OK: no deepseek path references"
+
+  # ============================================================
+  # 4. Sync state validation
+  # ============================================================
+  sync-state:
+    name: Sync State JSON
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install jq
+        run: sudo apt-get install -y -qq jq
+
+      - name: Validate sync-state.json schema
+        run: |
+          set -euo pipefail
+          jq -e '.schema_version and .sources and .protected_skills' .loopx/sync-state.json
+          echo "OK: sync-state.json has required fields"
+
+      - name: Verify protected_skills are all present
+        run: |
+          set -euo pipefail
+          missing=0
+          for skill in $(jq -r '.protected_skills[]' .loopx/sync-state.json); do
+            if [ "$skill" = "erics-loop-router" ]; then
+              present=$([ -d ".loopx/skills/erics-loop-router" ] && echo true || echo false)
+            elif [ -d ".loopx/skills/erics-process/$skill" ] || \
+                 [ -d ".loopx/skills/erics-ability/$skill" ]; then
+              present=true
+            else
+              present=false
+            fi
+            if [ "$present" != true ]; then
+              echo "WARN: protected skill $skill not found in skills/"
+              missing=$((missing+1))
+            fi
+          done
+          if [ $missing -gt 0 ]; then
+            echo "ERROR: $missing protected skills missing"
+            exit 1
+          fi
+          echo "OK: all protected skills exist"
+
+  # ============================================================
+  # 5. Shell script syntax check
+  # ============================================================
+  shell-syntax:
+    name: Shell Script Syntax
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Syntax-check all bin scripts
+        run: |
+          set -euo pipefail
+          fail=0
+          for script in .loopx/bin/*.sh; do
+            if ! bash -n "$script"; then
+              echo "FAIL: syntax error in $script"
+              fail=$((fail+1))
+            fi
+          done
+          [ $fail -eq 0 ] && echo "OK: all shell scripts pass syntax check"
+          exit $fail
+
+  # ============================================================
+  # 6. Rust placeholder builds
+  # ============================================================
+  rust-build:
+    name: Rust Placeholder Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@4360b52568e2003a75bf9bc1d59f33a8e3fc893c # stable
+
+      - name: Cache cargo registry
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.cargo/registry
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build
+        run: cargo build --verbose
+
+      - name: Test
+        run: cargo test --verbose
+
+      - name: Format
+        run: cargo fmt --all -- --check
+
+      - name: Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+
+      - name: Documentation
+        env:
+          RUSTDOCFLAGS: -Dwarnings
+        run: cargo doc --no-deps --document-private-items
+
+  # ============================================================
+  # 7. Acceptance Pipeline config check
+  # ============================================================
+  aps-config:
+    name: APS Config (v1.1)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install ripgrep
+        run: sudo apt-get install -y -qq ripgrep
+
+      - name: Verify acceptance.env has v1.1 markers
+        run: |
+          set -euo pipefail
+          for key in APS_TOOL_AVAILABLE APS_MUTATION_TODO_THRESHOLD APS_CACHE_TTL_DAYS; do
+            if ! rg -q "^$key=" .loopx/acceptance-pipeline/acceptance.env; then
+              echo "ERROR: missing v1.1 key: $key"
+              exit 1
+            fi
+          done
+          echo "OK: acceptance.env has v1.1 markers"
+
+  docs-consistency:
+    name: Documentation Consistency
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Install ripgrep
+        run: sudo apt-get install -y -qq ripgrep
+
+      - name: Validate bilingual README
+        run: bash .loopx/bin/check-readme-bilingual.sh --strict
+
+      - name: Validate Wiki links
+        run: bash .loopx/bin/check-wikilinks.sh --strict
+
+      - name: Validate generated Wiki index
+        run: python3 .loopx/bin/regenerate-wiki-index.py --check
+
+      - name: Validate local Markdown links
+        run: python3 .loopx/bin/check-markdown-links.py

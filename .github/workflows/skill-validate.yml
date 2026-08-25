@@ -1,0 +1,119 @@
+name: skill-validate
+
+on:
+  # Weekly check (Monday 06:00 UTC) — surfaces skill quality drift
+  schedule:
+    - cron: "0 6 * * 1"
+  # Manual trigger
+  workflow_dispatch:
+  # On changes to skills or sync config
+  push:
+    paths:
+      - ".loopx/skills/**"
+      - ".loopx/sync-state.json"
+      - ".loopx/bin/lint-skills.sh"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skill-validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  full-validate:
+    name: Full Skill Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0  # Need full history for trend analysis
+
+      - name: Install ripgrep + jq
+        run: sudo apt-get install -y -qq ripgrep jq
+
+      - name: Run skill lint (strict mode)
+        run: bash .loopx/bin/lint-skills.sh --strict
+
+      - name: Skill count consistency
+        run: bash .loopx/bin/check-skill-counts.sh
+
+      - name: Brand cleanliness — skills
+        run: |
+          set -euo pipefail
+          hits=$(rg -l -i 'gstack|garry|deepseek-harness|DeepSeek Harness' .loopx/skills/ 2>/dev/null \
+            | rg -v '(/erics-ability-upgrade/SKILL.md$|deepseek-ai/deepseek-harness/blob/[A-Za-z0-9]+/)' || true)
+          if [ -n "$hits" ]; then
+            echo "::error::Brand references found in: $hits"
+            exit 1
+          fi
+          echo "OK: no brand references"
+
+      - name: Brand cleanliness — docs
+        run: |
+          set -euo pipefail
+          # In docs, "gstack" and "DeepSeek" may appear in historical context.
+          # Only flag in description fields or current-state claims.
+          hits=$(rg -l -i 'gstack|GStack' docs/ README*.md INTEGRATION.md 2>/dev/null || true)
+          if [ -n "$hits" ]; then
+            echo "::warning::Possible brand references in docs: $hits"
+            echo "Review manually if these are historical references."
+          fi
+
+      - name: Check skill description quality
+        run: |
+          set -euo pipefail
+          missing_use_when=0
+          for f in $(find .loopx/skills -name SKILL.md -not -path '*/.omc/*'); do
+            # Extract description
+            desc=$(awk '/^---$/{c++; next} c==1 && /^description:/{sub(/^description: */, ""); print; exit}' "$f")
+            # Skip entry points
+            case "$(basename "$(dirname "$f")")" in
+              estack|estack-upgrade) continue ;;
+            esac
+            if ! echo "$desc" | rg -qi 'use when' 2>/dev/null; then
+              echo "  - $f: missing 'Use when' in description"
+              missing_use_when=$((missing_use_when + 1))
+            fi
+          done
+          if [ $missing_use_when -gt 0 ]; then
+            echo "WARN: $missing_use_when skills missing 'Use when' routing hint"
+          else
+            echo "OK: all skills have routing hints"
+          fi
+
+      - name: Check first H1 quality
+        run: |
+          set -euo pipefail
+          missing_h1=0
+          for f in $(find .loopx/skills -name SKILL.md -not -path '*/.omc/*'); do
+            if ! awk '/^---$/{c++; next} c>=2 && /^# [^#]/{found=1; exit} END{exit !found}' "$f"; then
+              echo "  - $f: no H1 in body"
+              missing_h1=$((missing_h1 + 1))
+            fi
+          done
+          if [ $missing_h1 -gt 0 ]; then
+            echo "WARN: $missing_h1 skills missing H1 heading"
+          else
+            echo "OK: all skills have H1"
+          fi
+
+      - name: Generate skill report
+        if: always()
+        run: |
+          echo "## Skill Validation Report" > skill-report.md
+          echo "" >> skill-report.md
+          echo "- Total SKILL.md: $(find .loopx/skills -name SKILL.md -not -path '*/.omc/*' | wc -l)" >> skill-report.md
+          echo "- erics-process-*: $(find .loopx/skills/erics-process -name SKILL.md | wc -l)" >> skill-report.md
+          echo "- erics-ability-*: $(find .loopx/skills/erics-ability -name SKILL.md | wc -l)" >> skill-report.md
+          echo "- erics-loop-router: $([ -f .loopx/skills/erics-loop-router/SKILL.md ] && echo 1 || echo 0)" >> skill-report.md
+          cat skill-report.md
+
+      - name: Upload report
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: skill-validation-report
+          path: skill-report.md
+          retention-days: 30

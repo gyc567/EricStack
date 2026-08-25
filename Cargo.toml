@@ -2,5 +2,56 @@
 name = "ericstack"
 version = "0.1.0"
 edition = "2021"
+rust-version = "1.74"
+description = "EricStack is a skill metadata project + engineering toolkit for AI-native engineering loops. The `src/` directory is an intentional placeholder; see `src/README.md` for the rationale."
+license = "MIT"
+authors = ["EricStack Contributors"]
+homepage = "https://github.com/gyc567/EricStack"
+repository = "https://github.com/gyc567/EricStack"
+documentation = "https://github.com/gyc567/EricStack/blob/main/README.md"
+readme = "README.md"
+keywords = [
+    "ai",
+    "engineering-loop",
+    "skills",
+    "loopx",
+    "agent",
+    "bdd",
+    "mutation-testing",
+]
+categories = [
+    "development-tools",
+    "command-line-utilities",
+    "api-bindings",
+]
+publish = false  # not intended for crates.io; this is a metadata project
+
+[package.metadata.ericstack]
+# Canonical counts live in .loopx/sync-state.json .totals — keep this block in sync.
+skill_count = 41
+skill_layout = "erics-process-* (13) + erics-ability-* (27) + erics-loop-router (1) + 2 entry points"
+loopx_required = true
+aps_version = "v1.2.0"
+aps_tool_available = false
+src_purpose = "placeholder — see src/README.md"
 
 [dependencies]
+# Intentionally empty: src/main.rs is a Hello world placeholder.
+# Real implementation belongs in your project that uses EricStack skills.
+
+[profile.release]
+strip = "symbols"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[[bin]]
+name = "ericstack"
+path = "src/main.rs"
+required-features = []
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+unused_must_use = "deny"
