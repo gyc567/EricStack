@@ -1,6 +1,6 @@
 # EricStack
 
-AI-native engineering loop system with 41 skills for planning, review, simplification, documentation, and knowledge accumulation.
+AI-native engineering loop system with 46 skills for planning, review, simplification, documentation, and knowledge accumulation.
 
 ## Project Structure
 
@@ -23,7 +23,7 @@ EricStack/
 
 ```bash
 /estack                 # Main entry point - shows banner and routes
-/erics-loop-router      # View all 41 skills and routing rules
+/erics-loop-router      # View all 46 skills and routing rules
 ```
 
 ## Skills Categories

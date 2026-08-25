@@ -1,8 +1,8 @@
 # EricStack
 
-**AI-native engineering loop system — 41 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
+**AI-native engineering loop system — 46 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
-**AI 原生工程循环系统 — 41 个技能，覆盖计划、审查、简化、文档和知识积累。**
+**AI 原生工程循环系统 — 46 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
 > EricStack transforms a project into a compounding engineering intelligence. Every decision, review, and discussion becomes a persistent wiki page. Every process is a closed loop.
 >
@@ -51,9 +51,9 @@ Skill **不能**为不存在的代码创建、测试或变异。例如：
 ---
 ## What Is EricStack? | 什么是 EricStack？
 
-EricStack is a LoopX-powered skill system for engineering teams. It provides **41 skills** organized in two tiers:
+EricStack is a LoopX-powered skill system for engineering teams. It provides **46 skills** organized in two tiers:
 
-EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **41 个技能**，分为两个层级：
+EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **46 个技能**，分为两个层级：
 
 | Tier / 层级 | Count / 数量 | Purpose / 用途 |
 |---|---|---|
@@ -75,7 +75,7 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
    curl -fsSL https://huangruiteng.github.io/loopx/install.sh | bash
 2. 运行：git clone https://github.com/gyc567/EricStack.git ~/EricStack
 3. 运行：bash ~/EricStack/.loopx/bin/install-ericsstack.sh
-   （这会将全部 41 个 skills 以扁平目录结构复制到 ~/.claude/skills/）
+   （这会将全部 46 个 skills 以扁平目录结构复制到 ~/.claude/skills/）
 4. 将我的项目上下文切换到 ~/EricStack
 5. 如果 Node.js 可用（运行：node --version && npm --version）：
    - 运行：npm install -g @nanonets/graft && graft init --agents claude
@@ -111,7 +111,7 @@ Skills run inside Claude Code (or any LoopX-compatible host). No separate server
 2.（可选）运行：rm -rf ~/EricStack
 ```
 
-这会从 `~/.claude/skills/` 删除全部 41 个 skills，并解除 LoopX 运行时的链接。
+这会从 `~/.claude/skills/` 删除全部 46 个 skills，并解除 LoopX 运行时的链接。
 
 ---
 
@@ -136,7 +136,7 @@ cd EricStack
 
 ```
 /estack                # 主入口 — 显示 banner 并路由到正确技能
-/erics-loop-router     # 查看全部 41 个技能和路由规则
+/erics-loop-router     # 查看全部 46 个技能和路由规则
 ```
 
 或直接调用任何技能：/ Or invoke any skill directly:
@@ -164,7 +164,7 @@ cd EricStack
 | `/erics-ability-grill-with-docs` | Stateful grilling: reads code, writes `CONTEXT.md` + ADRs | 状态化质询：读代码库、写入 CONTEXT.md 与 ADR |
 | `/erics-ability-wayfinder` | Multi-session map: grilling inside decision tickets | 多会话编排：在决策工单里运行质询 |
 
-**查看全部 41 个技能 / See all 41 skills：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
+**查看全部 46 个技能 / See all 46 skills：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
 
 ---
 
