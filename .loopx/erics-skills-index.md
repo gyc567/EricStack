@@ -2,7 +2,7 @@
 
 > Auto-generated. Do not edit manually.
 
-Total: 41 skills (38 erics-* + 2 estack entry points + 1 router)
+Total: **41 skills** in the catalog (13 process + 27 ability + 1 router); installed items = 41 + 2 entry points = 43
 
 ## Skills by Category
 
@@ -12,7 +12,7 @@ Total: 41 skills (38 erics-* + 2 estack entry points + 1 router)
 | `estack` | Main entry point - routes to correct skill |
 | `estack-upgrade` | Upgrade all skills to latest |
 
-### Process (Discipline - 12 skills)
+### Process (Discipline - 13 skills)
 | Skill | Description |
 |-------|-------------|
 | `erics-process-acceptance-pipeline` | Orchestrates APS 7-stage pipeline |
@@ -29,7 +29,7 @@ Total: 41 skills (38 erics-* + 2 estack entry points + 1 router)
 | `erics-process-translate-docs` | Bilingual document translation |
 | `erics-process-trim-cot-leakage` | Chain-of-thought leakage removal |
 
-### Ability (Action - 26 skills)
+### Ability (Action - 27 skills)
 | Skill | Description |
 |-------|-------------|
 | `erics-ability-autoplan` | CEO→design→eng→DX full-chain review |

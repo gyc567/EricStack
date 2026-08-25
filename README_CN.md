@@ -58,7 +58,7 @@ EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **41 个技
 | Tier / 层级 | Count / 数量 | Purpose / 用途 |
 |---|---|---|
 | `erics-process-*` (Discipline / 纪律) | 13 | Enforce standards — code review, prose quality, docs, simplification / 执行标准 — 代码审查、prose 质量、文档、简化 |
-| `erics-ability-*` (Action / 能力) | 24 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
+| `erics-ability-*` (Action / 能力) | 27 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
 
 Skills run inside Claude Code (or any LoopX-compatible host). No separate server, no daemon, no API keys required for the skill system itself.
 技能运行在 Claude Code（或任何兼容 LoopX 的 host）中。技能系统本身无需独立服务器、无需守护进程、无需额外 API key。

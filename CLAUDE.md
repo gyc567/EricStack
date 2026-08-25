@@ -9,8 +9,8 @@ EricStack/
 ├── .loopx/
 │   ├── skills/
 │   │   ├── erics-loop-router/     # Routes tasks to correct skill
-│   │   ├── erics-process-* (×12)  # Discipline/standards skills
-│   │   └── erics-ability-* (×26)  # Action/productivity skills
+│   │   ├── erics-process-* (×13)  # Discipline/standards skills
+│   │   └── erics-ability-* (×27)  # Action/productivity skills
 │   ├── wiki/                      # LLM Wiki knowledge base
 │   ├── bin/                       # Installation & sync scripts
 │   ├── acceptance-pipeline/       # APS tools & features

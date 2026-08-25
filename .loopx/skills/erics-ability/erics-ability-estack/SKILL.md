@@ -1,6 +1,6 @@
 ---
 name: erics-ability-estack
-description: EricStack main entry point — displays interactive banner and routes to the correct skill. Start here for anything in EricStack.
+description: Use when entering EricStack, displaying the catalog, or routing an engineering request to the right skill.
 allowed-tools:
   - Read
   - Bash
@@ -20,7 +20,7 @@ triggers:
 
 ```
 ╔══════════════════════════════════════════════════════╗
-║  EricStack  v0.1.0  |  26 skills  |  AI-Native Loop  ║
+║ EricStack  v0.1.0  |  43 installed items  |  AI-Native Loop  ║
 ╚══════════════════════════════════════════════════════╝
 ```
 
@@ -49,7 +49,7 @@ triggers:
 - "帮我保存当前进度" → `erics-ability-context-save`
 - "帮我 benchmark 性能" → `erics-ability-benchmark`
 
-运行 `/erics-loop-router` 查看全部 26 个技能的完整路由表。
+运行 `/erics-loop-router` 查看全部 43 个已安装项（41 个 catalog skills + 2 个入口）的完整路由表。
 
 ## 快速命令
 
