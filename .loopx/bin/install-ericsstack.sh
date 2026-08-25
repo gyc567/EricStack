@@ -94,6 +94,12 @@ ACTUAL_ABILITY=$(find "$SKILLS_SRC/erics-ability" -name SKILL.md 2>/dev/null | w
 ACTUAL_ROUTER=$([ -f "$SKILLS_SRC/erics-loop-router/SKILL.md" ] && echo 1 || echo 0)
 ACTUAL_SKILL_MD=$((ACTUAL_PROCESS + ACTUAL_ABILITY + ACTUAL_ROUTER))
 ACTUAL_ENTRYPOINTS=2  # estack, estack-upgrade
+# Brain vendor (mindmux/brain.md): 5 vendored skill dirs total.
+#   - brain-page + brain-setup: copied AND renamed (CLI hardcodes sibling string).
+#   - brain-init, brain-bootstrap, brain-ingest: kept under repo-side names as symlinks.
+# Net new paths under $SKILLS_DEST: 5 (overlaps with the SKILL.md count above
+# because they have SKILL.md; ACTUAL_INSTALLED must NOT double-count).
+ACTUAL_BRAIN_DIRS=$(find "$SKILLS_SRC/erics-ability" -maxdepth 1 -name 'erics-ability-brain-*' -type d | wc -l | tr -d ' ')
 ACTUAL_INSTALLED=$((ACTUAL_SKILL_MD + ACTUAL_ENTRYPOINTS))
 
 skill_install_name() {
@@ -111,6 +117,11 @@ for_each_managed_skill() {
   for skill_dir in "$src_dir"/*/; do
     [ -f "${skill_dir}SKILL.md" ] || continue
     basename=$(basename "$skill_dir")
+    # Brain vendor skills are installed by the dedicated [brain] step
+    # (copy + rename for brain-page / brain-setup; symlink for the others).
+    case "$basename" in
+      erics-ability-brain-*) continue ;;
+    esac
     final_name=$(skill_install_name "$basename" "$expected_prefix")
     "$callback" "$final_name" "$skill_dir"
   done
@@ -130,6 +141,16 @@ count_installed() {
     count=$((count + 1))
   fi
   for name in estack estack-upgrade; do
+    if [ -e "$SKILLS_DEST/$name" ] || [ -L "$SKILLS_DEST/$name" ]; then
+      count=$((count + 1))
+    fi
+  done
+  # Brain vendor: counted by post-install paths. The renamed copies
+  # (brain-page, brain-setup) and the symlinked prefixes
+  # (erics-ability-brain-{init,bootstrap,ingest}) live under their repo-side
+  # names, while only brain-init/brain-bootstrap/brain-ingest are added as
+  # alternative names by the install step. Count whichever exists.
+  for name in brain-page brain-setup erics-ability-brain-init erics-ability-brain-bootstrap erics-ability-brain-ingest; do
     if [ -e "$SKILLS_DEST/$name" ] || [ -L "$SKILLS_DEST/$name" ]; then
       count=$((count + 1))
     fi
@@ -158,7 +179,7 @@ echo "=========================================="
 echo ""
 echo "  EricStack:        $ERICSTACK_DIR"
 echo "  Skills dest:      $SKILLS_DEST"
-echo "  Found:            $ACTUAL_SKILL_MD SKILL.md + $ACTUAL_ENTRYPOINTS entry = $ACTUAL_INSTALLED total"
+echo "  Found:            $ACTUAL_SKILL_MD SKILL.md (incl. $ACTUAL_BRAIN_DIRS brain vendor) + $ACTUAL_ENTRYPOINTS entry = $ACTUAL_INSTALLED total"
 echo "  Loop Eng mode:    $LOOP_ENG_MODE"
 echo "  Copy loop docs:   $WITH_LOOP_DOCS"
 echo "  Install loop-cli: $WITH_LOOP_CLI"
@@ -439,16 +460,17 @@ case "$MODE" in
     echo "  Dry Run"
     echo "=========================================="
     echo "  Will perform:"
-    echo "    [1/7] Connect to LoopX (when mode=loopx or both)"
-    echo "    [2/7] Install loop-cli (when --with-loop-engineering-cli + Node.js)"
-    echo "    [3/7] Clean old skills in $SKILLS_DEST"
-    echo "    [4/7] Symlink $ACTUAL_PROCESS erics-process-* + $ACTUAL_ABILITY erics-ability-* + 1 router + 2 entry points"
+    echo "    [1/8] Connect to LoopX (when mode=loopx or both)"
+    echo "    [2/8] Install loop-cli (when --with-loop-engineering-cli + Node.js)"
+    echo "    [3/8] Clean old skills in $SKILLS_DEST"
+    echo "    [4/8] Symlink $ACTUAL_PROCESS erics-process-* + $ACTUAL_ABILITY erics-ability-* + 1 router + 2 entry points"
+    echo "    [5/8] Copy + rename brain-page/brain-setup, symlink 3 brain-* prefixed, place brain CLI on PATH"
     if [ "$WITH_LOOP_DOCS" = "true" ] && [ "$LOOP_ENG_MODE" != "loopx" ]; then
-      echo "    [5/7] Copy docs/LOOP_ENGINEERING_INTEGRATION.md -> $LOOP_ENG_DOCS_DIR/"
+      echo "    [6/8] Copy docs/LOOP_ENGINEERING_INTEGRATION.md -> $LOOP_ENG_DOCS_DIR/"
     fi
     if [ "$LOOP_ENG_MODE" != "loopx" ]; then
-      echo "    [6/7] Write loop/STATE.md + .loopx/loop-engineering-state.json + append goal"
-      echo "    [7/7] Generate 4 loop-* shell wrapper SKILL.md (loop-doctor, loop-status, loop-mode, loop-init)"
+      echo "    [7/8] Write loop/STATE.md + .loopx/loop-engineering-state.json + append goal"
+      echo "    [8/8] Generate 4 loop-* shell wrapper SKILL.md (loop-doctor, loop-status, loop-mode, loop-init)"
     fi
     echo ""
     echo "  No files have been modified. Run without --dry-run to apply."
@@ -457,7 +479,7 @@ case "$MODE" in
 
   install)
     # Step 1: Connect to LoopX (project-level) — only when mode includes loopx
-    echo "[1/7] Connecting to LoopX..."
+    echo "[1/8] Connecting to LoopX..."
     cd "$ERICSTACK_DIR"
     if [ "$LOOP_ENG_MODE" = "loop-engineering" ]; then
       echo "  [SKIP] LoopX connect skipped (mode=loop-engineering)"
@@ -481,17 +503,21 @@ case "$MODE" in
 
     # Step 2: Install loop-cli (optional, opt-in via --with-loop-engineering-cli)
     echo ""
-    echo "[2/7] Installing loop-cli (if requested)..."
+    echo "[2/8] Installing loop-cli (if requested)..."
     install_loop_eng_cli
 
     # Step 3: Clean old skills (idempotent)
     echo ""
-    echo "[3/7] Cleaning old skills..."
+    echo "[3/8] Cleaning old skills..."
     mkdir -p "$SKILLS_DEST"
     remove_one() { rm -rf "$SKILLS_DEST/$1"; }
     for_each_managed_skill remove_one "$SKILLS_SRC/erics-process" "erics-process-"
     for_each_managed_skill remove_one "$SKILLS_SRC/erics-ability" "erics-ability-"
     rm -rf "$SKILLS_DEST/erics-loop-router" "$SKILLS_DEST/estack" "$SKILLS_DEST/estack-upgrade"
+    # Brain vendor: clear post-install names (renamed + symlinked).
+    for name in brain-page brain-setup brain-init brain-bootstrap brain-ingest; do
+      rm -rf "$SKILLS_DEST/$name"
+    done
     # Only remove loop-* wrappers when mode is not active (avoid clobbering on re-run with --mode loopx).
     if [ "$LOOP_ENG_MODE" = "loopx" ]; then
       for name in loop-doctor loop-status loop-mode loop-init; do
@@ -501,7 +527,7 @@ case "$MODE" in
 
     # Step 4: Install skills via symlinks (NOT copies — easier to update)
     echo ""
-    echo "[4/7] Installing $ACTUAL_SKILL_MD skills + $ACTUAL_ENTRYPOINTS entry points..."
+    echo "[4/8] Installing $ACTUAL_SKILL_MD skills + $ACTUAL_ENTRYPOINTS entry points..."
 
     install_one() {
       ln -sf "$2" "$SKILLS_DEST/$1"
@@ -576,34 +602,130 @@ UPGRADE
 UPGRADE
     echo "  [OK] estack-upgrade"
 
-    # Step 5: Copy LOOP_ENGINEERING_INTEGRATION.md into runtime docs dir
+    # Step 5: Install brain vendor (mindmux/brain.md, Apache-2.0)
+    # ------------------------------------------------------------
+    # The upstream `brain` CLI hardcodes its sibling asset path as
+    # `<bin>/../../brain-setup/assets` and expects bin/ at
+    # `~/.claude/skills/brain-page/bin/`. So when repo-side names are
+    # `erics-ability-brain-page` / `erics-ability-brain-setup`, we COPY
+    # (not symlink) and drop the prefix, then rewrite the SKILL.md
+    # frontmatter `name:` to match the post-install directory name. See
+    # .loopx/sync-state.json `post_install_naming` for the full rationale.
+    echo ""
+    echo "[5/8] Installing mindmux/brain.md vendor..."
+
+    BRAIN_VENDOR_SRC="$SKILLS_SRC/erics-ability"
+    BRAIN_PAGE_SRC="$BRAIN_VENDOR_SRC/erics-ability-brain-page"
+    BRAIN_SETUP_SRC="$BRAIN_VENDOR_SRC/erics-ability-brain-setup"
+    BRAIN_PAGE_DEST="$SKILLS_DEST/brain-page"
+    BRAIN_SETUP_DEST="$SKILLS_DEST/brain-setup"
+
+    # Refuse if upstream CLI is missing — the rest of brain is useless without it.
+    [ -x "$BRAIN_PAGE_SRC/bin/brain.mjs" ] || {
+      echo "  [FAIL] $BRAIN_PAGE_SRC/bin/brain.mjs missing — repo incomplete"
+      exit 1
+    }
+
+    # Rewrite SKILL.md frontmatter `name:` to the post-install name.
+    # Operates on the *destination* copy so the repo-side file stays the
+    # source of truth.
+    brain_rewrite_name() {
+      local dest=$1 new_name=$2 old_name=$3
+      local skill_md="$dest/SKILL.md"
+      [ -f "$skill_md" ] || return 0
+      if grep -qE "^name: ${old_name}\$" "$skill_md"; then
+        sed -i.bak -E "s/^name: ${old_name}\$/name: ${new_name}/" "$skill_md" && rm -f "$skill_md.bak"
+        echo "  [OK]   rewrote SKILL.md name: ${old_name} -> ${new_name}"
+      fi
+    }
+
+    # Materialize the post-install layout. COPY (not symlink) because the
+    # SKILL.md frontmatter rename is destination-local.
+    mkdir -p "$BRAIN_PAGE_DEST"
+    cp -R "$BRAIN_PAGE_SRC/bin" "$BRAIN_PAGE_DEST/"
+    cp -R "$BRAIN_PAGE_SRC/lib" "$BRAIN_PAGE_DEST/"
+    cp "$BRAIN_PAGE_SRC/SKILL.md" "$BRAIN_PAGE_DEST/SKILL.md"
+    brain_rewrite_name "$BRAIN_PAGE_DEST" "brain-page" "erics-ability-brain-page"
+    chmod +x "$BRAIN_PAGE_DEST/bin/brain.mjs"
+    echo "  [OK]   brain-page (copied, frontmatter rewritten)"
+
+    mkdir -p "$BRAIN_SETUP_DEST"
+    cp -R "$BRAIN_SETUP_SRC/assets" "$BRAIN_SETUP_DEST/"
+    # Hooks are opt-in — never copy by default (see
+    # .loopx/sync-state.json files_imported[].installed_by_default).
+    cp "$BRAIN_SETUP_SRC/SKILL.md" "$BRAIN_SETUP_DEST/SKILL.md"
+    brain_rewrite_name "$BRAIN_SETUP_DEST" "brain-setup" "erics-ability-brain-setup"
+    echo "  [OK]   brain-setup (copied without hooks; assets only)"
+
+    # Symlink the three EricStack-prefixed skills for compatibility —
+    # triggers like /brain-init, /brain-bootstrap, /brain-ingest resolve
+    # through these names too.
+    for name in erics-ability-brain-init erics-ability-brain-bootstrap erics-ability-brain-ingest; do
+      src="$BRAIN_VENDOR_SRC/$name"
+      [ -d "$src" ] || continue
+      ln -sf "$src" "$SKILLS_DEST/$name"
+      echo "  [OK]   $name (symlink)"
+    done
+
+    # Place the `brain` CLI on PATH. Prefer ~/.local/bin/; fall back to
+    # ~/bin/. Do NOT modify ~/.zshrc or ~/.bashrc.
+    BRAIN_CLI_INSTALLED=0
+    for BIN_DIR in "$HOME/.local/bin" "$HOME/bin"; do
+      if [ -d "$BIN_DIR" ] || mkdir -p "$BIN_DIR" 2>/dev/null; then
+        BRAIN_LINK="$BIN_DIR/brain"
+        # Idempotency: if link points at *our* CLI, refresh; if it points
+        # elsewhere, leave it alone (don't clobber user state); if it's a
+        # real file, warn and skip.
+        if [ -L "$BRAIN_LINK" ]; then
+          existing_target=$(readlink "$BRAIN_LINK")
+          case "$existing_target" in
+            *brain-page/bin/brain.mjs) rm "$BRAIN_LINK" ;;
+            *) echo "  [SKIP] $BRAIN_LINK exists, points elsewhere ($existing_target)"; continue ;;
+          esac
+        elif [ -e "$BRAIN_LINK" ]; then
+          echo "  [SKIP] $BRAIN_LINK exists as a real file, not a symlink"
+          continue
+        fi
+        ln -s "$BRAIN_PAGE_DEST/bin/brain.mjs" "$BRAIN_LINK"
+        echo "  [OK]   brain -> $BRAIN_LINK"
+        BRAIN_CLI_INSTALLED=1
+        case ":$PATH:" in
+          *":$BIN_DIR:"*) ;;
+          *) echo "  [HINT] Add $BIN_DIR to PATH to use 'brain' directly" ;;
+        esac
+        break
+      fi
+    done
+    [ "$BRAIN_CLI_INSTALLED" = 1 ] || echo "  [WARN] No writable PATH dir found; invoke brain CLI via $BRAIN_PAGE_DEST/bin/brain.mjs"
+
+    # Step 6: Copy LOOP_ENGINEERING_INTEGRATION.md into runtime docs dir
     echo ""
     if [ "$LOOP_ENG_MODE" != "loopx" ] && [ "$WITH_LOOP_DOCS" = "true" ]; then
-      echo "[5/7] Copying LOOP_ENGINEERING_INTEGRATION.md..."
+      echo "[6/8] Copying LOOP_ENGINEERING_INTEGRATION.md..."
       copy_loop_eng_docs
     else
-      echo "[5/7] Skipping loop docs copy"
+      echo "[6/8] Skipping loop docs copy"
     fi
 
-    # Step 6: Write loop-engineering state + register independent goal
+    # Step 7: Write loop-engineering state + register independent goal
     echo ""
     if [ "$LOOP_ENG_MODE" != "loopx" ]; then
-      echo "[6/7] Writing loop-engineering runtime state..."
+      echo "[7/8] Writing loop-engineering runtime state..."
       write_loop_eng_state
       echo "  [OK] $LOOP_ENG_STATE_FILE"
       echo "  [OK] $LOOP_ENG_STATE_JSON"
       add_loop_eng_goal_to_registry
     else
-      echo "[6/7] Skipping loop-engineering runtime state (mode=loopx)"
+      echo "[7/8] Skipping loop-engineering runtime state (mode=loopx)"
     fi
 
-    # Step 7: Generate 4 loop-* shell wrappers
+    # Step 8: Generate 4 loop-* shell wrappers
     echo ""
     if [ "$LOOP_ENG_MODE" != "loopx" ]; then
-      echo "[7/7] Generating loop-* entry skill wrappers..."
+      echo "[8/8] Generating loop-* entry skill wrappers..."
       install_loop_eng_wrappers
     else
-      echo "[7/7] Skipping loop-* wrappers (mode=loopx)"
+      echo "[8/8] Skipping loop-* wrappers (mode=loopx)"
     fi
 
     # Summary

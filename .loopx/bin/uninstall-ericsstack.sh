@@ -58,6 +58,14 @@ for skill_file in "$SKILLS_SRC"/erics-process/*/SKILL.md "$SKILLS_SRC"/erics-abi
       esac
       ;;
   esac
+  # Brain vendor (mindmux/brain.md): brain-page and brain-setup are installed
+  # under DIFFERENT post-install names (CLI hardcodes sibling string
+  # 'brain-setup'). The other 3 brain-* skills stay under their repo-side
+  # names (they are symlinks). Map only the renamed two.
+  case "$name" in
+    erics-ability-brain-page) name=brain-page ;;
+    erics-ability-brain-setup) name=brain-setup ;;
+  esac
   item="$SKILLS_DEST/$name"
   if [ -e "$item" ] || [ -L "$item" ]; then
     to_remove+=("$item")
@@ -144,7 +152,7 @@ echo ""
 
 # Step 2: opt-in loop-engineering purge + registry goal removal
 if $PURGE_LOOP_ENG; then
-  echo "[2/2] Purging loop-engineering state..."
+  echo "[2/3] Purging loop-engineering state..."
   for item in "${loop_eng_purge[@]}"; do
     rm -rf "$item"
     echo "  [RM] ${item#$ERICSTACK_DIR/}"
@@ -164,12 +172,38 @@ if $PURGE_LOOP_ENG; then
     fi
   fi
 else
-  echo "[2/2] Skipped loop-engineering purge (use --purge-loop-engineering to enable)"
+  echo "[2/3] Skipped loop-engineering purge (use --purge-loop-engineering to enable)"
 fi
+
+# Step 3: brain CLI symlink cleanup (only symlinks we created pointing at our install)
+# Always runs — EricStack-owned artifacts are safe to clean on uninstall. We never
+# touch user-created links/files.
+echo ""
+echo "[3/3] Cleaning brain CLI symlinks (only those EricStack installed)..."
+brain_cli_removed=0
+for BIN_DIR in "$HOME/.local/bin" "$HOME/bin"; do
+  BRAIN_LINK="$BIN_DIR/brain"
+  [ -L "$BRAIN_LINK" ] || continue
+  existing_target=$(readlink "$BRAIN_LINK")
+  case "$existing_target" in
+    *brain-page/bin/brain.mjs)
+      rm "$BRAIN_LINK"
+      echo "  [RM] $BRAIN_LINK -> $existing_target"
+      brain_cli_removed=$((brain_cli_removed + 1))
+      ;;
+    *)
+      echo "  [SKIP] $BRAIN_LINK points elsewhere ($existing_target) — not ours"
+      ;;
+  esac
+done
+[ $brain_cli_removed -eq 0 ] && echo "  [INFO] No EricStack-installed brain symlinks found"
 
 echo ""
 echo "  NOTE: ~/.codex/loopx is LoopX global state and was NOT modified."
 echo "  To fully remove LoopX: rm -rf ~/.codex/loopx ~/.local/bin/loopx"
+echo ""
+echo "  NOTE: Project BRAIN.md / brain/ data (your compiled truth) was NOT touched."
+echo "  The brain vendor is a write interface to your project memory; it never owns the data."
 echo ""
 echo "=========================================="
 echo "Uninstall complete!"

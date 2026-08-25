@@ -1,6 +1,6 @@
 ---
-name: erics-ability-context-save
-description: Use when saving git state, decisions, evidence, and remaining work for a later session.
+name: context-save
+description: Save working context — git state, decisions, remaining work.
 triggers:
   - save context
   - checkpoint
@@ -134,6 +134,80 @@ Modified: {N} files
 Duration: {duration or "unknown"}
 ════════════════════════════════════════
 Restore later with /context-restore.
+```
+
+### Step 5: Optional — sync architectural decisions to brain
+
+If the saved file's "Decisions Made" section contains decisions that look
+*durable* (not ephemeral session state), and the project has been
+initialized with `brain` (a `BRAIN.md` at the project root), offer to
+sync the architectural decisions into the project brain. This is
+session-state → project-memory promotion, not auto-paste.
+
+**Skip conditions (do not run this step at all):**
+
+1. The project root has no `BRAIN.md` — silent skip, do not prompt
+   "should we init brain" (that's `erics-ability-brain-init`'s job).
+2. The user passed `--no-brain-prompt` to `/context-save`.
+3. A `.brainrc` flag at the project root has `brain_prompt: never`.
+4. The saved "Decisions Made" section is empty or has no architectural
+   decisions (see filter below).
+5. The project contains `notes/implemented/` or `notes/archived/`
+   (DeepSeek Harness Agent Notes system) — brain and archive-agent-notes
+   maintain two competing decision corpora, so this step must refuse.
+
+**Filter — what counts as "architectural":**
+
+Only include bullets from "Decisions Made" that match:
+
+- Line starts with `- [arch]` (explicit tag), OR
+- First sentence contains one of: `architect`, `chose`, `rejected`,
+  `instead of`, `over `, `framework`, `library`, `database`, `engine`,
+  `protocol`, `RFC`, `ADR` (case-insensitive), AND
+- Length > 20 chars (filters out ultra-short throwaway bullets).
+
+Exclude everything from "Remaining Work", "Notes", "Tried and didn't
+work". They are session state, not project knowledge.
+
+**Dedup — what's already in brain:**
+
+```bash
+# Hash each candidate decision's title (first 8 words, lowercased)
+# and compare against existing brain page ids / titles.
+CLI="$HOME/.claude/skills/brain-page/bin/brain.mjs"
+existing_titles=$("$CLI" list-pages 2>/dev/null | awk -F'\t' '{print $2}')
+```
+
+If a candidate's normalized title matches an existing brain page title
+(fuzzy: same first 8 lowercased words), drop it — already in brain.
+
+**Prompt — only after filter + dedup reduce the candidate set to ≤4:**
+
+Use AskUserQuestion with a multiSelect header:
+
+- Question: "本次保存包含 N 条 architectural 决策。要把哪些同步进项目 brain (`erics-ability-brain-page`)？"
+- Options: each surviving candidate decision as one option (max 4),
+  plus a 5th option "全部跳过，下次再问".
+- header: "Sync to brain"
+
+If the user picks any, route to `erics-ability-brain-page` for each
+selected decision (do not auto-write — that skill owns the CLI
+invocation). If the user picks "skip", do nothing further. If the user
+asks for "永久关闭", write `.brainrc` with `brain_prompt: never` at the
+project root and explain the override.
+
+**Reporting:**
+
+After Step 5 completes (whether or not the user synced anything), show:
+
+```
+BRAIN SYNC OFFER
+════════════════════════════════════════
+Architectural decisions in this save: 3
+Already in brain (skipped):           1
+Selected for sync:                    1  (decision-X)
+Brain prompt status:                  enabled  # or "disabled via .brainrc"
+════════════════════════════════════════
 ```
 ---
 ## List flow

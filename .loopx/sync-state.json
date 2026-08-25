@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-08-23T00:00:00+08:00",
+  "updated_at": "2026-08-25T00:00:00+08:00",
   "sources": {
     "deepseek-harness": {
       "url": "https://github.com/deepseek-ai/deepseek-harness.git",
@@ -68,6 +68,54 @@
       ],
       "last_modified": "2026-08-23T00:00:00+08:00",
       "notes": "15 locally-authored skills (added 3 from mattpocock/skills grilling family: grill-me, grill-with-docs, wayfinder). PROTECTED — sync-skills.sh must NEVER overwrite these. See protected_skills field."
+    },
+    "mindmux-brain-md": {
+      "url": "https://github.com/mindmuxai/brain.md.git",
+      "commit": "dafdde9d9981895b149d6285ef19fa2ea9092747",
+      "vendor_mode": true,
+      "license": "Apache-2.0",
+      "files_imported": [
+        {
+          "upstream": "skills/brain-page/bin/brain.mjs",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-page/bin/brain.mjs",
+          "sha256": "224f97fe88b82f4e6c598c336038a0ad306188ed50828bc0c42d88fb7a4a84fe"
+        },
+        {
+          "upstream": "skills/brain-page/lib/brain.mjs",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-page/lib/brain.mjs",
+          "sha256": "b2a739e96c929eb703287f7c52caeca7d3702d67b2e2d447c69ceb4d451fcd33"
+        },
+        {
+          "upstream": "skills/brain-setup/assets/BRAIN.md",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/assets/BRAIN.md",
+          "sha256": "4802eb806582d2a339016aa89d2cb7bd9cd734095f9b1262382bf22d59232112"
+        },
+        {
+          "upstream": "skills/brain-setup/hooks/pre-commit",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/hooks/pre-commit",
+          "sha256": "6e8e9fc7b494f825f7650be51f4a61b49ebb4e0dee5ea0421283cb42a9affe3b",
+          "installed_by_default": false
+        },
+        {
+          "upstream": "skills/brain-setup/hooks/session-start",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/hooks/session-start",
+          "sha256": "c06a880c3e02fc045f666e50dec9482f98b9b30aeeb5b09838337b242c62105a",
+          "installed_by_default": false
+        }
+      ],
+      "skills_imported": [
+        "erics-ability-brain-init",
+        "erics-ability-brain-page",
+        "erics-ability-brain-bootstrap",
+        "erics-ability-brain-ingest",
+        "erics-ability-brain-setup"
+      ],
+      "tree_sha256": "",
+      "last_sync": "2026-08-25T12:00:00+08:00",
+      "notes": "5 vendored skills (Apache-2.0). 4 user-facing (init/page/bootstrap/ingest) + 1 asset container (brain-setup, holds BRAIN.md template + opt-in hooks). Per-file SHA-256 in files_imported[]; CLI is sole writer (correct-by-construction). PROTECTED — sync-skills.sh must NEVER overwrite these.",
+      "runtime_sibling_constraint": "erics-ability-brain-page and erics-ability-brain-setup MUST be installed as siblings under ~/.claude/skills/ (CLI resolves scaffold assets via bin/../../brain-setup/assets)",
+      "post_install_naming": "install-ericsstack.sh renames erics-ability-brain-page -> brain-page and erics-ability-brain-setup -> brain-setup on install (and rewrites SKILL.md frontmatter name). Upstream CLI hardcodes sibling string 'brain-setup' and expects bin/ to live at ~/.claude/skills/brain-page/bin/.",
+      "bump_policy": "manual-on-github-release"
     }
   },
   "protected_skills": [
@@ -85,16 +133,22 @@
     "erics-ability-grill-me",
     "erics-ability-grill-with-docs",
     "erics-ability-wayfinder",
+    "erics-ability-brain-init",
+    "erics-ability-brain-page",
+    "erics-ability-brain-bootstrap",
+    "erics-ability-brain-ingest",
+    "erics-ability-brain-setup",
     "erics-loop-router"
   ],
   "totals": {
     "deepseek-harness_imported": 11,
     "gstack_imported": 15,
     "local": 15,
-    "total_skills": 41,
+    "mindmux-brain-md_imported": 5,
+    "total_skills": 46,
     "verify_with": "find .loopx/skills -name SKILL.md | wc -l",
     "process_skills": 13,
-    "ability_skills": 27,
+    "ability_skills": 32,
     "router_skills": 1
   },
   "sync_policy": {

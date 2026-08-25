@@ -1,6 +1,6 @@
 ---
 name: erics-ability-estack
-description: Use when entering EricStack, displaying the catalog, or routing an engineering request to the right skill.
+description: EricStack main entry point — displays interactive banner and routes to the correct skill. Start here for anything in EricStack.
 allowed-tools:
   - Read
   - Bash
@@ -20,7 +20,7 @@ triggers:
 
 ```
 ╔══════════════════════════════════════════════════════╗
-║ EricStack  v0.1.0  |  43 installed items  |  AI-Native Loop  ║
+║  EricStack  v0.1.0  |  26 skills  |  AI-Native Loop  ║
 ╚══════════════════════════════════════════════════════╝
 ```
 
@@ -49,7 +49,7 @@ triggers:
 - "帮我保存当前进度" → `erics-ability-context-save`
 - "帮我 benchmark 性能" → `erics-ability-benchmark`
 
-运行 `/erics-loop-router` 查看全部 43 个已安装项（41 个 catalog skills + 2 个入口）的完整路由表。
+运行 `/erics-loop-router` 查看全部 26 个技能的完整路由表。
 
 ## 快速命令
 
@@ -58,6 +58,21 @@ triggers:
 | `/erics-ability-upgrade` | 检查 EricStack 更新 |
 | `/erics-loop-router` | 查看全部技能和路由规则 |
 | `bash .loopx/bin/sync-skills.sh --check` | 检查上游 skill 更新 |
+
+## Brain 项目记忆（v0.2.0+，新）
+
+跨 session 记录"为什么我们选 X 不选 Y"这类决策——git-tracked
+markdown + `brain` CLI。**与 `context-save` 互补**：context-save 存的是
+当前 session 工作状态，brain 存的是项目级持久决策。
+
+| 命令 | 功能 |
+|---|---|
+| `/erics-ability-brain-init` | 在项目根初始化 `BRAIN.md` 和 `brain/` |
+| `/erics-ability-brain-bootstrap` | 从 git log / 代码播种项目记忆（brownfield）或访谈用户（greenfield） |
+| `/erics-ability-brain-page` | 读 / 写项目记忆页（5 类：project/concept/decision/person/reference） |
+| `/erics-ability-brain-ingest` | 把当前对话 / 文档消化进 brain |
+
+完整边界与维护者升级流程见 `docs/brain-integration.md`。
 
 ## Skill 命名规范
 
