@@ -1,6 +1,6 @@
 ---
 name: erics-ability-estack
-description: EricStack main entry point — displays interactive banner and routes to the correct skill. Start here for anything in EricStack.
+description: Use when the user invokes /estack or asks "show me all EricStack skills". EricStack main entry point — displays interactive banner and routes to the correct skill.
 allowed-tools:
   - Read
   - Bash

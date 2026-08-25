@@ -13,6 +13,7 @@
 3. [纪律技能详解](#3-纪律技能详解)
 4. [能力技能详解](#4-能力技能详解)
 5. [知识库使用](#5-知识库使用)
+   - [5.4 brain — 项目级持久记忆](#54-brain--项目级持久记忆)
 6. [自动更新与版本管理](#6-自动更新与版本管理)
 7. [自定义与贡献](#7-自定义与贡献)
 8. [故障排查](#8-故障排查)
@@ -126,6 +127,10 @@ EricStack 是跑在 **LoopX** 平台上的工程技能集合。两者定位不�
 | Gherkin 验收测试 | `erics-ability-bdd` | 编写 .feature + 解析为 JSON IR |
 | 源码变异测试 | `erics-process-mutation` | 验证测试真正有效（存活率 <5%） |
 | 测试运行适配 | `erics-ability-test-runner` | 框架适配器（JUnit5/Pytest/Behave 等） |
+| 初始化项目 brain | `erics-ability-brain-init` | 创建 `BRAIN.md` + `brain/` 脚手架（项目内数据） |
+| 读写 brain 页面 | `erics-ability-brain-page` | 通过内置 `brain` CLI 调用 create-page / read-page / update-truth / list-pages 等 |
+| 播种 brain（brownfield/greenfield） | `erics-ability-brain-bootstrap` | 用代码/文档播种 brain（成熟项目）或访谈（新项目） |
+| 把对话/决策消化到 brain | `erics-ability-brain-ingest` | 自动从当前会话提炼关键决策、写入 `brain/` |
 
 ### 2.3 路由例外规则
 
@@ -393,6 +398,24 @@ graft init --agents claude
 3. 过期内容（>90 天未更新）→ 是否还准确？
 4. 重复主题 → 合并
 
+### 5.4 brain — 项目级持久记忆
+
+`erics-ability-brain-*` 系列提供 **Open Project Brain Standard**（vendored 自 [mindmux/brain.md](https://github.com/mindmuxai/brain.md)，Apache-2.0），用于在**项目内部**维护一份带版本、可查询、可 lint 的结构化记忆。`.loopx/wiki/` 是 LoopX 自身知识库；`BRAIN.md` + `brain/` 才是用户项目的 brain，二者正交。
+
+| 任务 | 用什么 | 备注 |
+|---|---|---|
+| 第一次接入项目 | `erics-ability-brain-init` | 创建 `BRAIN.md`、`brain/{pages,timeline,indices}/` 目录结构 |
+| 在 chat 里写决策页 / 读真值页 | `erics-ability-brain-page` | 调用内置 `brain` CLI 子命令 `create-page / read-page / update-truth / append-timeline / list-pages / reindex / lint-links` |
+| 旧项目自动播种 | `erics-ability-brain-bootstrap` | 读 README / ARCHITECTURE / 关键 commit，生成种子页面 |
+| 新项目访谈播种 | `erics-ability-brain-bootstrap`（greenfield 模式） | 通过提问拼出项目骨架 |
+| 把当前会话消化进 brain | `erics-ability-brain-ingest` | 在 `/erics-ability-context-save` Step 5 中也会触发（opt-in） |
+
+**关键边界（避免误删项目数据）：**
+
+- 安装脚本会 COPY（不是符号链接）`brain-page` / `brain-setup`，并重写 `SKILL.md` frontmatter 中的 `name:` 字段，原因是 `brain` CLI 内部硬编码 `<bin>/../../brain-setup/assets` 路径前缀。
+- 卸载脚本只清理 EricStack 安装的 `brain` CLI 软链接（前提是它指向我们的 `brain-page/bin/brain.mjs`），**绝不触碰**项目内的 `BRAIN.md` / `brain/` 数据。
+- 完整说明、boundary table、升级流程见 [`docs/brain-integration.md`](brain-integration.md)。
+
 ---
 
 ## 6. 自动更新与版本管理
@@ -520,10 +543,12 @@ cat .loopx/VERSION
 
 | 文档 | 说明 |
 |---|---|
-| `INTEGRATION.md` | 双库整合方案完整说明 |
+| `INTEGRATION.md` | 双库整合方案完整说明（含 mindmux/brain.md vendor 章节） |
 | `docs/APS_INTEGRATION.md` | APS 整合方案（Acceptance Pipeline Specification） |
+| `docs/brain-integration.md` | mindmux/brain.md vendored 整合（boundary table + 升级流程） |
+| `docs/GRILLING_SUITE.md` | 质询三件套教程（grill-me / grill-with-docs / wayfinder） |
 | `.loopx/llm-wiki-integration.md` | LLM Wiki 整合说明 |
-| `.loopx/erics-mapping.md` | 路径锚点映射 |
+| `.loopx/erics-mapping.md` | 路径锚点映射（含 brain vendor） |
 
 ### C. 外部资源
 

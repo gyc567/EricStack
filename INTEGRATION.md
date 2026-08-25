@@ -42,6 +42,26 @@
 
 > **说明**：`investigate` 在 A 级是因为它的 body 逻辑（4阶段调试流程）本身很干净，PreToolUse freeze hook 在导入时会删除。
 
+### 1.3 mindmux/brain.md（来源：`mindmuxai/brain.md`，Apache-2.0）
+
+5 个 vendored skill，定位为**项目级持久记忆（Open Project Brain Standard）**——在**用户项目内部**维护 `BRAIN.md` + `brain/` 结构化记忆。**与 `.loopx/wiki/`（LoopX 自身知识库）正交，不可混用**。
+
+| 本地名称 | 原始名称 | 记忆职责 | CLI 依赖 |
+|---|---|---|---|
+| `erics-ability-brain-init` | brain-init | 初始化项目 brain（`BRAIN.md` + `brain/{pages,timeline,indices}/`） | `node` |
+| `erics-ability-brain-page` | brain-page | 读/写 brain 页面（`create-page / read-page / update-truth / append-timeline / list-pages / reindex / lint-links`） | `node` + bundled `brain.mjs` |
+| `erics-ability-brain-bootstrap` | brain-bootstrap | 播种 brain：成熟项目读 README/ARCHITECTURE/commits，新项目用访谈模式 | `node` + bundled `brain.mjs` |
+| `erics-ability-brain-ingest` | brain-ingest | 把当前会话/决策消化进 brain（去重、opt-in） | `node` + bundled `brain.mjs` |
+| `erics-ability-brain-setup` | brain-setup | 可选 git hooks（`pre-commit` lint-links + `session-start` ingest 提示），默认 opt-in 不安装 | 无 |
+
+**导入策略：** 整库 vendor + pin commit，**不做** sed 改写相对路径（路径硬编码见下）。安装时 `brain-page` / `brain-setup` 需要 COPY（不是符号链接）并重命名 `SKILL.md` 的 `name:`，原因是 `brain.mjs` 内部硬编码 `<bin>/../../brain-setup/assets` 路径前缀。
+
+**关键约束：**
+
+- `brain` CLI 必须能解析到 `~/.claude/skills/brain-setup/assets/BRAIN.md`，因此 `brain-page` 与 `brain-setup` 在 `~/.claude/skills/` 下必须作为精确名称的兄弟目录存在。
+- 卸载时只清理 EricStack 安装的 `brain` CLI 软链接（前提是它指向我们的 `brain-page/bin/brain.mjs`），**绝不触碰**项目内的 `BRAIN.md` / `brain/` 数据。
+- 完整 boundary table、pin commit、升级流程见 [`docs/brain-integration.md`](docs/brain-integration.md) 与 `.loopx/erics-mapping.md#六`。
+
 ---
 
 ## 二、品牌命名规范
@@ -108,6 +128,13 @@ EricStack/
 │   │       ├── erics-ability-autoplan/
 │   │       ├── erics-ability-design-consultation/
 │   │       └── erics-ability-health/
+│   │       │
+│   │       └── erics-ability-brain-*     # 来源 mindmux/brain.md（Apache-2.0），详见 1.3
+│   │           ├── erics-ability-brain-init/        # install 后 → brain-init
+│   │           ├── erics-ability-brain-page/        # install 后 COPY+重命名 → brain-page（CLI 兄弟约束）
+│   │           ├── erics-ability-brain-bootstrap/   # install 后 → brain-bootstrap（symlink）
+│   │           ├── erics-ability-brain-ingest/      # install 后 → brain-ingest（symlink）
+│   │           └── erics-ability-brain-setup/       # install 后 COPY+重命名 → brain-setup（CLI 兄弟约束）
 │   │
 │   ├── erics-skills-index.md          # 所有 skill 的触发词索引
 │   └── erics-mapping.md               # 路径锚点映射（dsh 原始路径 → 本地路径）
@@ -170,6 +197,33 @@ gstack SKILL.md 结构：
 
 **gbrain context_queries 保留但不执行：** `gbrain:` 块在无 gbrain 服务时静默降级，skill 仍可用本地信息运行。
 
+> 注：`gbrain` 是 gstack 原生上下文服务；与 mindmux/brain.md vendor（`erics-ability-brain-*`）不同物，不可混用。前者是上游 daemon + 服务，后者是 vendored 本地文件式项目记忆。
+
+### 3.4 mindmux/brain.md（来源 `mindmuxai/brain.md`，vendor 模式）
+
+**vendor 原则：** 整库 snapshot + pin commit + 保持原仓库路径结构；只对 `SKILL.md` frontmatter 的 `name:` 做精确重写（COPY + rename 触发的 frontmatter 同步），**不**做相对路径 sed。
+
+**安装/卸载改写（由 `.loopx/bin/install-ericsstack.sh` 第 [5/8] 步 + `uninstall-ericsstack.sh` 第 [3/3] 步实施）：**
+
+| 仓库侧路径 | 安装到 `~/.claude/skills/` | 卸载时 | 备注 |
+|---|---|---|---|
+| `erics-ability-brain-page/` | COPY → `brain-page/`（同步改 frontmatter `name:` → `brain-page`） | 仅删除 EricStack 安装的 `brain` CLI 软链接 | CLI 硬编码 `<bin>/../../brain-setup/assets` 兄弟约束 |
+| `erics-ability-brain-setup/` | COPY → `brain-setup/`（同步改 frontmatter `name:` → `brain-setup`） | 同上 | 同上 |
+| `erics-ability-brain-init/` | symlink → `brain-init/` | 删除 `brain-init` 软链接 | 仓库侧即可被 CLI 找到 |
+| `erics-ability-brain-bootstrap/` | symlink → `brain-bootstrap/` | 删除 `brain-bootstrap` 软链接 | 同上 |
+| `erics-ability-brain-ingest/` | symlink → `brain-ingest/` | 删除 `brain-ingest` 软链接 | 同上 |
+| `erics-ability-brain-page/bin/brain.mjs` | `ln -sf … /usr/local/bin/brain`（`PATH` 上 `brain` 命令） | 仅当软链接指向我们的 `brain-page/bin/brain.mjs` 才删 | idempotent |
+
+**校验点（每次 install 后）：**
+
+1. `~/.claude/skills/brain-page/`、`~/.claude/skills/brain-setup/` 都存在且目录名精确。
+2. 两个 `SKILL.md` frontmatter 的 `name:` 分别是 `brain-page`、`brain-setup`（不是 `erics-ability-brain-…`）。
+3. `which brain` 命中且 `brain --help` 输出 7+ 子命令。
+4. `brain init` 在用户项目目录内能创建 `BRAIN.md`（**仅在用户项目内**，绝不在 EricStack 仓库内）。
+5. SHA-256 与 `.loopx/sync-state.json#sources.mindmux-brain-md.files_imported[]` 一致（防篡改 pin）。
+
+**详细路径映射见** `.loopx/erics-mapping.md#六`。
+
 ---
 
 ## 四、冲突与重叠解决
@@ -193,6 +247,19 @@ gstack SKILL.md 结构：
 - `erics-process-code-review`（纪律视角）≠ `erics-ability-review`（生产力视角）
 - `erics-process-doc-standards`（结构/放置）≠ `erics-process-prose-standard`（文风/内容）
 - `erics-ability-cso`（OWASP/STRIDE 威胁建模）完全独立于其他所有 skill
+
+### 4.3 brain 与 wiki 的边界
+
+`erics-ability-brain-*`（项目级持久记忆）**不**与 `.loopx/wiki/`（LoopX 自身知识库）冲突，二者服务于不同数据域：
+
+| 维度 | `.loopx/wiki/`（LoopX 自身知识库） | `BRAIN.md` + `brain/`（项目级记忆） |
+|---|---|---|
+| 数据域 | EricStack 自己的元数据（skills、concepts、queries） | 用户项目的事实、决策、timeline |
+| 触发 | `erics-ability-retro`、`erics-ability-context-save`、`erics-loop-router` 自身 | `erics-ability-brain-*` 5 个 skill |
+| 边界 | 在 `EricStack/` 仓库内可写 | 在用户项目根目录可写，绝不写入 EricStack 仓库 |
+| 卸载时 | 不动（git-tracked wiki） | 卸载只清理 EricStack 安装的 CLI 软链接，不删数据 |
+
+同类 skill 并存：`erics-ability-context-save`（保存**会话**上下文）≠ `erics-ability-brain-ingest`（把**会话沉淀**进项目 brain），二者不冲突，可链路调用（context-save Step 5 会 opt-in 调用 brain-ingest）。
 
 ---
 
@@ -268,11 +335,15 @@ gstack SKILL.md 结构：
 ```bash
 # 验证 erics-process 系列被索引
 ls .loopx/skills/erics-process/*/SKILL.md | wc -l
-# 期望：10 或 11
+# 期望：13
 
-# 验证 erics-ability 系列被索引
+# 验证 erics-ability 系列被索引（含 5 个 vendored brain）
 ls .loopx/skills/erics-ability/*/SKILL.md | wc -l
-# 期望：25
+# 期望：32（其中 5 个为 mindmux/brain.md vendor；31 = 27 gstack + 5 brain - 1 erics-loop-router 在根）
+
+# 验证总 catalog（含 erics-loop-router）
+find .loopx/skills -name SKILL.md -not -path '*/.omc/*' | wc -l
+# 期望：46（13 process + 32 ability + 1 router）
 
 # 验证无残留 gstack preamble
 rg -l 'gstack-update-check|gstack-config|gstack-session-kind|gstack-slug' .loopx/skills/erics-ability/ || echo "clean"
@@ -339,6 +410,8 @@ gh api repos/garrytan/gstack/contents --jq '.[].name' | grep -v '^\.'
 | erics-ability skills 在无 gbrain 环境下功能降级 | **低** | `gbrain:` 块静默降级，不报错；文档说明预期降级行为 |
 | C 级 skill 被用户错误触发（依赖不满足） | **中** | 所有 C 级 skill 目录创建但不写 SKILL.md（或写但标记 `[unavailable]`） |
 | 上游 gstack 更新导致本地副本过时 | **中** | 30 天一次同步检查；erics-mapping.md 记录版本快照 |
+| **mindmux/brain.md** 兄弟约束被破坏：`brain-page` / `brain-setup` 目录名未精确保留，导致 `brain.mjs` 找不到 `assets/BRAIN.md` | **高** | install COPY + SKILL.md frontmatter 同步改写 `name:`；installer exit code 非 0 视为失败；CI smoke 验证 `brain --help` 输出 ≥ 7 子命令 |
+| uninstaller 误删用户项目的 `BRAIN.md` / `brain/` 数据 | **高** | 卸载脚本只清理 EricStack 安装的 `brain` CLI 软链接，匹配 `*brain-page/bin/brain.mjs` 才删除；项目内数据视为用户资产，绝不触碰；erics-mapping.md 第六节明确边界 |
 
 ---
 

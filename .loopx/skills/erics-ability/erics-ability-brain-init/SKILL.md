@@ -1,11 +1,6 @@
 ---
 name: erics-ability-brain-init
-description: |
-  Initialize a project's brain — scaffolds BRAIN.md, brain/ directory, and wires
-  CLAUDE.md/AGENTS.md into the current project. Brain is the project-level
-  persistent memory (decisions, constraints, context that survives sessions).
-  Use when the user says "init brain", "brain init", "setup project brain",
-  "初始化项目记忆", or "启动 brain" and the project's BRAIN.md does not yet exist.
+description: Use when the user says "init brain", "brain init", "setup project brain", or "初始化项目记忆" and BRAIN.md does not yet exist. Scaffolds BRAIN.md, brain/ directory, and wires CLAUDE.md/AGENTS.md into the current project. Brain is project-level persistent memory (decisions, constraints).
 triggers:
   - brain init
   - init brain
@@ -64,12 +59,12 @@ The CLI resolves scaffold assets at `<bin>/../../brain-setup/assets`, so
 `BRAIN.md` and `brain/` to live). If the user is in a subdirectory, ask
 which directory is the project root before proceeding.
 
-### 4. Refuse on DeepSeek Harness projects
+### 4. Refuse on Agent-Notes projects
 
 If the project contains `notes/implemented/` or `notes/archived/`, fail
 with:
 
-> This project uses the DeepSeek Harness Agent Notes system. Brain and
+> This project uses an external Agent Notes system. Brain and
 > archive-agent-notes would create two competing decision corpora; do not
 > run `brain init` here. Use `/erics-process-archive-agent-notes` instead.
 

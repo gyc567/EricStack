@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "updated_at": "2026-08-25T00:00:00+08:00",
+  "updated_at": "2026-08-25T22:00:00+08:00",
   "sources": {
     "deepseek-harness": {
       "url": "https://github.com/deepseek-ai/deepseek-harness.git",
@@ -101,6 +101,54 @@
           "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/hooks/session-start",
           "sha256": "c06a880c3e02fc045f666e50dec9482f98b9b30aeeb5b09838337b242c62105a",
           "installed_by_default": false
+        },
+        {
+          "upstream": "skills/brain-setup/assets/brain/architecture.md",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/assets/brain/architecture.md",
+          "sha256": "eaef5629d6d5c89c2710c123d43a2ee353c0d6c9bb7d02da0f2fb1165bd026e4",
+          "purpose": "scaffold template — copied into user's brain/architecture.md by `brain init`"
+        },
+        {
+          "upstream": "skills/brain-setup/assets/brain/background.md",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/assets/brain/background.md",
+          "sha256": "67e5f0eccd7f870d6fa28a5c4498c3c381e0e7888ffaec68457e61616134647f",
+          "purpose": "scaffold template — copied into user's brain/background.md by `brain init`"
+        },
+        {
+          "upstream": "skills/brain-setup/assets/brain/flow.md",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/assets/brain/flow.md",
+          "sha256": "ce7f61906173d11de934c7f559c19dbd4c75bc0df26cbf2460d5ed23ee513512",
+          "purpose": "scaffold template — copied into user's brain/flow.md by `brain init`"
+        },
+        {
+          "upstream": "skills/brain-setup/assets/brain/index.md",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/assets/brain/index.md",
+          "sha256": "aacf7ed0e1d74845f040b82e8a1f95a6bbd6fd04b13a110602e9436441f42a8f",
+          "purpose": "scaffold template — copied into user's brain/index.md by `brain init`"
+        },
+        {
+          "upstream": "skills/brain-setup/assets/brain/mindmap.md",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/assets/brain/mindmap.md",
+          "sha256": "f58bb4bebb51be15aa1f26aae5044bc234a07dff56fcf077cbdbb62df3dc7b98",
+          "purpose": "scaffold template — copied into user's brain/mindmap.md by `brain init`"
+        },
+        {
+          "upstream": "skills/brain-setup/assets/brain/pages/.gitkeep",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/assets/brain/pages/.gitkeep",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "purpose": "empty-dir marker so `brain init` can scaffold brain/pages/ on the user's side"
+        },
+        {
+          "upstream": "skills/brain-setup/assets/brain/roadmap.md",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/assets/brain/roadmap.md",
+          "sha256": "9903130d43369b68e9b38ab3173f7af0147872dd1148603b5549644ca3322ec9",
+          "purpose": "scaffold template — copied into user's brain/roadmap.md by `brain init`"
+        },
+        {
+          "upstream": "skills/brain-setup/assets/brain/stack.md",
+          "downstream": ".loopx/skills/erics-ability/erics-ability-brain-setup/assets/brain/stack.md",
+          "sha256": "7fe285f385632869bd869632000c193b457ab843612a4747ced55c3276fa8d86",
+          "purpose": "scaffold template — copied into user's brain/stack.md by `brain init`"
         }
       ],
       "skills_imported": [
@@ -111,8 +159,8 @@
         "erics-ability-brain-setup"
       ],
       "tree_sha256": "",
-      "last_sync": "2026-08-25T12:00:00+08:00",
-      "notes": "5 vendored skills (Apache-2.0). 4 user-facing (init/page/bootstrap/ingest) + 1 asset container (brain-setup, holds BRAIN.md template + opt-in hooks). Per-file SHA-256 in files_imported[]; CLI is sole writer (correct-by-construction). PROTECTED — sync-skills.sh must NEVER overwrite these.",
+      "last_sync": "2026-08-25T22:00:00+08:00",
+      "notes": "5 vendored skills (Apache-2.0). 4 user-facing (init/page/bootstrap/ingest) + 1 asset container (brain-setup, holds BRAIN.md template + 7 root-page scaffolds + opt-in hooks). 13 files in files_imported[]: 2 .mjs CLI binaries, 1 BRAIN.md template, 8 brain/ root-page scaffolds (.gitkeep included so `pages/` empty dir survives checkout), 2 opt-in git hooks. Per-file SHA-256 pins verified on install. PROTECTED — sync-skills.sh must NEVER overwrite these.",
       "runtime_sibling_constraint": "erics-ability-brain-page and erics-ability-brain-setup MUST be installed as siblings under ~/.claude/skills/ (CLI resolves scaffold assets via bin/../../brain-setup/assets)",
       "post_install_naming": "install-ericsstack.sh renames erics-ability-brain-page -> brain-page and erics-ability-brain-setup -> brain-setup on install (and rewrites SKILL.md frontmatter name). Upstream CLI hardcodes sibling string 'brain-setup' and expects bin/ to live at ~/.claude/skills/brain-page/bin/.",
       "bump_policy": "manual-on-github-release"
@@ -145,6 +193,7 @@
     "gstack_imported": 15,
     "local": 15,
     "mindmux-brain-md_imported": 5,
+    "mindmux-brain-md_files_imported": 13,
     "total_skills": 46,
     "verify_with": "find .loopx/skills -name SKILL.md | wc -l",
     "process_skills": 13,

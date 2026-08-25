@@ -1,11 +1,6 @@
 ---
 name: erics-ability-brain-page
-description: |
-  Operating manual for reading and writing a project's brain — every read
-  and write goes through the bundled `brain` CLI. Use when the user wants
-  to capture a decision, constraint, or durable project knowledge, or read
-  existing brain pages. Triggers: "brain page", "read brain page", "create
-  brain page", "update truth", "记一条 brain 决策".
+description: Use when the user wants to capture a decision, constraint, or durable project knowledge, or read existing brain pages. Triggers: "brain page", "read brain page", "create brain page", "update truth", "记一条 brain 决策". Every read and write goes through the bundled `brain` CLI.
 triggers:
   - brain page
   - read brain page
@@ -35,7 +30,7 @@ hand-edit files under `brain/`.
    pages are kept as historical snapshots; do not delete them.
 5. **Cross-references** use `[[page-id]]` syntax. After adding references,
    run `brain lint-links` and fix any broken links.
-6. **DeepSeek Harness override**: if the project contains
+6. **Agent-Notes override**: if the project contains
    `notes/implemented/` or `notes/archived/`, prefer
    `/erics-process-archive-agent-notes` — brain is only a secondary
    cross-agent mirror in that case.

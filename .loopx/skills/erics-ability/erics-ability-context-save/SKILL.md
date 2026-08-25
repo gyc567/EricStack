@@ -1,6 +1,6 @@
 ---
-name: context-save
-description: Save working context — git state, decisions, remaining work.
+name: erics-ability-context-save
+description: Use when the user says "save context", "checkpoint", "save state", or wants to pause work and resume later. Saves git state, decisions, and remaining work.
 triggers:
   - save context
   - checkpoint
@@ -153,7 +153,7 @@ session-state → project-memory promotion, not auto-paste.
 4. The saved "Decisions Made" section is empty or has no architectural
    decisions (see filter below).
 5. The project contains `notes/implemented/` or `notes/archived/`
-   (DeepSeek Harness Agent Notes system) — brain and archive-agent-notes
+   (external Agent Notes system) — brain and archive-agent-notes
    maintain two competing decision corpora, so this step must refuse.
 
 **Filter — what counts as "architectural":**
