@@ -1,6 +1,6 @@
 ---
-name: office-hours
-description: YC Office Hours — six forcing questions + design thinking brainstorm.
+name: erics-ability-office-hours
+description: Use when pressure-testing an idea with structured product questions and a design-thinking brainstorm.
 triggers:
   - brainstorm
   - office hours

@@ -1,6 +1,6 @@
 ---
 name: erics-process-pre-push-checks
-description: Use before pushing, force-pushing, marking ready for review, or claiming checks pass on a EricStack branch, and immediately after gh stack sync publishes rewritten branches, to select the smallest tests and checks that cover the outgoing or just-published diff without reflexively running the full repository suite.
+description: Use when preparing to push, force-push, mark a branch ready, or claim checks pass, and select the smallest sufficient validation suite.
 triggers:
   - pre-push checks
   - before push

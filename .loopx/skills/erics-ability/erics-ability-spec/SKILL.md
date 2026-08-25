@@ -1,6 +1,6 @@
 ---
-name: spec
-description: Turn vague intent into a precise, executable spec in five phases.
+name: erics-ability-spec
+description: Use when turning vague intent into a precise, reviewable, and executable specification.
 triggers:
   - spec this out
   - file an issue
@@ -154,7 +154,7 @@ Scan-at-sink on the EXACT bytes that will be sent: write to a temp file, scan th
 file, pass the SAME file downstream. Never scan a string then re-render it.
 ```bash
 command -v bun >/dev/null 2>&1 || echo "redaction scan skipped — bun not on PATH"
-# Resolve visibility once; cache + reuse. Order: local config (~/.gstack, never
+# Resolve visibility once; cache + reuse. Order: local config (~/.loopx, never
 # committed) → gh → glab → unknown(=public-strict).
 REDACT_VIS=$(bin/ 2>/dev/null)
 [ -z "$REDACT_VIS" ] && REDACT_VIS=$(gh repo view --json visibility -q .visibility 2>/dev/null | tr 'A-Z' 'a-z')
@@ -240,7 +240,7 @@ route to the Audit/Cleanup template; otherwise use Standard. Other framings
 (bug, feature, refactor) auto-adapt within the Standard template per the
 contributor's "match template to content" rules.
 #### Phase 5 dispatch logic (plan-mode-aware default)
-Read `GSTACK_PLAN_MODE` from the environment (emitted by `## Preamble (run first)
+Read `ERICSTACK_PLAN_MODE` from the environment (emitted by `## Preamble (run first)
 ```bash
 _UPD=$(bin/erics-update-check 2>/dev/null || true 2>/dev/null || true)
 [ -n "$_UPD" ] && echo "$_UPD" || true
@@ -264,7 +264,7 @@ case "$_SESSION_KIND" in spawned|headless|interactive) ;; *) _SESSION_KIND="inte
 echo "SESSION_KIND: $_SESSION_KIND"
 # Conductor host: AskUserQuestion is unreliable here (native disabled, MCP
 # variant flaky), so skills render decisions as prose instead of calling the
-# tool. Gated on !headless so an eval/CI run INSIDE Conductor (GSTACK_HEADLESS)
+# tool. Gated on !headless so an eval/CI run inside Conductor (ERICSTACK_HEADLESS)
 # still BLOCKs rather than rendering prose to nobody.
 if [ "$_SESSION_KIND" != "headless" ] && { [ -n "${CONDUCTOR_WORKSPACE_PATH:-}" ] || [ -n "${CONDUCTOR_PORT:-}" ]; }; then
   echo "CONDUCTOR_SESSION: true"

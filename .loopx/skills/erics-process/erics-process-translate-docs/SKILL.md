@@ -1,6 +1,6 @@
 ---
 name: erics-process-translate-docs
-description: Manually run the extended DeepSeek Harness bilingual-document workflow, including generated briefings, delegated prose translation, whole-document translation, and scoped pairing verification.
+description: Use when manually running the extended EricStack bilingual-document workflow, including generated briefings, delegated prose translation, whole-document translation, and scoped pairing verification.
 disable-model-invocation: true
 user-invocable: true
 triggers:
@@ -10,7 +10,7 @@ triggers:
   - translation
 ---
 
-# Translating DeepSeek-Harness docs
+# Translating EricStack docs
 
 ## Invocation boundary
 
@@ -30,7 +30,7 @@ Frozen Agent Notes under `.agents/notes/archived/` are not translation work. The
 
 ## The update path (briefing-driven)
 
-The briefing-driven path matches guidance-corpus quality at a fraction of the cost; the [briefed-updates Agent Note](../../notes/implemented/process/2026-07-26-briefed-minimal-translation-updates.md) owns the benchmark evidence.
+The briefing-driven path matches guidance-corpus quality at a fraction of the cost; the briefed-updates Agent Note owns the benchmark evidence.
 
 1. **Generate the briefing**: `pnpm run gen-translation-brief <any file of the pair>` (no arguments briefs every out-of-sync pair). The briefing maps the change at the narrowest safely aligned granularity — changed Markdown units (paragraph, table row, list item, heading), then whole heading sections, then whole document — and contains the authored side's diff since the last confirmed-consistent state, each changed unit's last-confirmed source, current source, and current counterpart text (with line numbers), the terminology rows the change touches, first-occurrence movement notes, and a digest of the binding update rules.
 2. **Mechanical-only diff? `--apply` it.** When every change lies inside code fences that the pair shares byte-identically, the briefing says so; `pnpm run gen-translation-brief --apply <pair>` splices the edited fences into the counterpart and structure-validates the result before writing — no subagent, no hand-editing.

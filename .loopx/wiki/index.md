@@ -17,7 +17,7 @@ Use when running the seven-stage APS workflow from Gherkin linting through gener
 
 ### `erics-process-archive-agent-notes`
 
-Use when adding, auditing, pruning, archiving, restoring, or reviewing Agent Notes in EricStack; checks every new note for superseded active records, classifies implemented notes by future decision value, deletes rejected notes that no longer prevent a tempting fallacy, and applies the frozen archived/{kind} triplet and manifest rules.
+Use when adding, auditing, pruning, archiving, restoring, or reviewing Agent Notes; checks new notes for superseded records, classifies implemented ones by future decision value, deletes rejected notes, and applies the frozen archived/{kind} triplet rules.
 
 **Triggers:** `archive notes`, `prune notes`, `archive-agent-notes`, `agent note lifecycle`
 
@@ -41,7 +41,7 @@ Use when syncing documentation to the VitePress site, adding/removing/renaming p
 
 ### `erics-process-doc-standards`
 
-Use when writing, moving, reviewing, or auditing documentation in the EricStack project — choosing hierarchy and detail, separating tutorials from references, checking tutorial progression, trimming doc slop, responding to a verify-doc-budgets failure, or requests like "improve the docs", "audit the docs", "where should this be documented", or "this doc is too long".
+Use when writing, moving, reviewing, or auditing documentation — hierarchy and detail, tutorials vs references, tutorial progression, doc slop, verify-doc-budgets failures, or asks like 'improve the docs', 'where should this be documented', 'this doc is too long'.
 
 **Triggers:** `doc standards`, `write docs`, `documentation`, `improve the docs`
 
@@ -49,7 +49,7 @@ Use when writing, moving, reviewing, or auditing documentation in the EricStack 
 
 ### `erics-process-find-simplifications`
 
-Use when working in the EricStack project to find non-obvious simplification candidates, write proposed Agent Notes or inline TODO/FIXME/XXX notes, audit or coalesce superseded Agent Notes, or fold worthwhile simplification ideas from another PR; especially for dead, duplicated, speculative, over-built, added-then-removed, or hand-rolled-where-a-dependency-exists surfaces.
+Use when finding non-obvious simplification candidates, writing proposed Agent Notes or inline TODO/FIXME notes, auditing superseded notes, or folding ideas from another PR — dead, duplicated, speculative, over-built, or hand-rolled surfaces.
 
 **Triggers:** `simplify`, `find simplifications`, `dead code`, `cleanup`
 
@@ -57,7 +57,7 @@ Use when working in the EricStack project to find non-obvious simplification can
 
 ### `erics-process-merging-stacked-prs`
 
-Use when landing a stack of dependent GitHub PRs (A ← B ← C, where each bases on the one below) onto master, merging a PR whose base is another open PR's branch, or whenever a request mentions "stacked PRs", "PR stack", "dependent PRs", or merging several related PRs in sequence. Requires every same-repository dependency chain to use GitHub's official stacked-PR feature before landing so GitHub owns stack-wide rules, CI, ordering, retargeting, and merge state.
+Use when landing stacked dependent GitHub PRs (A<-B<-C) onto master, merging a PR based on another open PR, or when a request mentions 'stacked PRs', 'PR stack', or 'dependent PRs'. Requires GitHub's official stacked-PR feature so GitHub owns ordering, retargeting, merge state.
 
 **Triggers:** `merge stacked prs`, `stacked prs`, `pr stack`, `land stack`
 
@@ -81,7 +81,7 @@ Use when preparing to push, force-push, mark a branch ready, or claim checks pas
 
 ### `erics-process-prose-standard`
 
-Use when reviewing or editing prose in the EricStack project — comments, docs, JSDoc, prompts, visible strings, READMEs, Agent Notes, postmortems, cookbooks, or any human-facing text. Owns editorial judgment and required prose coverage; erics-process-doc-standards owns placement and budgets. Guidance, not a script.
+Use when reviewing or editing any human-facing prose in EricStack — comments, docs, JSDoc, prompts, visible strings, READMEs, Agent Notes, postmortems. Owns editorial judgment and required coverage; erics-process-doc-standards owns placement and budgets. Guidance, not a script.
 
 **Triggers:** `prose standard`, `trim prose`, `edit text`, `prose review`
 
@@ -97,7 +97,7 @@ Use when recording a UI demonstration GIF for a pull request — stages the appl
 
 ### `erics-process-translate-docs`
 
-Manually run the extended DeepSeek Harness bilingual-document workflow, including generated briefings, delegated prose translation, whole-document translation, and scoped pairing verification.
+Use when manually running the extended EricStack bilingual-document workflow, including generated briefings, delegated prose translation, whole-document translation, and scoped pairing verification.
 
 **Triggers:** `translate docs`, `bilingual translation`, `中英对照`, `translation`
 
@@ -105,7 +105,7 @@ Manually run the extended DeepSeek Harness bilingual-document workflow, includin
 
 ### `erics-process-trim-cot-leakage`
 
-Use when auditing or fixing prose that reads like a leaked reasoning transcript — dead design-session citations such as (decision N), audit item codes, or §N of uncommitted drafts; change narration such as "used to", "no longer", "this cut"; stack or review vantage ("a later PR in this stack", "rejected in review"); reviewer-addressed justifications; control-flow narration; or hedged planning residue in comments, JSDoc, docs, or Agent Notes.
+Use when auditing or fixing prose that reads like a leaked reasoning transcript — dead design-session citations, audit item codes, change narration such as 'used to', review-vantage justifications, control-flow narration, or hedged planning residue in comments, JSDoc, or docs.
 
 **Triggers:** `trim cot`, `cot leakage`, `chain of thought`, `remove reasoning`
 
@@ -113,7 +113,7 @@ Use when auditing or fixing prose that reads like a leaked reasoning transcript 
 
 ## Ability Skills (Action / 能力)
 
-### `autoplan`
+### `erics-ability-autoplan`
 
 Use when running the CEO, design, engineering, and developer-experience review chain in one workflow.
 
@@ -129,7 +129,7 @@ Use when you need to generate Gherkin acceptance tests from requirements — cre
 
 *File:* `.loopx/skills/erics-ability/erics-ability-bdd/SKILL.md`
 
-### `benchmark`
+### `erics-ability-benchmark`
 
 Use when measuring page-load performance, Core Web Vitals, or a suspected performance regression.
 
@@ -137,7 +137,7 @@ Use when measuring page-load performance, Core Web Vitals, or a suspected perfor
 
 *File:* `.loopx/skills/erics-ability/erics-ability-benchmark/SKILL.md`
 
-### `benchmark-models`
+### `erics-ability-benchmark-models`
 
 Use when benchmarking a skill across multiple AI models and comparing quality, latency, and cost.
 
@@ -145,7 +145,7 @@ Use when benchmarking a skill across multiple AI models and comparing quality, l
 
 *File:* `.loopx/skills/erics-ability/erics-ability-benchmark-models/SKILL.md`
 
-### `context-restore`
+### `erics-ability-context-restore`
 
 Use when restoring saved working context and resuming work across sessions or workspaces.
 
@@ -153,7 +153,7 @@ Use when restoring saved working context and resuming work across sessions or wo
 
 *File:* `.loopx/skills/erics-ability/erics-ability-context-restore/SKILL.md`
 
-### `context-save`
+### `erics-ability-context-save`
 
 Use when saving git state, decisions, evidence, and remaining work for a later session.
 
@@ -169,7 +169,7 @@ Use when performing an OWASP Top 10 and STRIDE security audit or threat model.
 
 *File:* `.loopx/skills/erics-ability/erics-ability-cso/SKILL.md`
 
-### `design-consultation`
+### `erics-ability-design-consultation`
 
 Use when creating or reviewing a complete product design system and its implementation guidance.
 
@@ -177,7 +177,7 @@ Use when creating or reviewing a complete product design system and its implemen
 
 *File:* `.loopx/skills/erics-ability/erics-ability-design-consultation/SKILL.md`
 
-### `devex-review`
+### `erics-ability-devex-review`
 
 Use when auditing developer experience, time to hello world, friction points, and persona workflows.
 
@@ -203,7 +203,7 @@ Use when you need to understand code structure, trace call chains, or navigate a
 
 ### `erics-ability-grill-me`
 
-Stateless interview skill that takes a loose idea and asks questions in rounds until you can commit to it. Use when you have an idea worth taking seriously but haven't worked out the details — for features, product direction, business calls, or writing. 无状态访谈技能：把模糊想法通过多轮提问锐化成可承诺的决策。
+Use when a loose idea is worth taking seriously but hasn't been worked out yet — a stateless interview asks questions in rounds until you can commit to it: features, product direction, business calls, or writing. 无状态访谈技能：把模糊想法通过多轮提问锐化成可承诺的决策。
 
 **Triggers:** `grill me`, `grill-me`, `/grill-me`, `拷问想法`, `质询想法`
 
@@ -211,13 +211,13 @@ Stateless interview skill that takes a loose idea and asks questions in rounds u
 
 ### `erics-ability-grill-with-docs`
 
-Stateful grilling session that reads the codebase and writes CONTEXT.md (vocabulary) plus ADRs under docs/adr/ (hard decisions). Use when grilling an idea that needs to align with an existing codebase. 状态化质询技能：阅读代码库、记录上下文到 CONTEXT.md、把硬决策写入 ADR。
+Use when grilling an idea that needs to align with an existing codebase — a stateful session reads the codebase and writes CONTEXT.md (vocabulary) plus ADRs under docs/adr/ (hard decisions). 状态化质询技能：阅读代码库、记录上下文到 CONTEXT.md、把硬决策写入 ADR。
 
 **Triggers:** `grill with docs`, `grill-with-docs`, `/grill-with-docs`, `配合代码库拷问`, `代码库对齐质询`
 
 *File:* `.loopx/skills/erics-ability/erics-ability-grill-with-docs/SKILL.md`
 
-### `health`
+### `erics-ability-health`
 
 Use when generating a code-quality dashboard from type checks, lint, tests, and dead-code signals.
 
@@ -233,7 +233,7 @@ Use when debugging through investigation, analysis, hypothesis, and implementati
 
 *File:* `.loopx/skills/erics-ability/erics-ability-investigate/SKILL.md`
 
-### `office-hours`
+### `erics-ability-office-hours`
 
 Use when pressure-testing an idea with structured product questions and a design-thinking brainstorm.
 
@@ -289,7 +289,7 @@ Use when you want actionable code improvement suggestions for a PR — analyzes 
 
 *File:* `.loopx/skills/erics-ability/erics-ability-pr-improve/SKILL.md`
 
-### `retro`
+### `erics-ability-retro`
 
 Use when running a weekly retrospective with individual breakdowns, outcomes, and shipping streaks.
 
@@ -297,7 +297,7 @@ Use when running a weekly retrospective with individual breakdowns, outcomes, an
 
 *File:* `.loopx/skills/erics-ability/erics-ability-retro/SKILL.md`
 
-### `spec`
+### `erics-ability-spec`
 
 Use when turning vague intent into a precise, reviewable, and executable specification.
 
@@ -323,7 +323,7 @@ Use when checking the EricStack version or whether configured upstream skill sou
 
 ### `erics-ability-wayfinder`
 
-Multi-session grilling orchestrator for efforts too large to hold in one conversation. Charts the effort as a MAP.md and runs grilling sessions inside individual decision tickets. 多会话质询编排器：把过大工作绘成地图 MAP.md，在独立决策工单里运行质询。
+Use when an effort is too large to hold in one conversation — a multi-session grilling orchestrator charts it as a MAP.md and runs grilling sessions inside individual decision tickets. 多会话质询编排器：把过大工作绘成地图 MAP.md，在独立决策工单里运行质询。
 
 **Triggers:** `wayfinder`, `/wayfinder`, `chart this effort`, `too big for one session`, `break this into decisions`
 

@@ -1,6 +1,6 @@
 ---
 name: erics-process-prose-standard
-description: Use when reviewing or editing prose in the EricStack project — comments, docs, JSDoc, prompts, visible strings, READMEs, Agent Notes, postmortems, cookbooks, or any human-facing text. Owns editorial judgment and required prose coverage; erics-process-doc-standards owns placement and budgets. Guidance, not a script.
+description: Use when reviewing or editing any human-facing prose in EricStack — comments, docs, JSDoc, prompts, visible strings, READMEs, Agent Notes, postmortems. Owns editorial judgment and required coverage; erics-process-doc-standards owns placement and budgets. Guidance, not a script.
 triggers:
   - prose standard
   - trim prose
@@ -8,7 +8,7 @@ triggers:
   - prose review
 ---
 
-## EricStack Prose Standard
+# EricStack Prose Standard
 
 Write enough to preserve the contract, then remove reasoning transcripts, repetition, and decoration. A contract is an obligation, invariant, precondition, postcondition, or compatibility promise that a caller, callee, implementer, producer, or consumer relies on. This skill owns editorial judgment and required prose coverage; use [erics-process-doc-standards](../erics-process-doc-standards/SKILL.md) for placement, budgets, bilingual pairs, and documentation gates, and [erics-process-trim-cot-leakage](../erics-process-trim-cot-leakage/SKILL.md) for hunting and fixing reasoning-transcript leakage. It is guidance, not a script.
 

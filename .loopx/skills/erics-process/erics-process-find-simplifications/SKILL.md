@@ -1,6 +1,6 @@
 ---
 name: erics-process-find-simplifications
-description: 'Use when working in the EricStack project to find non-obvious simplification candidates, write proposed Agent Notes or inline TODO/FIXME/XXX notes, audit or coalesce superseded Agent Notes, or fold worthwhile simplification ideas from another PR; especially for dead, duplicated, speculative, over-built, added-then-removed, or hand-rolled-where-a-dependency-exists surfaces.'
+description: Use when finding non-obvious simplification candidates, writing proposed Agent Notes or inline TODO/FIXME notes, auditing superseded notes, or folding ideas from another PR — dead, duplicated, speculative, over-built, or hand-rolled surfaces.
 triggers:
   - simplify
   - find simplifications
@@ -8,7 +8,7 @@ triggers:
   - cleanup
 ---
 
-## Finding EricStack Simplifications
+# Finding EricStack Simplifications
 
 This skill helps turn a broad "find things to simplify" request into evidence-backed Agent Notes that remove or collapse existing harness surface area. It is guidance, not a checklist: follow the code, keep judgment active, and prefer a few well-proven candidates over a pile of thin guesses.
 
@@ -16,7 +16,7 @@ This skill helps turn a broad "find things to simplify" request into evidence-ba
 
 - Read `AGENTS.md`, especially the pre-release stance and the conventions (including the tests-are-not-golden-truth and Agent Notes-are-not-golden-truth doctrines), plus  and .
 - Skim  before judging anything under `packages/`; simplifications that fight the service map or event taxonomy need extra evidence.
-- Use the Agent Note tree and its [rules](../../notes/README.md) to understand intentional architecture. The most relevant implemented examples are [drop mutable session summary](../../notes/implemented/simplification/2026-06-19-drop-mutable-session-summary.md), [shared persistence write coordinator](../../notes/implemented/architecture/2026-06-18-shared-persistence-write-coordinator.md), [capability seams](../../notes/implemented/architecture/2026-06-13-capability-seams.md), and the twin adapter / dual persistence backend Agent Notes.
+- Use the Agent Note tree and its rules to understand intentional architecture. The most relevant implemented examples are drop mutable session summary, shared persistence write coordinator, capability seams, and the twin adapter / dual persistence backend Agent Notes.
 - Treat dual LLM adapters and dual persistence backends as intentional by default. Do not propose deleting either twin/backend as "low effort" unless the user explicitly overrides that constraint. Removing an unused method or hook inside a protected seam can still be valid if it does not collapse the protected design.
 
 ## What Counts As A Strong Candidate
@@ -30,7 +30,7 @@ A strong simplification removes, folds, or demotes something real and has clear 
 - A separate package exists only for test/demo/support code and adds publish or dependency overhead.
 - A feature implements speculative product generality: multi-session/session-load, background job rosters, live registry invalidation, mid-turn steering, tool-owned UI rendering, and similar designs with no product owner.
 - An invariant, rollback path, set of expected outputs, or special-case test exists only to protect an unused API.
-- Hand-rolled code reimplements what a well-maintained external package or a Node builtin at the engine floor already provides, and the swap would delete the implementation plus its dedicated tests ([dependency policy](../../notes/implemented/process/2026-07-26-dependencies-over-hand-rolling.md)).
+- Hand-rolled code reimplements what a well-maintained external package or a Node builtin at the engine floor already provides, and the swap would delete the implementation plus its dedicated tests (dependency policy).
 - The simplified behavior may differ slightly, but the new behavior is still reasonable and easier to explain.
 
 Thin candidates are usually not enough for an Agent Note: deleting one typo, running `knip` once, removing an intentionally documented backend/adapter, or flagging "this looks complex" without call-site proof.
@@ -57,7 +57,7 @@ For complex asynchronous code, draw the ownership graph and map each sentinel, r
 
 ## Hand-Rolled Code Versus A Dependency
 
-Introducing a dependency is a valid simplification move, not a policy exception: the [dependency policy](../../notes/implemented/process/2026-07-26-dependencies-over-hand-rolling.md) owns the bar. When surveying, ask of protocol parsers, framers, retry/backoff loops, glob matchers, diff engines, and similar infrastructure: does a well-maintained npm package or a Node builtin at the repo's engine floor already do this?
+Introducing a dependency is a valid simplification move, not a policy exception: the dependency policy owns the bar. When surveying, ask of protocol parsers, framers, retry/backoff loops, glob matchers, diff engines, and similar infrastructure: does a well-maintained npm package or a Node builtin at the repo's engine floor already do this?
 
 Prove a dependency-swap candidate like any other, plus:
 
@@ -89,7 +89,7 @@ Audit the Agent Note tree when the user asks to reduce or coalesce it, or when t
 
 Use [`erics-process-archive-agent-notes`](../erics-process-archive-agent-notes/SKILL.md) for retention judgment and archive mechanics. Low-future-value implemented notes move as frozen triplets to `archived/{kind}`; proposed notes are never archived; rejected notes that no longer prevent a tempting mistake are deleted. Do not edit an archived note while simplifying current prose or code.
 
-Follow the deletion rule in the [Agent Note rules](../../notes/README.md#when-to-write-one); do not duplicate or weaken it here. For each candidate chain:
+Follow the deletion rule in the Agent Note rules; do not duplicate or weaken it here. For each candidate chain:
 
 1. Identify the current owner from shipped code, configuration, generated catalogs, package docs, newer Agent Notes, and inbound links; dates and titles are discovery hints, not proof.
 2. Classify the old note as fully or partially superseded. Any surviving behavior, current contract, durable format, compatibility obligation, or independently current rejected alternative makes it partial. Rationale that can be transferred to the current owner does not by itself make supersession partial.

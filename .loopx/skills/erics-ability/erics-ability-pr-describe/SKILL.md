@@ -1,6 +1,6 @@
 ---
 name: erics-ability-pr-describe
-description: Use after completing a PR to generate a complete, accurate PR description — title, type, summary, walkthrough, labels, and breaking changes.
+description: Use when a pull request is complete and needs an accurate title, summary, walkthrough, labels, and breaking-change notes.
 triggers:
   - pr describe
   - describe this pr

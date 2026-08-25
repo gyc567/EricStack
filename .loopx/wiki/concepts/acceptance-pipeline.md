@@ -46,4 +46,4 @@ IR 和变异报告按 `content-hash` 缓存，实现已变时自动失效。
 
 - [Uncle Bob APS Repo](https://github.com/unclebob/Acceptance-Pipeline-Specification)
 - [topdigg: APS 解读](https://www.topdigg.com/blog/acceptance-pipeline-specification)
-- [docs/APS_INTEGRATION.md](../../docs/APS_INTEGRATION.md)
+- [docs/APS_INTEGRATION.md](../../../docs/APS_INTEGRATION.md)

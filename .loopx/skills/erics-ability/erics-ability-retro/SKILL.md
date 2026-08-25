@@ -1,6 +1,6 @@
 ---
-name: retro
-description: Weekly retrospective with per-person breakdowns and shipping streaks.
+name: erics-ability-retro
+description: Use when running a weekly retrospective with individual breakdowns, outcomes, and shipping streaks.
 triggers:
   - retro
   - retrospective

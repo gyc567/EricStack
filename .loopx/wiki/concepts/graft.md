@@ -56,4 +56,4 @@ See [[erics-ability-graft]] for the full skill documentation.
 
 - Requires Node.js (EricStack works without it)
 - `--deep` summary layer requires LLM API key
-- Not a replacement for llm_wiki — see [[concepts/knowledge-base]] for comparison
+- Not a replacement for llm_wiki — see the [LLM Wiki integration guide](../../llm-wiki-integration.md) for comparison

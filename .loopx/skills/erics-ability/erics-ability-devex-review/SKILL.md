@@ -1,6 +1,6 @@
 ---
-name: devex-review
-description: Live developer experience audit — TTHW, friction points, persona traces.
+name: erics-ability-devex-review
+description: Use when auditing developer experience, time to hello world, friction points, and persona workflows.
 triggers:
   - devex audit
   - live dx review

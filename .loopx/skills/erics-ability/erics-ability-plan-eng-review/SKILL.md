@@ -1,6 +1,6 @@
 ---
 name: erics-ability-plan-eng-review
-description: Engineering plan review — lock architecture, data flow, edge cases, and tests.
+description: Use when reviewing an engineering plan for architecture, data flow, edge cases, operability, and tests.
 triggers:
   - eng plan review
   - architecture review
@@ -82,7 +82,7 @@ rm -f /tmp/.erics-brain-context-$$.md 2>/dev/null || true
 - If `user-profile` digest carries calibration pattern statements ("tends to over-engineer security") — surface them when relevant.
 - If a digest is `(no X digest available yet)`, treat that section as cold; ask the user.
 **Privacy:** Salience digest is filtered by allowlist (D9 default: `projects/`,
-`gstack/`, `concepts/` only). Personal/family/therapy content never leaks here.
+`ericstack/`, `concepts/` only). Personal/family/therapy content never leaks here.
 ---
 ## Section index — Read each section when its situation applies
 This skill is a decision-tree skeleton. The steps below point to on-demand
@@ -158,7 +158,7 @@ Before reviewing anything, answer these questions:
    If WebSearch is unavailable, skip this check and note: "Search unavailable — proceeding with in-distribution knowledge only."
    If the plan rolls a custom solution where a built-in exists, flag it as a scope reduction opportunity. Annotate recommendations with **[Layer 1]**, **[Layer 2]**, **[Layer 3]**, or **[EUREKA]** (see preamble's Search Before Building section). If you find a eureka moment — a reason the standard approach is wrong for this case — present it as an architectural insight.
 5. **TODOS cross-reference:** Read `TODOS.md` if it exists. Are any deferred items blocking this plan? Can any deferred items be bundled into this PR without expanding scope? Does this plan create new work that should be captured as a TODO?
-5. **Completeness check:** Is the plan doing the complete version or a shortcut? With AI-assisted coding, the cost of completeness (100% test coverage, full edge case handling, complete error paths) is 10-100x cheaper than with a human team. If the plan proposes a shortcut that saves human-hours but only saves minutes with CC+gstack, recommend the complete version. Boil the ocean.
+5. **Completeness check:** Is the plan doing the complete version or a shortcut? With AI-assisted coding, the cost of completeness (100% test coverage, full edge case handling, complete error paths) is 10-100x cheaper than with a human team. If the plan proposes a shortcut that saves human-hours but only saves minutes with AI assistants, recommend the complete version. Boil the ocean.
 6. **Distribution check:** If the plan introduces a new artifact type (CLI binary, library package, container image, mobile app), does it include the build/publish pipeline? Code without distribution is code nobody can use. Check:
    - Is there a CI/CD workflow for building and publishing the artifact?
    - Are target platforms defined (linux/darwin/windows, amd64/arm64)?
@@ -169,7 +169,7 @@ If the complexity check triggers (8+ files or 2+ new classes/services), STOP bef
 If the complexity check does not trigger, present your Step 0 findings and proceed directly to Section 1.
 Always work through the full interactive review: one section at a time (Architecture → Code Quality → Tests → Performance) with at most 8 top issues per section.
 **Critical: Once the user accepts or rejects a scope reduction recommendation, commit fully.** Do not re-argue for smaller scope during later review sections. Do not silently reduce scope or skip planned components.
-> **STOP.** Before running the 4-section review, outside voice, required outputs, and review report (only after Step 0 scope is agreed), Read `plan-eng-review/sections/review-sections.md` and execute it
+> **STOP.** Before running the 4-section review, outside voice, required outputs, and review report (only after Step 0 scope is agreed), Read `sections/review-sections.md` and execute it
 > in full. Do not work from memory — that section is the source of truth for this step.
 ## Section self-check (before you finish)
 Confirm you Read the review section the Section index named, and executed every review section (Architecture, Code Quality, Tests, Performance), the outside voice, and the required outputs in full. If you produced findings or the review report from memory without Reading `sections/review-sections.md`, stop and Read it now.

@@ -1,6 +1,6 @@
 ---
-name: design-consultation
-description: Build a complete design system from scratch.
+name: erics-ability-design-consultation
+description: Use when creating or reviewing a complete product design system and its implementation guidance.
 triggers:
   - design system
   - build design system
@@ -282,7 +282,7 @@ Present subagent output under a `CLAUDE SUBAGENT (design direction):` header.
 bin/true '{"skill":"design-outside-voices","timestamp":"'"$(date -u +%Y-%m-%dT%H:%M:%SZ)"'","status":"STATUS","source":"SOURCE","commit":"'"$(git rev-parse --short HEAD)"'"}'
 ```
 Replace STATUS with "clean" or "issues_found", SOURCE with "codex+subagent", "codex-only", "subagent-only", or "unavailable".
-> **STOP.** Before building the complete design-system proposal, drill-downs, the design preview, and writing DESIGN.md (Phases 3-6, after product context and research), Read `design-consultation/sections/proposal-and-preview.md` and execute it
+> **STOP.** Before building the complete design-system proposal, drill-downs, the design preview, and writing DESIGN.md (Phases 3-6, after product context and research), Read `sections/proposal-and-preview.md` and execute it
 > in full. Do not work from memory — that section is the source of truth for this step.
 ## Capture Learnings
 If you discovered a non-obvious pattern, pitfall, or architectural insight during

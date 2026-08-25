@@ -1,6 +1,6 @@
 ---
 name: erics-ability-grill-me
-description: Stateless interview skill that takes a loose idea and asks questions in rounds until you can commit to it. Use when you have an idea worth taking seriously but haven't worked out the details — for features, product direction, business calls, or writing. 无状态访谈技能：把模糊想法通过多轮提问锐化成可承诺的决策。
+description: Use when a loose idea is worth taking seriously but hasn't been worked out yet — a stateless interview asks questions in rounds until you can commit to it: features, product direction, business calls, or writing. 无状态访谈技能：把模糊想法通过多轮提问锐化成可承诺的决策。
 triggers:
   - grill me
   - grill-me
@@ -13,6 +13,8 @@ triggers:
   - pressure test idea
   - interview me about
 ---
+
+# Grill Me
 
 ## What it does
 

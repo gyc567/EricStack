@@ -987,6 +987,6 @@ stages:
 
 - [Uncle Bob APS Repo](https://github.com/unclebob/Acceptance-Pipeline-Specification)
 - [Gherkin Reference](https://cucumber.io/docs/gherkin/)
-- [EricStack Process Mutation Skill](../skills/erics-process-mutation/SKILL.md)
-- [EricStack BDD Skill](../skills/erics-ability-bdd/SKILL.md)
+- [EricStack Process Mutation Skill](../.loopx/skills/erics-process/erics-process-mutation/SKILL.md)
+- [EricStack BDD Skill](../.loopx/skills/erics-ability/erics-ability-bdd/SKILL.md)
 - 相关 ADR：`docs/adr/0007-acceptance-pipeline.md`（待补）

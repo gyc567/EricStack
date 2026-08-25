@@ -1,6 +1,6 @@
 ---
 name: erics-ability-upgrade
-description: Check for EricStack updates and upstream skill sync status.
+description: Use when checking the EricStack version or whether configured upstream skill sources have updates.
 triggers:
   - upgrade
   - sync skills

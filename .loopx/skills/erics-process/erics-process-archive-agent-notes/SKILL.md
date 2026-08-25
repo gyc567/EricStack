@@ -1,7 +1,6 @@
 ---
----
 name: erics-process-archive-agent-notes
-description: Use when adding, auditing, pruning, archiving, restoring, or reviewing Agent Notes in EricStack; checks every new note for superseded active records, classifies implemented notes by future decision value, deletes rejected notes that no longer prevent a tempting fallacy, and applies the frozen archived/{kind} triplet and manifest rules.
+description: Use when adding, auditing, pruning, archiving, restoring, or reviewing Agent Notes; checks new notes for superseded records, classifies implemented ones by future decision value, deletes rejected notes, and applies the frozen archived/{kind} triplet rules.
 triggers:
   - archive notes
   - prune notes
@@ -9,13 +8,13 @@ triggers:
   - agent note lifecycle
 ---
 
-# Archive DeepSeek Harness Agent Notes
+# Archive EricStack Agent Notes
 
 Reduce the active decision corpus without erasing history that can still guide work. Judge every note semantically; word count and age are discovery aids, never archive criteria.
 
 ## Read the contracts
 
-Read [the Agent Note rules](../../notes/README.md), [the archive instructions](../../notes/archived/AGENTS.md), and the applicable active lifecycle instructions before classifying. Use current code, configuration, package docs, generated catalogs, newer Agent Notes, and inbound links to establish whether a rationale still owns or constrains anything.
+Read the Agent Note rules, the archive instructions, and the applicable active lifecycle instructions before classifying. Use current code, configuration, package docs, generated catalogs, newer Agent Notes, and inbound links to establish whether a rationale still owns or constrains anything.
 
 ## Check supersession when adding a note
 

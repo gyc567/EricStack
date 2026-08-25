@@ -1,6 +1,6 @@
 ---
 name: erics-ability-plan-ceo-review
-description: CEO-level product review — find the 10-star product in the request.
+description: Use when reviewing a request from a CEO and product-strategy perspective to find the highest-value outcome.
 triggers:
   - ceo review
   - 10-star product

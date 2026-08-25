@@ -1,6 +1,6 @@
 ---
 name: erics-process-trim-cot-leakage
-description: Use when auditing or fixing prose that reads like a leaked reasoning transcript — dead design-session citations such as (decision N), audit item codes, or §N of uncommitted drafts; change narration such as "used to", "no longer", "this cut"; stack or review vantage ("a later PR in this stack", "rejected in review"); reviewer-addressed justifications; control-flow narration; or hedged planning residue in comments, JSDoc, docs, or Agent Notes.
+description: Use when auditing or fixing prose that reads like a leaked reasoning transcript — dead design-session citations, audit item codes, change narration such as 'used to', review-vantage justifications, control-flow narration, or hedged planning residue in comments, JSDoc, or docs.
 triggers:
   - trim cot
   - cot leakage
@@ -10,7 +10,7 @@ triggers:
 
 # Trimming Chain-of-Thought Leakage
 
-Chain-of-thought leakage is prose whose vantage is the authoring session rather than the repository: it cites artifacts only that session could see, narrates the change instead of the state, or argues with a reviewer who has left. The fix is never deletion alone when a passage carries factual clauses — restate each so it stands at HEAD, then delete the transcript around it; a passage carrying none (an audit code, control-flow narration) is deleted outright. **REQUIRED BACKGROUND:** [erics-process-prose-standard](../erics-process-prose-standard/SKILL.md) owns the complete-proposition rule this skill applies; the [committed-artifact-citations note](../../notes/implemented/process/2026-08-09-committed-artifact-citations.md) owns the citation rule's rationale. It is guidance, not a script.
+Chain-of-thought leakage is prose whose vantage is the authoring session rather than the repository: it cites artifacts only that session could see, narrates the change instead of the state, or argues with a reviewer who has left. The fix is never deletion alone when a passage carries factual clauses — restate each so it stands at HEAD, then delete the transcript around it; a passage carrying none (an audit code, control-flow narration) is deleted outright. **REQUIRED BACKGROUND:** [erics-process-prose-standard](../erics-process-prose-standard/SKILL.md) owns the complete-proposition rule this skill applies; the committed-artifact-citations note owns the citation rule's rationale. It is guidance, not a script.
 
 ## The one test
 

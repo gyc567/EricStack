@@ -1,6 +1,6 @@
 ---
 name: erics-ability-grill-with-docs
-description: Stateful grilling session that reads the codebase and writes CONTEXT.md (vocabulary) plus ADRs under docs/adr/ (hard decisions). Use when grilling an idea that needs to align with an existing codebase. 状态化质询技能：阅读代码库、记录上下文到 CONTEXT.md、把硬决策写入 ADR。
+description: Use when grilling an idea that needs to align with an existing codebase — a stateful session reads the codebase and writes CONTEXT.md (vocabulary) plus ADRs under docs/adr/ (hard decisions). 状态化质询技能：阅读代码库、记录上下文到 CONTEXT.md、把硬决策写入 ADR。
 triggers:
   - grill with docs
   - grill-with-docs

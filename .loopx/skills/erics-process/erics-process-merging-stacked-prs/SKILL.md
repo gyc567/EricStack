@@ -1,6 +1,6 @@
 ---
 name: erics-process-merging-stacked-prs
-description: Use when landing a stack of dependent GitHub PRs (A ← B ← C, where each bases on the one below) onto master, merging a PR whose base is another open PR's branch, or whenever a request mentions "stacked PRs", "PR stack", "dependent PRs", or merging several related PRs in sequence. Requires every same-repository dependency chain to use GitHub's official stacked-PR feature before landing so GitHub owns stack-wide rules, CI, ordering, retargeting, and merge state.
+description: Use when landing stacked dependent GitHub PRs (A<-B<-C) onto master, merging a PR based on another open PR, or when a request mentions 'stacked PRs', 'PR stack', or 'dependent PRs'. Requires GitHub's official stacked-PR feature so GitHub owns ordering, retargeting, merge state.
 triggers:
   - merge stacked prs
   - stacked prs
@@ -75,7 +75,7 @@ Never dissolve, reorder, or rebuild an existing stack automatically; `gh stack l
 Do not rewrite branches merely because a refresh mechanism exists. When the live merge state or repository rules require an updated trunk, choose either allowed history:
 
 - **Native cascading rebase:** check out the remote stack with `gh stack checkout <pr-or-stack>` when it is not tracked locally, then run `gh stack sync`. The command may rebase and lease-protected force-push every active layer before local validation. Immediately inspect the rewritten scope, run the relevant checks for every affected layer, and do not merge or claim readiness until they pass. If sync detects a rebase conflict, use `gh stack rebase`, resolve and validate it, then publish with `gh stack push`. If checkout or sync reports divergent local and remote stack compositions, cancel and ask rather than deleting or recreating the remote stack automatically.
-- **Incremental merge-forward:** merge the trunk into the bottom affected branch, then propagate each updated parent into its child in bottom-to-top order and push normally. If the base advances during an in-progress merge, preserve that checkpoint before merging the newer tip as specified by the [incremental-retargeting note](../../notes/implemented/process/2026-07-26-incremental-pr-base-retargeting.md).
+- **Incremental merge-forward:** merge the trunk into the bottom affected branch, then propagate each updated parent into its child in bottom-to-top order and push normally. If the base advances during an in-progress merge, preserve that checkpoint before merging the newer tip as specified by the incremental-retargeting note.
 
 Any history rewrite is allowed after review, but it invalidates commit-OID assumptions. Re-fetch exact heads and re-audit unresolved review threads, approvals, mergeability, and checks after the push. Never use raw `--force` or overwrite a concurrently advanced remote head.
 

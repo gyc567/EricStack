@@ -1,6 +1,6 @@
 ---
-name: health
-description: Code quality dashboard — type checker, linter, tests, dead code.
+name: erics-ability-health
+description: Use when generating a code-quality dashboard from type checks, lint, tests, and dead-code signals.
 triggers:
   - health check
   - code quality

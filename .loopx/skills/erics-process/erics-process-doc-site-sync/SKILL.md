@@ -8,9 +8,9 @@ triggers:
   - sync documentation
 ---
 
-## Synchronizing the EricStack Documentation Site
+# Synchronizing the EricStack Documentation Site
 
-Keep repository Markdown as the only editable content source. Treat the website as a tested projection:  selects public pages,  rewrites them into the disposable `website/.generated/` tree, and VitePress builds that tree.
+Keep repository Markdown as the only editable content source. Treat the website as a tested projection: a page manifest selects public pages, a generator rewrites them into the disposable `website/.generated/` tree, and VitePress builds that tree.
 
 Repository translations follow the sibling pairing contract: English `foo.md`, Chinese `foo.zh.md`, and `foo.i18n.yaml` live together. Never create `zh-CN/` or other locale directories for website content. The site route trees are independent of that source layout: `foo.zh.md` projects to the root route and `foo.md` projects to the matching `/en/` route.
 

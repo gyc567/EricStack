@@ -1,6 +1,6 @@
 ---
-name: benchmark
-description: Performance regression detection — page load, Core Web Vitals.
+name: erics-ability-benchmark
+description: Use when measuring page-load performance, Core Web Vitals, or a suspected performance regression.
 triggers:
   - benchmark
   - performance regression

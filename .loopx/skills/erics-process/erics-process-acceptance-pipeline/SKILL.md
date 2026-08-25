@@ -1,6 +1,6 @@
 ---
 name: erics-process-acceptance-pipeline
-description: Orchestrates the Acceptance Pipeline Specification (APS) — a deterministic 7-stage pipeline that turns Gherkin features into mutation-tested, verified acceptance tests. Coordinates stage 0 spec lint through stage 6 failure diagnosis, enforces DRY and mutation quality gates, and caches intermediate artifacts for fast incremental runs.
+description: Use when running the seven-stage APS workflow from Gherkin linting through generation, execution, mutation testing, and failure diagnosis.
 triggers:
   - acceptance pipeline
   - APS

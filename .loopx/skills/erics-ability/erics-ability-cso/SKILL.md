@@ -1,6 +1,6 @@
 ---
 name: erics-ability-cso
-description: OWASP Top 10 + STRIDE security audit and threat modeling.
+description: Use when performing an OWASP Top 10 and STRIDE security audit or threat model.
 triggers:
   - security audit
   - owasp

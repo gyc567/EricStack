@@ -18,8 +18,8 @@ triggers:
 - : subprocess, callback, async-state, and disposal bug classes.
 - : documentation placement and prose discipline.
 - [erics-process-prose-standard](../erics-process-prose-standard/SKILL.md): required coverage and editorial judgment for comments, docs, prompts, and visible strings.
--  and the [quality-gates Agent Note](../../notes/implemented/process/2026-06-11-quality-gates.md): required test tiers and gates.
-- [Agent Notes](../../notes/README.md): design rationale. Treat disagreement with an Agent Note as a design discussion, not an automatic veto.
+-  and the quality-gates Agent Note: required test tiers and gates.
+- Agent Notes: design rationale. Treat disagreement with an Agent Note as a design discussion, not an automatic veto.
 - For bilingual changes, read  and ; the extended translation skill is outside automatic review and runs only on explicit user invocation.
 
 ## Blocking requirements

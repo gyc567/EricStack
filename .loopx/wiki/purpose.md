@@ -19,7 +19,7 @@ Build the most effective AI-native engineering loop — where AI handles not jus
 ## Scope
 
 **In scope:**
-- LoopX skill system (26 skills covering process discipline + engineering abilities)
+- LoopX skill system (38 skills: 13 process + 24 ability + 1 router)
 - Agent Notes and decision records
 - Engineering loop workflows (plan → review → ship → retro)
 - Knowledge base (this wiki)

@@ -8,7 +8,7 @@ tags: [principle, completeness]
 
 ## Origin
 
-EricStack follows the **Boil the Ocean** principle from [[sources/llm-wiki]]:
+EricStack follows the **Boil the Ocean** principle from the [LLM Wiki integration guide](../../llm-wiki-integration.md):
 
 > AI makes completeness cheap, so the complete thing is the goal. Do the full thing when marginal cost approaches zero.
 

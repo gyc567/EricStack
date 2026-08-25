@@ -13,7 +13,7 @@ EricStack 将 llm_wiki 的知识管理模式引入工程 loop，让每个决策�
 ```
 EricStack/
 ├── .loopx/
-│   ├── skills/          # 26 LoopX skills
+│   ├── skills/          # 38 LoopX skills
 │   ├── wiki/           # LLM Wiki 知识库（可被 llm_wiki app 打开）
 │   │   ├── index.md    # 知识库总索引
 │   │   ├── log.md      # 操作记录

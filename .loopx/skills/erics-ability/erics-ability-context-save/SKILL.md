@@ -1,6 +1,6 @@
 ---
-name: context-save
-description: Save working context — git state, decisions, remaining work.
+name: erics-ability-context-save
+description: Use when saving git state, decisions, evidence, and remaining work for a later session.
 triggers:
   - save context
   - checkpoint

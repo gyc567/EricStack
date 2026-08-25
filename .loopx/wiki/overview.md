@@ -6,11 +6,11 @@ updated: 2026-08-15
 
 # EricStack Overview
 
-EricStack is an AI-native engineering loop system built on LoopX. It provides 26 skills covering the full engineering lifecycle — from planning and code review to simplification, documentation, and knowledge accumulation.
+EricStack is an AI-native engineering loop system built on LoopX. It provides 38 skills covering the full engineering lifecycle — from planning and code review to simplification, documentation, and knowledge accumulation.
 
 ## At a Glance
 
-- **Skills:** 26 (11 process discipline + 15 engineering abilities)
+- **Skills:** 38 (13 process discipline + 24 engineering abilities + 1 router)
 - **Knowledge:** Compounding wiki built with LLM Wiki pattern
 - **Source repos:** deepseek-harness (process skills) + gstack (ability skills)
 - **Version:** [[.loopx/VERSION]]
@@ -36,4 +36,4 @@ idea → /office-hours → /spec → /plan-eng-review → /cso → /ship → /re
 
 ## Recent Changes
 
-- `2026-08-15` — Initial release: 26 skills + auto-update mechanism + LLM Wiki knowledge base
+- `2026-08-15` — Initial release; the current catalog has 38 skills plus 2 installed entry points

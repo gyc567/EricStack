@@ -1,6 +1,6 @@
 ---
-name: context-restore
-description: Resume from a saved context, even across workspaces.
+name: erics-ability-context-restore
+description: Use when restoring saved working context and resuming work across sessions or workspaces.
 triggers:
   - restore context
   - resume

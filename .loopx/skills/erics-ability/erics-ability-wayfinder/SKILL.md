@@ -1,6 +1,6 @@
 ---
 name: erics-ability-wayfinder
-description: Multi-session grilling orchestrator for efforts too large to hold in one conversation. Charts the effort as a MAP.md and runs grilling sessions inside individual decision tickets. 多会话质询编排器：把过大工作绘成地图 MAP.md，在独立决策工单里运行质询。
+description: Use when an effort is too large to hold in one conversation — a multi-session grilling orchestrator charts it as a MAP.md and runs grilling sessions inside individual decision tickets. 多会话质询编排器：把过大工作绘成地图 MAP.md，在独立决策工单里运行质询。
 triggers:
   - wayfinder
   - /wayfinder

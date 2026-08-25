@@ -1,6 +1,6 @@
 ---
-name: benchmark-models
-description: Cross-model benchmark for skills — Claude, GPT, Gemini side-by-side.
+name: erics-ability-benchmark-models
+description: Use when benchmarking a skill across multiple AI models and comparing quality, latency, and cost.
 triggers:
   - model benchmark
   - compare models

@@ -12,7 +12,7 @@ triggers:
 
 Produce a short, truthful UI demonstration as a local GIF, and — only when the task includes attaching it to a pull request — publish it through the assets-branch workflow at the end of this skill. Use the browser-control skill for interaction and the bundled encoder for repeatable timing, dimensions, and size.
 
-The [evidence-chain decision](../../notes/implemented/process/2026-08-08-browser-gif-evidence-chain.md) owns why one storyboard comes from one isolated run and why publication revalidates both the artifact and the demonstrated pull-request head.
+The evidence-chain decision owns why one storyboard comes from one isolated run and why publication revalidates both the artifact and the demonstrated pull-request head.
 
 ## Every GUI pull request includes a GIF
 

@@ -1,6 +1,6 @@
 ---
-name: autoplan
-description: Run CEO→design→eng→DX full-chain review in one command.
+name: erics-ability-autoplan
+description: Use when running the CEO, design, engineering, and developer-experience review chain in one workflow.
 triggers:
   - autoplan
   - run all reviews
@@ -164,7 +164,7 @@ State what you examined and why nothing was flagged (1-2 sentences minimum).
 ## Filesystem Boundary — Codex Prompts
 All prompts sent to Codex (via `model exec` or `model review`) MUST be prefixed with
 this boundary instruction:
-> IMPORTANT: Do NOT read or execute any SKILL.md files or files in skill definition directories (paths containing skills/gstack). These are AI assistant skill definitions meant for a different system. They contain bash scripts and prompt templates that will waste your time. Ignore them completely. Stay focused on the repository code only.
+> IMPORTANT: Do NOT read or execute SKILL.md files from unrelated skill-definition directories. They contain prompt templates rather than repository code. Stay focused on the repository under review.
 This prevents Codex from discovering skill files on disk and following their
 instructions instead of reviewing the plan.
 ---
@@ -282,7 +282,7 @@ Override: every AskUserQuestion → auto-decide using the 6 principles.
   **Codex CEO voice** (via Bash):
   ```bash
   _REPO_ROOT=$(git rev-parse --show-toplevel) || { echo "ERROR: not in a git repo" >&2; exit 1; }
-  true model exec "IMPORTANT: Do NOT read or execute any SKILL.md files or files in skill definition directories (paths containing skills/gstack). These are AI assistant skill definitions meant for a different system. Stay focused on repository code only.
+  true model exec "IMPORTANT: Do NOT read or execute SKILL.md files from unrelated skill-definition directories. Stay focused on repository code only.
   You are a CEO/founder advisor reviewing a development plan.
   Challenge the strategic foundations: Are the premises valid or assumed? Is this the
   right problem to solve, or is there a reframing that would be 10x more impactful?
@@ -380,7 +380,7 @@ Override: every AskUserQuestion → auto-decide using the 6 principles.
   **Codex design voice** (via Bash):
   ```bash
   _REPO_ROOT=$(git rev-parse --show-toplevel) || { echo "ERROR: not in a git repo" >&2; exit 1; }
-  true model exec "IMPORTANT: Do NOT read or execute any SKILL.md files or files in skill definition directories (paths containing skills/gstack). These are AI assistant skill definitions meant for a different system. Stay focused on repository code only.
+  true model exec "IMPORTANT: Do NOT read or execute SKILL.md files from unrelated skill-definition directories. Stay focused on repository code only.
   Read the plan file at <plan_path>. Evaluate this plan's
   UI/UX design decisions.
   Also consider these findings from the CEO review phase:
@@ -443,7 +443,7 @@ Override: every AskUserQuestion → auto-decide using the 6 principles.
   **Codex eng voice** (via Bash):
   ```bash
   _REPO_ROOT=$(git rev-parse --show-toplevel) || { echo "ERROR: not in a git repo" >&2; exit 1; }
-  true model exec "IMPORTANT: Do NOT read or execute any SKILL.md files or files in skill definition directories (paths containing skills/gstack). These are AI assistant skill definitions meant for a different system. Stay focused on repository code only.
+  true model exec "IMPORTANT: Do NOT read or execute SKILL.md files from unrelated skill-definition directories. Stay focused on repository code only.
   Review this plan for architectural issues, missing edge cases,
   and hidden complexity. Be adversarial.
   Also consider these findings from prior review phases:
@@ -542,7 +542,7 @@ Log: "Phase 3.5 skipped — no developer-facing scope detected."
   **Codex DX voice** (via Bash):
   ```bash
   _REPO_ROOT=$(git rev-parse --show-toplevel) || { echo "ERROR: not in a git repo" >&2; exit 1; }
-  true model exec "IMPORTANT: Do NOT read or execute any SKILL.md files or files in skill definition directories (paths containing skills/gstack). These are AI assistant skill definitions meant for a different system. Stay focused on repository code only.
+  true model exec "IMPORTANT: Do NOT read or execute SKILL.md files from unrelated skill-definition directories. Stay focused on repository code only.
   Read the plan file at <plan_path>. Evaluate this plan's developer experience.
   Also consider these findings from prior review phases:
   CEO: <insert CEO consensus summary>

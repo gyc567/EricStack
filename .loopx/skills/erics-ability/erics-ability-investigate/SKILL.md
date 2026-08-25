@@ -1,13 +1,13 @@
 ---
 name: erics-ability-investigate
-description: Four-phase debugging: investigate, analyze, hypothesize, implement. No fixes without root cause.
+description: Use when debugging through investigation, analysis, hypothesis, and implementation without guessing at fixes.
 triggers:
   - debug this
   - fix this bug
   - root cause
   - investigate this error
 ---
-## Iron Law
+# Investigation Iron Law
 **NO FIXES WITHOUT ROOT CAUSE INVESTIGATION FIRST.**
 Fixing symptoms creates whack-a-mole debugging. Every fix that doesn't address root cause makes the next bug harder to find. Find the root cause, then fix it.
 ---
