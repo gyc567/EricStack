@@ -134,13 +134,21 @@ count_installed() {
       count=$((count + 1))
     fi
   done
-  # Loop Engineering wrappers are user-side runtime artifacts, counted when present.
-  for name in loop-doctor loop-status loop-mode loop-init; do
-    if [ -e "$SKILLS_DEST/$name" ] || [ -L "$SKILLS_DEST/$name" ]; then
-      count=$((count + 1))
+  printf '%s\n' "$count"
+}
+
+# Loop Engineering wrappers are user-side runtime artifacts whose presence
+# depends on npm availability at install time, so --check counts catalog
+# items deterministically and reports wrappers informationally instead.
+loop_eng_wrappers_present() {
+  local present="" entry wname
+  for entry in "${LOOP_ENG_SKILLS[@]}"; do
+    wname=${entry%%:*}
+    if [ -e "$SKILLS_DEST/$wname" ] || [ -L "$SKILLS_DEST/$wname" ]; then
+      present="$present $wname"
     fi
   done
-  printf '%s\n' "$count"
+  printf '%s\n' "$present"
 }
 
 # Banner
@@ -189,6 +197,9 @@ LOOP_ENG_REG_GOAL="ericstack-loop-engineering-goal"
 generate_loop_eng_skill() {
   local name=$1 subcmd=$2 desc=$3
   local dest="$SKILLS_DEST/$name"
+  # Escape for safe interpolation into the double-quoted YAML description.
+  desc=${desc//\\/\\\\}
+  desc=${desc//\"/\\\"}
   mkdir -p "$dest"
   cat > "$dest/SKILL.md" <<EOF
 ---
@@ -408,6 +419,10 @@ case "$MODE" in
     else
       echo "  [FAIL] $installed/$ACTUAL_INSTALLED skills installed — run without --check to install"
       fail=$((fail+1))
+    fi
+    wrappers=$(loop_eng_wrappers_present)
+    if [ -n "$wrappers" ]; then
+      echo "  [INFO] Loop Engineering wrappers present:$wrappers"
     fi
     if command -v loopx >/dev/null 2>&1; then
       echo "  [OK] LoopX is installed"

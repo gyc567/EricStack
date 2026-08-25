@@ -47,16 +47,38 @@ fi
 echo "[APS] Detected tool mode: $TOOL_MODE"
 
 # Create directory structure
+NEW_APS_DIRS=""
+aps_mkdir() {
+  if [ ! -d "$1" ]; then
+    mkdir -p "$1"
+    NEW_APS_DIRS="${NEW_APS_DIRS}${1}"$'\n'
+  fi
+}
+cleanup_aps_dirs() {
+  local rc=$?
+  [ $rc -eq 0 ] && return 0
+  [ -n "$NEW_APS_DIRS" ] || return 0
+  printf '%s' "$NEW_APS_DIRS" | while IFS= read -r d; do
+    # rmdir only succeeds on empty dirs, so pre-existing user content is safe.
+    rmdir "$d" 2>/dev/null || true
+  done
+}
+trap cleanup_aps_dirs EXIT
+
 create_dirs() {
-  mkdir -p "$BIN_DIR/bb" "$BIN_DIR/go"
-  mkdir -p "$APS_DIR/features"
-  mkdir -p "$APS_DIR/ir"
-  mkdir -p "$APS_DIR/generated/metadata"
-  mkdir -p "$APS_DIR/reports/dry-check"
-  mkdir -p "$APS_DIR/reports/run"
-  mkdir -p "$APS_DIR/reports/mutation"
-  mkdir -p "$APS_DIR/reports/diagnose"
-  mkdir -p "$CACHE_DIR/ir" "$CACHE_DIR/dry" "$CACHE_DIR/mutation" "$CACHE_DIR/lint"
+  aps_mkdir "$BIN_DIR/bb"
+  aps_mkdir "$BIN_DIR/go"
+  aps_mkdir "$APS_DIR/features"
+  aps_mkdir "$APS_DIR/ir"
+  aps_mkdir "$APS_DIR/generated/metadata"
+  aps_mkdir "$APS_DIR/reports/dry-check"
+  aps_mkdir "$APS_DIR/reports/run"
+  aps_mkdir "$APS_DIR/reports/mutation"
+  aps_mkdir "$APS_DIR/reports/diagnose"
+  aps_mkdir "$CACHE_DIR/ir"
+  aps_mkdir "$CACHE_DIR/dry"
+  aps_mkdir "$CACHE_DIR/mutation"
+  aps_mkdir "$CACHE_DIR/lint"
 }
 
 write_config() {
