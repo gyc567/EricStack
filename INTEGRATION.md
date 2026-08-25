@@ -348,6 +348,7 @@ gh api repos/garrytan/gstack/contents --jq '.[].name' | grep -v '^\.'
 |---|---|---|
 | DeepSeek Harness | 2026-08-15 | `master` branch, latest |
 | Garry Tan gstack | 2026-08-15 | `main` branch, latest |
+| mindmux/brain.md | 2026-08-25 | `dafdde9d`, vendored (Apache-2.0); see [`docs/brain-integration.md`](docs/brain-integration.md) |
 
 ---
 
@@ -359,6 +360,7 @@ gh api repos/garrytan/gstack/contents --jq '.[].name' | grep -v '^\.'
 | `docs/TUTORIAL.md` | 完整使用教程 |
 | `docs/APS_INTEGRATION.md` | APS 整合方案（Acceptance Pipeline Specification） |
 | `docs/LLM_WIKI_TUTORIAL.md` | LLM Wiki 知识库使用教程 |
+| `docs/brain-integration.md` | mindmux/brain.md vendored 项目记忆整合（boundary table + 升级流程） |
 | `.loopx/llm-wiki-integration.md` | LLM Wiki 整合指南 |
 | `.loopx/erics-skills-index.md` | 技能索引 |
 | `.loopx/wiki/concepts/acceptance-pipeline.md` | APS 概念 wiki 页 |
