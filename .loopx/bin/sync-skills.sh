@@ -363,6 +363,7 @@ cmd_dry_run() {
   log "Skill files affected:"
   log "  deepseek-harness → erics-process/* (11 skills, minus protected)"
   log "  gstack           → erics-ability/* (15 skills, minus protected)"
+  log "  mindmux-brain-md → erics-ability/brain-* (5 vendored, all protected; manual bump only)"
   echo ""
   warn "No files have been modified. Use --execute to apply changes."
 }

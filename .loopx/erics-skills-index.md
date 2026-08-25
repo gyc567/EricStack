@@ -2,7 +2,7 @@
 
 > Auto-generated. Do not edit manually.
 
-Total: **41 skills** in the catalog (13 process + 27 ability + 1 router); installed items = 41 + 2 entry points = 43
+Total: **46 skills** in the catalog (13 process + 32 ability + 1 router); installed items = 46 + 2 entry points = 48
 
 ## Skills by Category
 
@@ -29,18 +29,25 @@ Total: **41 skills** in the catalog (13 process + 27 ability + 1 router); instal
 | `erics-process-translate-docs` | Bilingual document translation |
 | `erics-process-trim-cot-leakage` | Chain-of-thought leakage removal |
 
-### Ability (Action - 27 skills)
+### Ability (Action - 32 skills)
 | Skill | Description |
 |-------|-------------|
 | `erics-ability-autoplan` | CEO→design→eng→DX full-chain review |
 | `erics-ability-benchmark` | Performance regression detection |
 | `erics-ability-benchmark-models` | Cross-model skill comparison |
+| `erics-ability-brain-bootstrap` | Seed project brain (brownfield/greenfield) |
+| `erics-ability-brain-ingest` | Digest conversation/document into brain |
+| `erics-ability-brain-init` | Initialize project brain + sibling CLI on PATH |
+| `erics-ability-brain-page` | Read/write brain pages via the vendored CLI |
+| `erics-ability-brain-setup` | Asset-only sibling holding BRAIN.md template |
 | `erics-ability-context-restore` | Cross-workspace context restoration |
-| `erics-ability-context-save` | Git state + decisions save |
+| `erics-ability-context-save` | Git state + decisions save (now syncs to brain) |
 | `erics-ability-design-consultation` | Design system building |
 | `erics-ability-devex-review` | Developer experience audit |
 | `erics-ability-estack` | EricStack main entry point |
 | `erics-ability-graft` | Codebase knowledge graph |
+| `erics-ability-grill-me` | Stateless interview: idea → committable decisions |
+| `erics-ability-grill-with-docs` | Stateful grilling: reads code, writes CONTEXT.md + ADRs |
 | `erics-ability-health` | Code quality dashboard |
 | `erics-ability-investigate` | 4-phase debugging |
 | `erics-ability-office-hours` | YC-style forcing questions |
@@ -53,6 +60,7 @@ Total: **41 skills** in the catalog (13 process + 27 ability + 1 router); instal
 | `erics-ability-spec` | Vague intent → executable spec |
 | `erics-ability-test-runner` | APS test runner adapter |
 | `erics-ability-upgrade` | Check & sync upstream updates |
+| `erics-ability-wayfinder` | Multi-session map: grilling inside decision tickets |
 | `erics-ability-bdd` | Gherkin acceptance test generation |
 | `erics-ability-cso` | OWASP + STRIDE security audit |
 | `erics-ability-retro` | Weekly retrospective |

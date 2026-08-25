@@ -70,9 +70,36 @@
 | `~/.gstack/projects/{slug}/learnings.jsonl` | 保留但不执行 | gbrain 跨会话记忆；静默降级 |
 | `~/.gstack/analytics/eureka.jsonl` | 保留但不执行 | 同上 |
 
+> 注：以上 `gbrain` 是 gstack 原有上下文服务；与 mindmux/brain.md vendor（`erics-ability-brain-*`）不同物，不可混用。
+
 ---
 
-## 六、替换记录
+## 六、mindmux/brain.md 路径映射（新增）
+
+来源仓库：[mindmux/brain.md](https://github.com/mindmuxai/brain.md)（Apache-2.0），固定 commit 见 `.loopx/sync-state.json#sources.mindmux-brain-md`。
+
+| mindmux/brain.md 原始路径 | 处理方式 | EricStack 等价 |
+|---|---|---|
+| `skills/brain-page/bin/brain.mjs` | vendor | `.loopx/skills/erics-ability/erics-ability-brain-page/bin/brain.mjs`（install 时复制+重命名为 `~/.claude/skills/brain-page/bin/brain.mjs`） |
+| `skills/brain-page/lib/brain.mjs` | vendor | `.loopx/skills/erics-ability/erics-ability-brain-page/lib/brain.mjs` |
+| `skills/brain-setup/assets/BRAIN.md` | vendor | `.loopx/skills/erics-ability/erics-ability-brain-setup/assets/BRAIN.md`（install 时复制+重命名为 `~/.claude/skills/brain-setup/assets/`） |
+| `skills/brain-setup/hooks/pre-commit` | vendor，opt-in（默认不安装） | `.loopx/skills/erics-ability/erics-ability-brain-setup/hooks/pre-commit` |
+| `skills/brain-setup/hooks/session-start` | vendor，opt-in（默认不安装） | `.loopx/skills/erics-ability/erics-ability-brain-setup/hooks/session-start` |
+| CLI 子命令 `brain init` | 保留并执行 | 由 `erics-ability-brain-init` 调用 `node ~/.claude/skills/brain-page/bin/brain.mjs init` |
+| CLI 子命令 `brain create-page / read-page / update-truth / append-timeline / list-pages / reindex / lint-links` | 保留并执行 | 由 `erics-ability-brain-page` 路由 |
+| CLI 子命令 `brain bootstrap` | 保留并执行 | 由 `erics-ability-brain-bootstrap` 路由 |
+| CLI 子命令 `brain ingest` | 保留并执行 | 由 `erics-ability-brain-ingest` 路由 |
+
+**关键约束（runtime_sibling_constraint）**：
+
+- `brain-page` 与 `brain-setup` 在 `~/.claude/skills/` 下必须作为精确名称的兄弟目录存在。
+- CLI 解析资产模板通过 `<bin>/../../brain-setup/assets`，路径硬编码。
+- 因此 install 时 COPY（不符号链接）并重命名 `erics-ability-brain-{page,setup}` → `brain-{page,setup}`，且 `SKILL.md` frontmatter `name:` 同步改写为重命名后的名字。
+- 卸载时仅删除 EricStack 安装的 `brain` CLI 软链接（若指向我们的 `brain-page/bin/brain.mjs`），绝不触碰项目内的 `BRAIN.md` / `brain/` 数据。
+
+---
+
+## 七、替换记录
 
 ### erics-process-archive-notes
 - `../../notes/README.md` → `.loopx/notes/README.md`
@@ -122,8 +149,9 @@
 
 ---
 
-## 七、Changelog
+## 八、Changelog
 
 | 日期 | 操作 | 操作用户 |
 |---|---|---|
 | 2026-08-15 | 初始映射表创建，版本快照取自 deepseek-harness master + gstack main | ericstack-goal |
+| 2026-08-25 | 添加 mindmux/brain.md 路径映射表（vendor commit `dafdde9d`），区分 `gbrain`（gstack）与 mindmux/brain.md | ericstack-goal |

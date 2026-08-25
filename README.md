@@ -1,8 +1,8 @@
 # EricStack
 
-**AI-native engineering loop system — 41 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
+**AI-native engineering loop system — 46 skills covering planning, review, simplification, documentation, and knowledge accumulation.**
 />
-**AI 原生工程循环系统 — 41 个技能，覆盖计划、审查、简化、文档和知识积累。**
+**AI 原生工程循环系统 — 46 个技能，覆盖计划、审查、简化、文档和知识积累。**
 
 > EricStack transforms a project into a compounding engineering intelligence. Every decision, review, and discussion becomes a persistent wiki page. Every process is a closed loop.
 >
@@ -16,7 +16,7 @@ EricStack is **a skill metadata project + engineering toolkit**, not a standalon
 
 | Component | Count | Purpose |
 |---|---|---|
-| SKILL.md files | 41 | Reusable AI skills (process discipline + engineering ability) |
+| SKILL.md files | 46 | Reusable AI skills (process discipline + engineering ability + vendored brain memory) |
 | .loopx/bin/ scripts | 4 | install / uninstall / sync / aps installer |
 | .loopx/acceptance-pipeline/ | 1 | APS framework config (7-stage pipeline spec) |
 | `src/main.rs` | 1 | Rust placeholder — see [`src/README.md`](src/README.md) |
@@ -26,7 +26,7 @@ EricStack 是一个**技能元项目 + 工具集**，不是独立应用。本仓
 
 | 组件 | 数量 | 用途 |
 |---|---|---|
-| SKILL.md 文件 | 38 | 可复用 AI 技能（流程纪律 + 工程能力） |
+| SKILL.md 文件 | 46 | 可复用 AI 技能（流程纪律 + 工程能力 + vendored brain 记忆） |
 | .loopx/bin/ 脚本 | 4 | install / uninstall / sync / aps 安装 |
 | .loopx/acceptance-pipeline/ | 1 | APS 框架配置（7 阶段管道规范） |
 | `src/main.rs` | 1 | Rust 占位符 — 参见 [`src/README.md`](src/README.md) |
@@ -83,14 +83,14 @@ If you're evaluating EricStack before integrating, see the [Quick Start tutorial
 ---
 ## What Is EricStack? | 什么是 EricStack？
 
-EricStack is a LoopX-powered skill system for engineering teams. It provides **41 skills** organized in two tiers:
+EricStack is a LoopX-powered skill system for engineering teams. It provides **46 skills** organized in two tiers:
 
-EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **41 个技能**，分为两个层级：
+EricStack 是一个基于 LoopX 的工程团队技能系统，提供 **46 个技能**，分为两个层级：
 
 | Tier / 层级 | Count / 数量 | Purpose / 用途 |
 |---|---|---|
 | `erics-process-*` (Discipline / 纪律) | 13 | Enforce standards — code review, prose quality, docs, simplification / 执行标准 — 代码审查、prose 质量、文档、简化 |
-| `erics-ability-*` (Action / 能力) | 27 | Execute workflows — planning, debugging, benchmarking, retros / 执行工作流 — 计划、调试、性能基准、回顾 |
+| `erics-ability-*` (Action / 能力) | 32 | Execute workflows — planning, debugging, benchmarking, retros, project brain memory / 执行工作流 — 计划、调试、性能基准、回顾、项目记忆 |
 
 Skills run inside Claude Code (or any LoopX-compatible host). No separate server, no daemon, no API keys required for the skill system itself.
 技能运行在 Claude Code（或任何兼容 LoopX 的 host）中。技能系统本身无需独立服务器、无需守护进程、无需额外 API key。
@@ -107,7 +107,7 @@ Install EricStack for me:
    curl -fsSL https://huangruiteng.github.io/loopx/install.sh | bash
 2. Run: git clone https://github.com/gyc567/EricStack.git ~/EricStack
 3. Run: bash ~/EricStack/.loopx/bin/install-ericsstack.sh
-   (This copies all 41 skills as flat directories to ~/.claude/skills/)
+   (This copies all 46 skills as flat directories to ~/.claude/skills/)
 4. Set my project context to ~/EricStack
 5. If Node.js is available (run: node --version && npm --version):
    - Run: npm install -g @nanonets/graft && graft init --agents claude
@@ -143,7 +143,7 @@ Uninstall EricStack for me:
 2. (Optional) Run: rm -rf ~/EricStack
 ```
 
-This removes all 41 skills from `~/.claude/skills/` and unlinks the LoopX runtime.
+This removes all 46 skills from `~/.claude/skills/` and unlinks the LoopX runtime.
 
 ---
 
@@ -172,8 +172,8 @@ Download [llm_wiki](https://github.com/nashsu/llm_wiki/releases), then:
 ```
 /estack                # Main entry — shows banner and routes to the right skill
                       # 主入口 — 显示 banner 并路由到正确技能
-/erics-loop-router     # View all 41 skills and routing rules
-                      # 查看全部 41 个技能和路由规则
+/erics-loop-router     # View all 46 skills and routing rules
+                      # 查看全部 46 个技能和路由规则
 ```
 
 Or invoke any skill directly: / 或直接调用任何技能：
@@ -199,8 +199,12 @@ Or invoke any skill directly: / 或直接调用任何技能：
 | `/erics-ability-grill-me` | Stateless interview: loose idea → committable decisions | 无状态访谈：模糊想法 → 可承诺决策 |
 | `/erics-ability-grill-with-docs` | Stateful grilling: reads code, writes `CONTEXT.md` + ADRs | 状态化质询：读代码库、写入 CONTEXT.md 与 ADR |
 | `/erics-ability-wayfinder` | Multi-session map: grilling inside decision tickets | 多会话编排：在决策工单里运行质询 |
+| `/erics-ability-brain-init` | Initialize project brain (BRAIN.md + brain/ scaffold) | 初始化项目 brain（BRAIN.md + brain/ 脚手架） |
+| `/erics-ability-brain-page` | Read/write brain pages via the bundled `brain` CLI | 通过内置 `brain` CLI 读写 brain 页面 |
+| `/erics-ability-brain-bootstrap` | Seed brain from code/docs (brownfield) or interview (greenfield) | 用代码/文档播种 brain（成熟项目）或访谈（新项目） |
+| `/erics-ability-brain-ingest` | Digest conversations/decisions into the brain | 把对话/决策消化到 brain |
 
-**See all 41 skills / 查看全部 41 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
+**See all 46 skills / 查看全部 46 个技能：** [`.loopx/erics-skills-index.md`](.loopx/erics-skills-index.md)
 
 ---
 
@@ -212,7 +216,7 @@ EricStack/
 │   ├── skills/
 │   │   ├── erics-loop-router/      # Skill router / 技能路由器
 │   │   ├── erics-process-* (×13)  # Discipline skills / 纪律技能
-│   │   └── erics-ability-* (×27)  # Action skills / 能力技能
+│   │   └── erics-ability-* (×32)  # Action skills (incl. vendored brain memory) / 能力技能（含 vendored brain 记忆）
 │   ├── wiki/                       # LLM Wiki knowledge base / LLM Wiki 知识库
 │   │   ├── concepts/              # Concept pages / 概念页面
 │   │   ├── entities/              # Decision records / 决策记录
@@ -285,6 +289,7 @@ When both apply, prefer `erics-process-*` for writing/review tasks.
 | `docs/LLM_WIKI_TUTORIAL.md` | 中文 | LLM Wiki knowledge base guide / LLM Wiki 知识库使用教程 |
 | `docs/APS_INTEGRATION.md` | 中文 | APS integration plan / APS 整合方案 |
 | `docs/GRILLING_SUITE.md` | EN + CN inline | Grilling family tutorial (grill-me / grill-with-docs / wayfinder) / 质询三件套教程 |
+| `docs/brain-integration.md` | EN + CN inline | mindmux/brain.md vendor integration (boundary table, install state, vendor bump) / mindmux/brain.md vendored 整合（边界表、安装状态、升级流程） |
 | `INTEGRATION.md` | 中文 | Full integration plan / 完整整合方案 |
 | `.loopx/llm-wiki-integration.md` | 中文 | LLM Wiki integration guide / LLM Wiki 整合指南 |
 
@@ -299,6 +304,7 @@ EricStack is inspired by and integrates ideas from these projects:
 | **PR Agent** | [The-PR-Agent/PR-Agent](https://github.com/The-PR-Agent/PR-Agent) | Incremental review, PR compression, self-review, configurable tools |
 | **Graft** | [NanoNets/Graft](https://github.com/NanoNets/Graft) | Codebase knowledge graph, call-chain tracing, token-efficient code understanding |
 | **GStack** | [garrytan/gstack](https://github.com/garrytan/gstack) | Upstream ability skill source |
+| **mindmux/brain.md** | [mindmux/brain.md](https://github.com/mindmuxai/brain.md) | Open Project Brain Standard — project-level persistent memory, vendored (Apache-2.0) |
 | **LoopX** | [huangruiteng/loopx](https://github.com/huangruiteng/loopx) | Skill system architecture and slash command protocol |
 
 ---

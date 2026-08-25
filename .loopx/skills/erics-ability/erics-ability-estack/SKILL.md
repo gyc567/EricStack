@@ -20,7 +20,7 @@ triggers:
 
 ```
 ╔══════════════════════════════════════════════════════╗
-║  EricStack  v0.1.0  |  26 skills  |  AI-Native Loop  ║
+║  EricStack  v0.1.0  |  46 skills  |  AI-Native Loop  ║
 ╚══════════════════════════════════════════════════════╝
 ```
 
@@ -49,7 +49,7 @@ triggers:
 - "帮我保存当前进度" → `erics-ability-context-save`
 - "帮我 benchmark 性能" → `erics-ability-benchmark`
 
-运行 `/erics-loop-router` 查看全部 26 个技能的完整路由表。
+运行 `/erics-loop-router` 查看全部 46 个技能的完整路由表。
 
 ## 快速命令
 

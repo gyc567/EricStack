@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`sync-state.json` v2.0** — added `local` source, `protected_skills` list, `totals` block, `sync_policy` block.
 - **Grilling family** — `erics-ability-grill-me`, `erics-ability-grill-with-docs`, `erics-ability-wayfinder` (stateless / stateful / multi-session idea interrogation), plus `docs/GRILLING_SUITE.md` and a wiki concept page. Catalog now totals 41 SKILL.md (13 process + 27 ability + 1 router).
 - **Loop Engineering integration** — install/uninstall scripts manage loop-engineering state and registry goals; `docs/LOOP_ENGINEERING_INTEGRATION.md`.
+- **mindmux/brain.md vendor** — 5 skills (`erics-ability-brain-{init,page,bootstrap,ingest,setup}`) bring the Open Project Brain Standard as a vendored (Apache-2.0) project-level memory interface. Installer copies+renames `brain-page`/`brain-setup` (CLI hardcodes sibling string) and places the `brain` CLI on PATH; uninstaller cleans only EricStack-installed symlinks and never touches project `BRAIN.md`/`brain/` data. Router routes all 4 user-facing skills; `erics-ability-context-save` Step 5 offers syncing architectural decisions to brain (opt-in, deduped); `erics-ability-estack` banner exposes the 4 commands. See `docs/brain-integration.md`. Catalog now totals 46 SKILL.md (13 process + 32 ability + 1 router).
 - **Markdown tooling** — `.loopx/bin/check-markdown-links.py`, `regenerate-wiki-index.py`, `check-readme-bilingual.sh`, `check-wikilinks.sh`, `lib-pathsafe.sh`.
 - **Rust integration tests** — `tests/catalog.rs`: catalog contract, router reachability, CLI help/invalid-arg behavior.
 - **CI workflows** — `.github/workflows/ci.yml` + `skill-validate.yml` (SHA-pinned actions, least privilege).
@@ -30,7 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **Skill count claims**: 36 → 38 across `README.md`, `README_CN.md`. (Audit finding C3.)
-- **Skill catalog**: 28 SKILL.md at `v0.1.0` → 41 now; installed items = 41 catalog + 2 entry points = 43.
+- **Skill catalog**: 28 SKILL.md at `v0.1.0` → 46 now (added mindmux/brain.md vendor); installed items = 46 catalog + 2 entry points = 48.
 - **`sync-state.json`**: schema version 1.0 → 2.0; `updated_at` refreshed to 2026-08-16.
 - **`registry.json`**: schema version 0.1 → 0.2; adapter upgraded `read_only_project_map_v0` → `read_write_project_map_v0`; `spawn_policy.allowed` true; `write_scope` now lists allowed paths; `requires_parent_approval` narrowed to publish/production/external-write.
 - **`erics-process-archive-agent-notes` SKILL.md**: removed duplicate `---` from frontmatter; renamed H1 from "Archive DeepSeek Harness Agent Notes" to "Archive EricStack Agent Notes".
