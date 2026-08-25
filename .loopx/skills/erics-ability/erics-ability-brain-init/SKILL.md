@@ -59,12 +59,12 @@ The CLI resolves scaffold assets at `<bin>/../../brain-setup/assets`, so
 `BRAIN.md` and `brain/` to live). If the user is in a subdirectory, ask
 which directory is the project root before proceeding.
 
-### 4. Refuse on DeepSeek Harness projects
+### 4. Refuse on Agent-Notes projects
 
 If the project contains `notes/implemented/` or `notes/archived/`, fail
 with:
 
-> This project uses the DeepSeek Harness Agent Notes system. Brain and
+> This project uses an external Agent Notes system. Brain and
 > archive-agent-notes would create two competing decision corpora; do not
 > run `brain init` here. Use `/erics-process-archive-agent-notes` instead.
 

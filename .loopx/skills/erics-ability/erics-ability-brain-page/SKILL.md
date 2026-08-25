@@ -30,7 +30,7 @@ hand-edit files under `brain/`.
    pages are kept as historical snapshots; do not delete them.
 5. **Cross-references** use `[[page-id]]` syntax. After adding references,
    run `brain lint-links` and fix any broken links.
-6. **DeepSeek Harness override**: if the project contains
+6. **Agent-Notes override**: if the project contains
    `notes/implemented/` or `notes/archived/`, prefer
    `/erics-process-archive-agent-notes` — brain is only a secondary
    cross-agent mirror in that case.

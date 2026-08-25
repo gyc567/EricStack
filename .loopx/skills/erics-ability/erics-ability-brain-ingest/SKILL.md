@@ -48,12 +48,12 @@ CLI="$HOME/.claude/skills/brain-page/bin/brain.mjs"
 If the user has just been told their project isn't initialized, stop
 here — do not prompt them to init; that's a separate workflow.
 
-## HARD GATE — DeepSeek Harness projects
+## HARD GATE — Agent-Notes projects
 
 If the project contains `notes/implemented/` or `notes/archived/`, **do
 not ingest into brain**. Tell the user:
 
-> This project uses the DeepSeek Harness Agent Notes system. Ingesting
+> This project uses an external Agent Notes system. Ingesting
 > into brain would create a second decision corpus. Use
 > `/erics-process-archive-agent-notes` to record this knowledge instead.
 
@@ -187,4 +187,4 @@ the history of writes. For strict ordering, ingest serially.
 - **Always** summarize the change in `update-truth` / `append-timeline`.
 - **Always** run `reindex && lint-links` at the end.
 - **Always** output a report so the user can spot-check.
-- **Refuse** on DeepSeek Harness projects.
+- **Refuse** on projects that already carry an Agent Notes system.

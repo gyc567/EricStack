@@ -29,11 +29,11 @@ override before treating it as the other mode.
 If the user says "interview me first" or the project is brand-new, force
 `greenfield`.
 
-## HARD GATE — DeepSeek Harness projects
+## HARD GATE — Agent-Notes projects
 
 ```bash
 if [ -d notes/implemented ] || [ -d notes/archived ]; then
-  echo "REFUSE: project uses DeepSeek Harness Agent Notes."
+  echo "REFUSE: project uses external Agent Notes system."
   echo "Use /erics-process-archive-agent-notes for decision tracking."
   exit 1
 fi
@@ -41,7 +41,7 @@ fi
 
 Brain and `archive-agent-notes` maintain two competing decision corpora;
 running both creates contradictions. **Never run brain-bootstrap on a
-DeepSeek Harness project.**
+project that already carries an Agent Notes system.**
 
 ## Pre-flight
 
@@ -176,7 +176,7 @@ Open questions:       N (recorded as note timeline entries on background)
 
 ## Important Rules
 
-- **Never run on a DeepSeek Harness project.** HARD GATE.
+- **Never run on a project that already carries an Agent Notes system.** HARD GATE.
 - **Synthesize, don't transcribe.** A bootstrap that just dumps the
   README into `background` is worse than no bootstrap.
 - **Mark uncertainty inline.** Use `<!-- uncertain: reason -->`; don't

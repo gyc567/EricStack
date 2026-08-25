@@ -147,7 +147,7 @@ Use when benchmarking a skill across multiple AI models and comparing quality, l
 
 ### `erics-ability-brain-bootstrap`
 
-|
+Use when the user says "brain bootstrap", "seed project brain", "播种 brain", "bootstrap project memory", or right after `/brain init` on an existing project. Drafts root pages from code, docs, and git log (brownfield), or interviews the user (greenfield).
 
 **Triggers:** `brain bootstrap`, `seed project brain`, `播种 brain`, `bootstrap project memory`
 
@@ -155,7 +155,7 @@ Use when benchmarking a skill across multiple AI models and comparing quality, l
 
 ### `erics-ability-brain-ingest`
 
-|
+Use when the user says "brain ingest", "ingest into brain", "digest to brain", "消化到 brain", or "capture this conversation". Breaks the input into atomic knowledge points, places them on existing root pages or new pages, and writes via the `brain` CLI.
 
 **Triggers:** `brain ingest`, `ingest into brain`, `digest to brain`, `消化到 brain`, `capture this conversation`
 
@@ -163,7 +163,7 @@ Use when benchmarking a skill across multiple AI models and comparing quality, l
 
 ### `erics-ability-brain-init`
 
-|
+Use when the user says "init brain", "brain init", "setup project brain", or "初始化项目记忆" and BRAIN.md does not yet exist. Scaffolds BRAIN.md, brain/ directory, and wires CLAUDE.md/AGENTS.md into the current project. Brain is project-level persistent memory (decisions, constraints).
 
 **Triggers:** `brain init`, `init brain`, `setup project brain`, `初始化项目记忆`, `启动 brain`
 
@@ -171,7 +171,7 @@ Use when benchmarking a skill across multiple AI models and comparing quality, l
 
 ### `erics-ability-brain-page`
 
-|
+Use when the user wants to capture a decision, constraint, or durable project knowledge, or read existing brain pages. Triggers: "brain page", "read brain page", "create brain page", "update truth", "记一条 brain 决策". Every read and write goes through the bundled `brain` CLI.
 
 **Triggers:** `brain page`, `read brain page`, `create brain page`, `update truth`, `记一条 brain 决策`
 
@@ -179,7 +179,7 @@ Use when benchmarking a skill across multiple AI models and comparing quality, l
 
 ### `erics-ability-brain-setup`
 
-|
+Use when installing the brain vendor — asset container that keeps BRAIN.md init template beside brain-page. Required by upstream CLI: `brain init` resolves scaffold assets at `<brain-page>/bin/../../brain-setup/assets`. Non-operational; logic lives in `erics-ability-brain-init`.
 
 **Triggers:** `brain setup assets`, `brain scaffold assets`
 
@@ -193,9 +193,9 @@ Use when restoring saved working context and resuming work across sessions or wo
 
 *File:* `.loopx/skills/erics-ability/erics-ability-context-restore/SKILL.md`
 
-### `context-save`
+### `erics-ability-context-save`
 
-Save working context — git state, decisions, remaining work.
+Use when the user says "save context", "checkpoint", "save state", or wants to pause work and resume later. Saves git state, decisions, and remaining work.
 
 **Triggers:** `save context`, `checkpoint`, `save state`
 
@@ -227,7 +227,7 @@ Use when auditing developer experience, time to hello world, friction points, an
 
 ### `erics-ability-estack`
 
-EricStack main entry point — displays interactive banner and routes to the correct skill. Start here for anything in EricStack.
+Use when the user invokes /estack or asks "show me all EricStack skills". EricStack main entry point — displays interactive banner and routes to the correct skill.
 
 **Triggers:** `estack`, `ericstack`, `activate ericstack`, `activate loopx`, `loopx`
 
@@ -373,7 +373,7 @@ Use when an effort is too large to hold in one conversation — a multi-session 
 
 ### `erics-loop-router`
 
-Routes engineering tasks to the correct erics-process (discipline) or erics-ability (productivity) skill. Inspects task type and routes accordingly. (ericstack)
+Use when the user asks "which skill should I use", "route this", or invokes /erics-loop-router explicitly. Routes engineering tasks to the correct erics-process (discipline) or erics-ability (productivity) skill. (ericstack)
 
 **Triggers:** `erics-loop-router`, `which skill for this`, `route this`, `ericstack route`, `process review`
 
