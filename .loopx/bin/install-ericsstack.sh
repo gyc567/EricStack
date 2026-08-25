@@ -50,7 +50,7 @@ while [ $i -lt ${#args[@]} ]; do
       sed -n '2,12p' "$0"
       exit 0
       ;;
-    *) echo "Unknown arg: $arg" >&2; exit 1 ;;
+    *) echo "Unknown arg: $arg" >&2; exit 2 ;;
   esac
   i=$((i + 1))
 done
@@ -273,7 +273,18 @@ EOF
 # add_loop_eng_goal_to_registry -> appends ericstack-loop-engineering-goal to .loopx/registry.json
 add_loop_eng_goal_to_registry() {
   local reg="$ERICSTACK_DIR/.loopx/registry.json"
-  [ -f "$reg" ] || return 0
+  # registry.json is untracked runtime state; fresh clones bootstrap from the
+  # example fixture so Loop Engineering registration works on first install.
+  if [ ! -f "$reg" ]; then
+    local example="$ERICSTACK_DIR/.loopx/registry.example.json"
+    if [ -f "$example" ]; then
+      cp "$example" "$reg"
+      echo "  [OK] bootstrapped .loopx/registry.json from example fixture"
+    else
+      echo "  [SKIP] registry goal: no registry.json and no example fixture"
+      return 0
+    fi
+  fi
   command -v jq >/dev/null 2>&1 || { echo "  [SKIP] registry goal: jq not installed"; return 0; }
 
   # Idempotent: if goal already present, skip.

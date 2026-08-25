@@ -90,13 +90,17 @@
     "gstack_imported": 15,
     "local": 15,
     "total_skills": 41,
-    "verify_with": "find .loopx/skills -name SKILL.md | wc -l"
+    "verify_with": "find .loopx/skills -name SKILL.md | wc -l",
+    "process_skills": 13,
+    "ability_skills": 27,
+    "router_skills": 1
   },
   "sync_policy": {
     "check_interval_days": 7,
     "auto_apply": false,
     "require_user_confirm": true,
     "protect_local_skills": true,
-    "checksum_verify": true
+    "checksum_verify": false,
+    "integrity_model": "sync records each source's cloned HEAD and detects concurrent upstream pushes; file-level checksums are not yet enforced"
   }
 }

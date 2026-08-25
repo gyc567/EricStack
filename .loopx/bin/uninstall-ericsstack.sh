@@ -117,6 +117,10 @@ fi
 
 # Confirm unless --force
 if ! $FORCE; then
+  if [ ! -t 0 ]; then
+    echo "Refusing destructive uninstall without confirmation. Re-run interactively or pass --force." >&2
+    exit 2
+  fi
   read -r -p "  Remove these ${#to_remove[@]} items? [y/N] " response
   case "$response" in
     [yY][eE][sS]|[yY]) ;;

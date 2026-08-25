@@ -129,6 +129,128 @@ is_protected() {
   return 1
 }
 
+# Record synced commit + tree hash into globals consumed by write_state_atomically.
+record_state() {
+  local key=$1 commit=$2 sha=$3
+  case "$key" in
+    deepseek-harness)
+      DEEP_SEEK_NEW_REMOTE="$commit"
+      DEEP_SEEK_TREE_SHA="$sha"
+      ;;
+    gstack)
+      GSTACK_NEW_REMOTE="$commit"
+      GSTACK_TREE_SHA="$sha"
+      ;;
+  esac
+}
+
+# Copy upstream ability skills that are new locally; protected ones are skipped.
+copy_new_ability_skills() {
+  local src=$1
+  [ -d "$src" ] || return 0
+  local skill name
+  for skill in "$src"/*/; do
+    [ -d "$skill" ] || continue
+    name=$(basename "$skill")
+    if is_protected "$name"; then
+      log "  [SKIP] $name (protected)"
+      continue
+    fi
+    if [ ! -d "$SKILLS_DIR/erics-ability/$name" ]; then
+      rsync -a --quiet "$skill" "$SKILLS_DIR/erics-ability/"
+      ok "Added new ability skill: $name"
+    fi
+  done
+}
+
+rewrite_deepseek_md() {
+  local tmp=$1
+  find "$tmp/.agents/skills" -name '*.md' -print0 2>/dev/null |
+  while IFS= read -r -d '' f; do
+    sed -i.bak \
+      -e 's/deepseek-harness/EricStack/g' \
+      -e 's/DeepSeek Harness/EricStack/g' \
+      -e 's|\.\./\.\./\.\./||g' \
+      -e 's|\.\./\.\./||g' \
+      -e 's/\[\([^]]*\)\](\.[.][^)]*)/\1/g' \
+      "$f"
+    rm -f "${f}.bak"
+  done
+}
+
+rewrite_gstack_md() {
+  local tmp=$1
+  find "$tmp/.agents/skills" -name '*.md' -print0 2>/dev/null |
+  while IFS= read -r -d '' f; do
+    sed -i.bak \
+      -e 's/gstack/EricStack/g' \
+      -e 's/GStack/EricStack/g' \
+      -e 's/Garry Tan/EricStack/g' \
+      -e 's|~/.gstack/|~/.loopx/|g' \
+      -e '/^_gstack_/d' \
+      -e 's/\[\([^]]*\)\](\.[.][^)]*)/\1/g' \
+      "$f"
+    rm -f "${f}.bak"
+  done
+}
+
+copy_deepseek_skills() {
+  local tmp=$1
+  [ -d "$tmp/.agents/skills/erics-process" ] || return 0
+  local rsync_excludes=()
+  while IFS= read -r arg; do
+    [ -n "$arg" ] && rsync_excludes+=("$arg")
+  done < <(protected_rsync_args)
+  if [ ${#rsync_excludes[@]} -gt 0 ]; then
+    rsync -a --quiet "${rsync_excludes[@]}" "$tmp/.agents/skills/erics-process/" "$SKILLS_DIR/erics-process/"
+  else
+    rsync -a --quiet "$tmp/.agents/skills/erics-process/" "$SKILLS_DIR/erics-process/"
+  fi
+  ok "Synced process skills from deepseek-harness"
+  copy_new_ability_skills "$tmp/.agents/skills/erics-ability"
+}
+
+copy_gstack_skills() {
+  local tmp=$1
+  copy_new_ability_skills "$tmp/.agents/skills/erics-ability"
+}
+
+# Clone one source, apply rewrites, copy skills, and record what was synced.
+# Always records the cloned HEAD (the content actually copied), never the
+# pre-clone remote tip, so a concurrent upstream push cannot poison state.
+sync_source() {
+  local url=$1 key=$2 rewrite_fn=$3 copy_fn=$4
+  local tmp tmp_head tree_sha remote_current
+  tmp=$(mktemp -d)
+  ACTIVE_TMP="$tmp"
+  if ! git clone --depth 1 "$url" "$tmp" 2>/dev/null; then
+    fail "Failed to clone $key."
+    rm -rf "$tmp"; ACTIVE_TMP=""
+    return 1
+  fi
+
+  "$rewrite_fn" "$tmp"
+  "$copy_fn" "$tmp"
+
+  tmp_head=$(git -C "$tmp" rev-parse HEAD 2>/dev/null || echo "")
+  if [ -z "$tmp_head" ]; then
+    fail "Failed to read HEAD from cloned $key repo."
+    rm -rf "$tmp"; ACTIVE_TMP=""
+    return 1
+  fi
+
+  tree_sha=$(skills_tree_sha "$tmp/.agents/skills")
+  rm -rf "$tmp"; ACTIVE_TMP=""
+
+  remote_current=$(git ls-remote --quiet "$url" HEAD 2>/dev/null | cut -f1 || echo "")
+  if [ -n "$remote_current" ] && [ "$tmp_head" != "$remote_current" ]; then
+    warn "$key advanced upstream during clone (concurrent push detected)."
+    warn "  Synced content is ${tmp_head:0:8}; rerun later to pick up ${remote_current:0:8}."
+  fi
+
+  record_state "$key" "$tmp_head" "$tree_sha"
+}
+
 # Build rsync --exclude args
 protected_rsync_args() {
   local args=()
@@ -267,162 +389,24 @@ cmd_execute() {
     echo ""
   fi
 
-  # Build rsync exclude args once
-  local rsync_excludes=()
-  while IFS= read -r arg; do
-    [ -n "$arg" ] && rsync_excludes+=("$arg")
-  done < <(protected_rsync_args)
-
-  local dsh_local=$(get_local_commit deepseek-harness)
-  local gstack_local=$(get_local_commit gstack)
-  local dsh_remote=$(get_remote_commit "$DSH_URL")
-  local gstack_remote=$(get_remote_commit "$GSTACK_URL")
+  local dsh_local dsh_remote gstack_local gstack_remote updated=0
+  dsh_local=$(get_local_commit deepseek-harness)
+  gstack_local=$(get_local_commit gstack)
+  dsh_remote=$(get_remote_commit "$DSH_URL")
+  gstack_remote=$(get_remote_commit "$GSTACK_URL")
   require_remote_commits "$dsh_remote" "$gstack_remote" || return 1
 
-  local updated=0
-
   if [ "$dsh_local" != "$dsh_remote" ]; then
-    warn "Syncing deepseek-harness ($dsh_local → $dsh_remote)..."
-    local tmp
-    tmp=$(mktemp -d)
-    ACTIVE_TMP="$tmp"
-    if ! git clone --depth 1 "$DSH_URL" "$tmp" 2>/dev/null; then
-      fail "Failed to clone deepseek-harness."
-      return 1
-    fi
-
-    # Apply brand rewrites to all skill markdown files
-    find "$tmp/.agents/skills" -name "*.md" 2>/dev/null | while read -r f; do
-      sed -i.bak \
-        -e 's/deepseek-harness/EricStack/g' \
-        -e 's/DeepSeek Harness/EricStack/g' \
-        -e 's|../../../||g' \
-        -e 's|../../||g' \
-        -e '/^\[.*\](.*\.\.\/.*)$/d' \
-        "$f"
-      rm -f "${f}.bak"
-    done
-
-    # Copy process skills (erics-process-*) — protected skills are excluded
-    if [ -d "$tmp/.agents/skills/erics-process" ]; then
-      if [ ${#rsync_excludes[@]} -gt 0 ]; then
-        rsync -av --quiet "${rsync_excludes[@]}" "$tmp/.agents/skills/erics-process/" \
-          "$SKILLS_DIR/erics-process/"
-      else
-        rsync -av --quiet "$tmp/.agents/skills/erics-process/" \
-          "$SKILLS_DIR/erics-process/"
-      fi
-      ok "Synced process skills from deepseek-harness"
-    fi
-
-    # Copy ability skills that don't already exist in EricStack
-    if [ -d "$tmp/.agents/skills/erics-ability" ]; then
-      for skill in "$tmp/.agents/skills/erics-ability"/*/; do
-        [ -d "$skill" ] || continue
-        local skill_name
-        skill_name=$(basename "$skill")
-        if is_protected "$skill_name"; then
-          log "  [SKIP] $skill_name (protected)"
-          continue
-        fi
-        if [ ! -d "$SKILLS_DIR/erics-ability/$skill_name" ]; then
-          rsync -av --quiet "$skill" "$SKILLS_DIR/erics-ability/"
-          ok "Added new ability skill: $skill_name"
-        fi
-      done
-    fi
-
-    local tmp_head
-    tmp_head=$(git -C "$tmp" rev-parse HEAD 2>/dev/null || echo "")
-    if [ -z "$tmp_head" ]; then
-      fail "Failed to read HEAD from cloned deepseek-harness repo."
-      rm -rf "$tmp"; ACTIVE_TMP=""; return 1
-    fi
-    # Re-fetch the remote's current HEAD SHA from within the clone to detect
-    # a concurrent push that happened during the clone window. A mismatch here
-    # means upstream force-pushed and the pre-clone $dsh_remote is stale.
-    local remote_current
-    remote_current=$(git ls-remote --quiet "$DSH_URL" HEAD 2>/dev/null | cut -f1 || echo "")
-    if [ -n "$remote_current" ] && [ "$tmp_head" != "$remote_current" ]; then
-      warn "Upstream deepseek-harness advanced during clone (concurrent push detected)."
-      warn "  Pre-clone SHA:  ${dsh_remote:0:8}"
-      warn "  Post-clone HEAD: ${tmp_head:0:8}"
-      warn "  Current remote:  ${remote_current:0:8}"
-      warn "  Treating as up-to-date — rerun to sync to the newer commit."
-      rm -rf "$tmp"; ACTIVE_TMP=""
-      ok "deepseek-harness: synced to $tmp_head (concurrent push detected)"
-    elif [ "$tmp_head" != "$dsh_remote" ]; then
-      # Same SHA but not matching stored local — local was already behind; sync happened.
-      DEEP_SEEK_NEW_REMOTE="$tmp_head"
-    fi
-    ACTIVE_TMP=""
-    DEEP_SEEK_TREE_SHA=$(skills_tree_sha "$tmp/.agents/skills")
-    DEEP_SEEK_NEW_REMOTE="$dsh_remote"
+    warn "Syncing deepseek-harness (${dsh_local:0:8} → ${dsh_remote:0:8})..."
+    sync_source "$DSH_URL" "deepseek-harness" rewrite_deepseek_md copy_deepseek_skills || return 1
     updated=$((updated + 1))
   else
     ok "deepseek-harness: already up to date"
   fi
 
   if [ "$gstack_local" != "$gstack_remote" ]; then
-    warn "Syncing gstack ($gstack_local → $gstack_remote)..."
-    local tmp
-    tmp=$(mktemp -d)
-    ACTIVE_TMP="$tmp"
-    if ! git clone --depth 1 "$GSTACK_URL" "$tmp" 2>/dev/null; then
-      fail "Failed to clone gstack."
-      return 1
-    fi
-
-    # Apply brand rewrites
-    find "$tmp/.agents/skills" -name "*.md" 2>/dev/null | while read -r f; do
-      sed -i.bak \
-        -e 's/gstack/EricStack/g' \
-        -e 's/GStack/EricStack/g' \
-        -e 's/Garry Tan/EricStack/g' \
-        -e 's|~/.gstack/|~/.loopx/|g' \
-        -e '/^_gstack_/d' \
-        "$f"
-      rm -f "${f}.bak"
-    done
-
-    # Copy new ability skills (protected ones are skipped)
-    if [ -d "$tmp/.agents/skills/erics-ability" ]; then
-      for skill in "$tmp/.agents/skills/erics-ability"/*/; do
-        [ -d "$skill" ] || continue
-        local skill_name
-        skill_name=$(basename "$skill")
-        if is_protected "$skill_name"; then
-          log "  [SKIP] $skill_name (protected)"
-          continue
-        fi
-        if [ ! -d "$SKILLS_DIR/erics-ability/$skill_name" ]; then
-          rsync -av --quiet "$skill" "$SKILLS_DIR/erics-ability/"
-          ok "Added new ability skill: $skill_name"
-        fi
-      done
-    fi
-
-    local tmp_head
-    tmp_head=$(git -C "$tmp" rev-parse HEAD 2>/dev/null || echo "")
-    if [ -z "$tmp_head" ]; then
-      fail "Failed to read HEAD from cloned gstack repo."
-      rm -rf "$tmp"; ACTIVE_TMP=""; return 1
-    fi
-    local remote_current
-    remote_current=$(git ls-remote --quiet "$GSTACK_URL" HEAD 2>/dev/null | cut -f1 || echo "")
-    if [ -n "$remote_current" ] && [ "$tmp_head" != "$remote_current" ]; then
-      warn "Upstream gstack advanced during clone (concurrent push detected)."
-      warn "  Pre-clone SHA:  ${gstack_remote:0:8}"
-      warn "  Post-clone HEAD: ${tmp_head:0:8}"
-      warn "  Current remote:  ${remote_current:0:8}"
-      warn "  Treating as up-to-date — rerun to sync to the newer commit."
-      rm -rf "$tmp"; ACTIVE_TMP=""
-      ok "gstack: synced to $tmp_head (concurrent push detected)"
-    elif [ "$tmp_head" != "$gstack_remote" ]; then
-      GSTACK_NEW_REMOTE="$tmp_head"
-    fi
-    ACTIVE_TMP=""
-    GSTACK_TREE_SHA=$(skills_tree_sha "$tmp/.agents/skills")
+    warn "Syncing gstack (${gstack_local:0:8} → ${gstack_remote:0:8})..."
+    sync_source "$GSTACK_URL" "gstack" rewrite_gstack_md copy_gstack_skills || return 1
     updated=$((updated + 1))
   else
     ok "gstack: already up to date"
