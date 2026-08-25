@@ -1,0 +1,163 @@
+{
+  "schema_version": "0.2",
+  "updated_at": "2026-08-25T17:43:29+08:00",
+  "common_runtime_root": "~/.codex/loopx",
+  "goals": [
+    {
+      "id": "ericstack-goal",
+      "domain": "project-goal-control-plane",
+      "status": "active",
+      "role": "controller",
+      "parent_goal_id": null,
+      "repo": "/path/to/ericstack",
+      "state_file": ".codex/goals/ericstack-goal/ACTIVE_GOAL_STATE.md",
+      "authority_sources": [
+        "docs/AUDIT_2026-08-16.md",
+        "docs/APS_INTEGRATION.md"
+      ],
+      "adapter": {
+        "kind": "read_write_project_map_v0",
+        "status": "connected-read-write",
+        "previous_kind": "read_only_project_map_v0",
+        "upgraded_at": "2026-08-16T17:35:00+08:00",
+        "upgrade_reason": "audit_2026-08-16_H1"
+      },
+      "spawn_policy": {
+        "mode": "default",
+        "allowed": true,
+        "max_children": 3,
+        "allowed_domains": [
+          "project-skill-validation",
+          "docs-rewrite",
+          "aps-integration"
+        ]
+      },
+      "coordination": {
+        "write_scope": [
+          ".loopx/skills/",
+          "docs/",
+          ".loopx/bin/",
+          ".loopx/acceptance-pipeline/",
+          ".loopx/wiki/",
+          "README.md",
+          "README_CN.md",
+          "INTEGRATION.md",
+          "Cargo.toml",
+          ".github/workflows/",
+          "src/README.md"
+        ],
+        "requires_parent_approval": [
+          "publish",
+          "production-action",
+          "external-write",
+          "git-push"
+        ],
+        "registered_agents": [
+          "claude-code-ericstack-01"
+        ],
+        "agent_model": "peer_v1"
+      },
+      "execution_profile": {
+        "cadence": "bounded_progress_segment",
+        "minimum_scale": "multi_surface_or_implementation",
+        "must_include": [
+          "coherent_artifact",
+          "targeted_validation",
+          "state_writeback"
+        ],
+        "spend_rule": "spend_only_after_artifact_validation_writeback",
+        "outcome_floor": {
+          "required_when": "after_surface_progress_streak",
+          "surface_streak_threshold": 3,
+          "outcome_markers": [],
+          "surface_only_hints": [],
+          "must_advance": [
+            "primary_goal_outcome"
+          ],
+          "avoid": [
+            "surface_only_progress_loop"
+          ],
+          "if_unavailable": "report_blocker_without_spend"
+        },
+        "degradation_policy": {
+          "small_scale_streak_threshold": 2,
+          "on_degradation": "require_blocker_or_expand_next_batch"
+        }
+      },
+      "next_probe": "loopx --registry .loopx/registry.json check --scan-root /path/to/ericstack",
+      "guards": [
+        "project-local writes allowed within write_scope",
+        "publish/production-action still require explicit user approval",
+        "keep private evidence out of public commits"
+      ]
+    },
+    {
+      "id": "ericstack-loop-engineering-goal",
+      "domain": "loop-engineering-runtime",
+      "status": "active",
+      "role": "loop-engineering-runtime",
+      "parent_goal_id": "ericstack-goal",
+      "repo": "/path/to/ericstack",
+      "state_file": ".codex/goals/ericstack-loop-engineering-goal/ACTIVE_GOAL_STATE.md",
+      "authority_sources": [
+        "docs/LOOP_ENGINEERING_INTEGRATION.md"
+      ],
+      "adapter": {
+        "kind": "read_only_loop_engineering_v0",
+        "status": "connected-read-only",
+        "previous_kind": null,
+        "upgraded_at": null,
+        "upgrade_reason": null
+      },
+      "coordination": {
+        "write_scope": [
+          ".loopx/wiki/",
+          "loop/STATE.md",
+          ".loopx/loop-engineering-state.json"
+        ],
+        "requires_parent_approval": [
+          "publish",
+          "production-action",
+          "external-write",
+          "git-push"
+        ],
+        "registered_agents": [
+          "opencode-audit-fix-0825"
+        ],
+        "agent_model": "peer_v1"
+      },
+      "execution_profile": {
+        "cadence": "bounded_progress_segment",
+        "minimum_scale": "single_surface",
+        "must_include": [
+          "coherent_artifact",
+          "state_writeback"
+        ],
+        "spend_rule": "spend_only_after_artifact_validation_writeback",
+        "outcome_floor": {
+          "required_when": "after_surface_progress_streak",
+          "surface_streak_threshold": 3,
+          "outcome_markers": [],
+          "surface_only_hints": [],
+          "must_advance": [
+            "primary_goal_outcome"
+          ],
+          "avoid": [
+            "surface_only_progress_loop"
+          ],
+          "if_unavailable": "report_blocker_without_spend"
+        },
+        "degradation_policy": {
+          "small_scale_streak_threshold": 2,
+          "on_degradation": "require_blocker_or_expand_next_batch"
+        }
+      },
+      "next_probe": "loop-cli doctor",
+      "guards": [
+        "loop-engineering goal is read-only by default; upgrade to read-write requires explicit user approval",
+        "do not modify ericstack-goal adapter from this goal"
+      ]
+    }
+  ],
+  "_readme": "Example LoopX runtime registry. Copy to .loopx/registry.json and let loopx bootstrap rewrite paths; real registry.json is local runtime state and is not tracked."
+}

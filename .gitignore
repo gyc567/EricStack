@@ -11,7 +11,11 @@ target/
 .loopx/skills/.omc/
 .loopx/skills/erics-ability/.omc/
 .loopx/skills/erics-process/.omc/
+.loopx/registry.json
 .loopx/registry.json.lock
+
+# Python bytecode caches
+__pycache__/
 
 # Loop Engineering runtime state (per-session / per-user, not committed)
 loop/STATE.md
