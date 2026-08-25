@@ -191,7 +191,7 @@ as a one-off?"
 happens at read time, not write time, so the file only grows on change.
 **Schema migration:** If the file has no `version` field or `version: 0`, it's
 the legacy approved.json aggregate — `bin/erics-taste-update`
-will migrate it to schema v1 on the next write.
+will migrate it to schema v1 on the next write. If that helper is unavailable, keep reading the legacy format as-is; absence of migration is not an error.
 If a taste profile exists for this project, factor it into your Phase 3 proposal.
 The profile reflects what the user has actually approved in prior sessions — treat
 it as a demonstrated preference, not a constraint. You may still deliberately

@@ -167,6 +167,8 @@ REDACT_BODY_EOF
 REDACT_JSON=$(bin/erics-redact --from-file "$REDACT_FILE" --repo-visibility "$REDACT_VIS" --self-email "$(git config user.email 2>/dev/null)" --json)
 REDACT_CODE=$?
 ```
+Fallback: if `bin/erics-redact` is unavailable (`$REDACT_CODE` = 127), do NOT auto-skip silently — manually scan the spec body for secrets/PII/credentials before any dispatch, label the run `REDACT=SKIPPED` in your summary, and apply MEDIUM-level handling judgment.
+
 Branch on `$REDACT_CODE`:
 1. **Exit 3 (HIGH)** — print findings; do NOT dispatch to codex; tell the user to
    rotate + redact at source, then re-run. No skip flag for HIGH. Do not persist
