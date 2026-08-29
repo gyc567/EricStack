@@ -460,17 +460,18 @@ case "$MODE" in
     echo "  Dry Run"
     echo "=========================================="
     echo "  Will perform:"
-    echo "    [1/8] Connect to LoopX (when mode=loopx or both)"
-    echo "    [2/8] Install loop-cli (when --with-loop-engineering-cli + Node.js)"
-    echo "    [3/8] Clean old skills in $SKILLS_DEST"
-    echo "    [4/8] Symlink $ACTUAL_PROCESS erics-process-* + $ACTUAL_ABILITY erics-ability-* + 1 router + 2 entry points"
-    echo "    [5/8] Copy + rename brain-page/brain-setup, symlink 3 brain-* prefixed, place brain CLI on PATH"
+    echo "    [1/9] Connect to LoopX (when mode=loopx or both)"
+    echo "    [2/9] Install loop-cli (when --with-loop-engineering-cli + Node.js)"
+    echo "    [3/9] Clean old skills in $SKILLS_DEST"
+    echo "    [4/9] Symlink $ACTUAL_PROCESS erics-process-* + $ACTUAL_ABILITY erics-ability-* + 1 router + 2 entry points"
+    echo "    [5/9] pnpm install anti-slop OXLINT plugin (if pnpm available and package.json present)"
+    echo "    [6/9] Copy + rename brain-page/brain-setup, symlink 3 brain-* prefixed, place brain CLI on PATH"
     if [ "$WITH_LOOP_DOCS" = "true" ] && [ "$LOOP_ENG_MODE" != "loopx" ]; then
-      echo "    [6/8] Copy docs/LOOP_ENGINEERING_INTEGRATION.md -> $LOOP_ENG_DOCS_DIR/"
+      echo "    [7/9] Copy docs/LOOP_ENGINEERING_INTEGRATION.md -> $LOOP_ENG_DOCS_DIR/"
     fi
     if [ "$LOOP_ENG_MODE" != "loopx" ]; then
-      echo "    [7/8] Write loop/STATE.md + .loopx/loop-engineering-state.json + append goal"
-      echo "    [8/8] Generate 4 loop-* shell wrapper SKILL.md (loop-doctor, loop-status, loop-mode, loop-init)"
+      echo "    [8/9] Write loop/STATE.md + .loopx/loop-engineering-state.json + append goal"
+      echo "    [9/9] Generate 4 loop-* shell wrapper SKILL.md (loop-doctor, loop-status, loop-mode, loop-init)"
     fi
     echo ""
     echo "  No files have been modified. Run without --dry-run to apply."
@@ -479,7 +480,7 @@ case "$MODE" in
 
   install)
     # Step 1: Connect to LoopX (project-level) — only when mode includes loopx
-    echo "[1/8] Connecting to LoopX..."
+    echo "[1/9] Connecting to LoopX..."
     cd "$ERICSTACK_DIR"
     if [ "$LOOP_ENG_MODE" = "loop-engineering" ]; then
       echo "  [SKIP] LoopX connect skipped (mode=loop-engineering)"
@@ -503,12 +504,12 @@ case "$MODE" in
 
     # Step 2: Install loop-cli (optional, opt-in via --with-loop-engineering-cli)
     echo ""
-    echo "[2/8] Installing loop-cli (if requested)..."
+    echo "[2/9] Installing loop-cli (if requested)..."
     install_loop_eng_cli
 
     # Step 3: Clean old skills (idempotent)
     echo ""
-    echo "[3/8] Cleaning old skills..."
+    echo "[3/9] Cleaning old skills..."
     mkdir -p "$SKILLS_DEST"
     remove_one() { rm -rf "$SKILLS_DEST/$1"; }
     for_each_managed_skill remove_one "$SKILLS_SRC/erics-process" "erics-process-"
@@ -527,7 +528,7 @@ case "$MODE" in
 
     # Step 4: Install skills via symlinks (NOT copies — easier to update)
     echo ""
-    echo "[4/8] Installing $ACTUAL_SKILL_MD skills + $ACTUAL_ENTRYPOINTS entry points..."
+    echo "[4/9] Installing $ACTUAL_SKILL_MD skills + $ACTUAL_ENTRYPOINTS entry points..."
 
     install_one() {
       ln -sf "$2" "$SKILLS_DEST/$1"
@@ -602,7 +603,23 @@ UPGRADE
 UPGRADE
     echo "  [OK] estack-upgrade"
 
-    # Step 5: Install brain vendor (mindmux/brain.md, Apache-2.0)
+    # Step 5: Install anti-slop OXLINT plugin dependencies (if present)
+    echo ""
+    echo "[5/9] Installing anti-slop OXLINT plugin (if present)..."
+    OXLINT_PLUGIN_DIR="$ERICSTACK_DIR/tools/oxlint/anti-slop"
+    if [ -f "$OXLINT_PLUGIN_DIR/package.json" ]; then
+      if command -v pnpm >/dev/null 2>&1; then
+        echo "  pnpm install in $OXLINT_PLUGIN_DIR..."
+        (cd "$OXLINT_PLUGIN_DIR" && pnpm install --silent) && echo "  [OK] anti-slop plugin dependencies installed" \
+          || echo "  [WARN] anti-slop pnpm install failed (continuing)"
+      else
+        echo "  [SKIP] pnpm not installed — run: npm install -g pnpm"
+      fi
+    else
+      echo "  [SKIP] anti-slop plugin not present"
+    fi
+
+    # Step 6: Install brain vendor (mindmux/brain.md, Apache-2.0)
     # ------------------------------------------------------------
     # The upstream `brain` CLI hardcodes its sibling asset path as
     # `<bin>/../../brain-setup/assets` and expects bin/ at
@@ -612,7 +629,7 @@ UPGRADE
     # frontmatter `name:` to match the post-install directory name. See
     # .loopx/sync-state.json `post_install_naming` for the full rationale.
     echo ""
-    echo "[5/8] Installing mindmux/brain.md vendor..."
+    echo "[6/9] Installing mindmux/brain.md vendor..."
 
     BRAIN_VENDOR_SRC="$SKILLS_SRC/erics-ability"
     BRAIN_PAGE_SRC="$BRAIN_VENDOR_SRC/erics-ability-brain-page"
@@ -701,31 +718,31 @@ UPGRADE
     # Step 6: Copy LOOP_ENGINEERING_INTEGRATION.md into runtime docs dir
     echo ""
     if [ "$LOOP_ENG_MODE" != "loopx" ] && [ "$WITH_LOOP_DOCS" = "true" ]; then
-      echo "[6/8] Copying LOOP_ENGINEERING_INTEGRATION.md..."
+      echo "[7/9] Copying LOOP_ENGINEERING_INTEGRATION.md..."
       copy_loop_eng_docs
     else
-      echo "[6/8] Skipping loop docs copy"
+      echo "[7/9] Skipping loop docs copy"
     fi
 
     # Step 7: Write loop-engineering state + register independent goal
     echo ""
     if [ "$LOOP_ENG_MODE" != "loopx" ]; then
-      echo "[7/8] Writing loop-engineering runtime state..."
+      echo "[8/9] Writing loop-engineering runtime state..."
       write_loop_eng_state
       echo "  [OK] $LOOP_ENG_STATE_FILE"
       echo "  [OK] $LOOP_ENG_STATE_JSON"
       add_loop_eng_goal_to_registry
     else
-      echo "[7/8] Skipping loop-engineering runtime state (mode=loopx)"
+      echo "[8/9] Skipping loop-engineering runtime state (mode=loopx)"
     fi
 
     # Step 8: Generate 4 loop-* shell wrappers
     echo ""
     if [ "$LOOP_ENG_MODE" != "loopx" ]; then
-      echo "[8/8] Generating loop-* entry skill wrappers..."
+      echo "[9/9] Generating loop-* entry skill wrappers..."
       install_loop_eng_wrappers
     else
-      echo "[8/8] Skipping loop-* wrappers (mode=loopx)"
+      echo "[9/9] Skipping loop-* wrappers (mode=loopx)"
     fi
 
     # Summary

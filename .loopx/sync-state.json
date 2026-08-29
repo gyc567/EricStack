@@ -64,10 +64,18 @@
         "erics-ability-grill-me",
         "erics-ability-grill-with-docs",
         "erics-ability-wayfinder",
-        "erics-loop-router"
+        "erics-loop-router",
+        "erics-process-anti-slop"
       ],
-      "last_modified": "2026-08-23T00:00:00+08:00",
-      "notes": "15 locally-authored skills (added 3 from mattpocock/skills grilling family: grill-me, grill-with-docs, wayfinder). PROTECTED — sync-skills.sh must NEVER overwrite these. See protected_skills field."
+      "last_modified": "2026-08-29T00:00:00+08:00",
+      "notes": "16 locally-authored skills (added 3 from mattpocock/skills grilling family: grill-me, grill-with-docs, wayfinder + erics-process-anti-slop). PROTECTED — sync-skills.sh must NEVER overwrite these. See protected_skills field."
+    },
+    "anti-slop": {
+      "url": "https://github.com/dmmulroy/anti-slop.git",
+      "commit": "6d538555cb151d4121ed51a27db81890eacf8ae9",
+      "last_sync": "2026-08-29T07:37:28Z",
+      "tree_sha256": "3d53b73ef723a58368db2bdb28159ca977cf4cb815f9d378beed2ec57165ba72",
+      "notes": "Vendored oxlint anti-slop plugin. Sync via .loopx/bin/sync-anti-slop.sh. Protected: oxlintrc.ts, package.json, SKILL.md."
     },
     "mindmux-brain-md": {
       "url": "https://github.com/mindmuxai/brain.md.git",
@@ -186,17 +194,18 @@
     "erics-ability-brain-bootstrap",
     "erics-ability-brain-ingest",
     "erics-ability-brain-setup",
-    "erics-loop-router"
+    "erics-loop-router",
+    "erics-process-anti-slop"
   ],
   "totals": {
     "deepseek-harness_imported": 11,
     "gstack_imported": 15,
-    "local": 15,
+    "local": 16,
     "mindmux-brain-md_imported": 5,
     "mindmux-brain-md_files_imported": 13,
-    "total_skills": 46,
+    "total_skills": 47,
     "verify_with": "find .loopx/skills -name SKILL.md | wc -l",
-    "process_skills": 13,
+    "process_skills": 14,
     "ability_skills": 32,
     "router_skills": 1
   },

@@ -1,0 +1,13 @@
+{
+  "name": "@ericstack/anti-slop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "EricStack vendored anti-slop oxlint plugin — synced from upstream dmmulroy/anti-slop",
+  "scripts": {
+    "check": "oxlint"
+  },
+  "devDependencies": {
+    "@oxlint/plugins": "^0.7.0",
+    "oxlint": "^0.14.0"
+  }
+}

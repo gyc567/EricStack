@@ -11,6 +11,7 @@
 #   - triggers must have >= 1 English + 1 entry (or >= 2 entries)
 #   - First H1 in body must not be empty
 #   - H1 should reference the skill name (warning)
+#   - Code examples should not contain anti-slop patterns (warning — intentional demos exempt)
 #
 # Usage:
 #   bash .loopx/bin/lint-skills.sh           # check (default)
@@ -39,6 +40,21 @@ done
 
 # Stale brand refs that should not appear in description
 STALE_BRANDS_REGEX='\b(gstack|GStack|garry|Garry|deepseek-harness|DeepSeek Harness|deepseek)\b'
+
+# Anti-slop patterns that should not appear in SKILL.md code examples.
+# These catch violations where the skill itself demonstrates bad patterns.
+# Only patterns with a clear structural signature are included (warn level).
+ANTISLOP_PATTERNS=(
+  ' as [a-zA-Z_$][a-zA-Z0-9_$]* as [a-zA-Z_$][a-zA-Z0-9_$]*'
+  'Reflect\.(apply|get)\s*\('
+  'vi\.mock\s*\('
+  'jest\.mock\s*\('
+  'function\s+[a-zA-Z_][a-zA-Z0-9_]*\s*\([^)]*:\s*unknown\s*\)'
+  '\)\s*:\s*unknown\s*\{'
+  'type\s+[A-Z][a-zA-Z0-9]*\s*=\s*unknown'
+  'Record\s*<\s*string\s*,\s*unknown\s*>'
+  'interface\s+[a-zA-Z_][a-zA-Z0-9_]*\s*Shape'
+)
 
 errors=0
 warnings=0
@@ -116,6 +132,24 @@ check_skill() {
   if [ -z "$first_h1" ]; then
     warning_files+=("$file: body has no H1 heading")
     warnings=$((warnings + 1))
+  fi
+
+  # Anti-slop pattern check in code blocks (warn only — intentional demos exempt)
+  local body_start_line
+  body_start_line=$(awk '/^---$/{c++; if(c==2){print NR+1; exit}}' "$file")
+  if [ -n "$body_start_line" ]; then
+    local body_content
+    body_content=$(tail -n +"$body_start_line" "$file")
+    for pattern in "${ANTISLOP_PATTERNS[@]}"; do
+      if echo "$body_content" | rg -q "$pattern" 2>/dev/null; then
+        # Extract a snippet for the warning
+        local snippet
+        snippet=$(echo "$body_content" | rg -o "$pattern" -r "match: '$0'" | head -1)
+        warning_files+=("$file: code example contains potential anti-slop pattern: $snippet")
+        warnings=$((warnings + 1))
+        break  # one warning per file is enough
+      fi
+    done
   fi
 }
 
